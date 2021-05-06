@@ -1,0 +1,33 @@
+package br.com.vesmos.Services.Auth;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
+
+import br.com.vesmos.Models.User;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
+@Service
+public class TokenService {
+
+    @Value("${jwt.expiration}")
+    private String expiration;
+
+    @Value("${jwt.secret}")
+    private String signature;
+
+    public String generate(Authentication auth)
+    {
+        User user = (User) auth.getPrincipal();
+        return Jwts.builder()
+            .setIssuer("Vesmos")
+            .setSubject(user.getId().toString())
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(new Date().getTime() + Long.parseLong(expiration)))
+            .signWith(SignatureAlgorithm.HS256, signature)
+            .compact();
+    }
+}

@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import br.com.vesmos.Models.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -29,5 +30,32 @@ public class TokenService {
             .setExpiration(new Date(new Date().getTime() + Long.parseLong(expiration)))
             .signWith(SignatureAlgorithm.HS256, signature)
             .compact();
+    }
+    
+    /**
+     * Returns if auth token bearer is valid
+     * 
+     * @return boolean
+     */
+    public boolean isValid(String token)
+    {
+        try {
+            Jwts.parser()
+            .setSigningKey(this.signature)
+            .parseClaimsJws(token);
+            return false;
+        } catch (Exception e) {            
+            return false;
+        }
+    }
+
+    public int getUserId(String token) 
+    {
+        Claims claims = Jwts.parser()
+            .setSigningKey(this.signature)
+            .parseClaimsJws(token)
+            .getBody();
+        
+        return Integer.parseInt(claims.getSubject());
     }
 }

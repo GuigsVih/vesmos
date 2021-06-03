@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vesmos.Services.Auth.TokenService;
+import br.com.vesmos.TransferObjects.AuthDTO;
 import br.com.vesmos.Validators.AuthValidator;
 
 /**
@@ -45,10 +46,12 @@ public class AuthController
             data.getEmail(), 
             data.getPassword()
         );
+
         try {
             Authentication authenticated = manager.authenticate(toLogin);
             String token = tokenService.generate(authenticated);
-            return ResponseEntity.ok().build();
+            
+            return ResponseEntity.ok(new AuthDTO(token));
         } catch (Exception e) {            
             return ResponseEntity.badRequest().build();
         }

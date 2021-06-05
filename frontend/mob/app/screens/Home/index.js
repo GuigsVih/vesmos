@@ -1,46 +1,59 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Screen1 from '../Screen1';
 import Screen2 from '../Screen2';
 import Screen3 from '../Screen3';
-import { Icon } from 'react-native-elements';
+import { AntDesign } from '@expo/vector-icons';
+import MoneyButton from '../../components/MoneyButton';
+import ExpensesList from '../ExpensesList';
 
 
 const Tab = createBottomTabNavigator();
 
 const routes = {
-    "Tela1": {
-        icon: "home-outline",
+    "ExpensesList": {
+        icon: "menuunfold",
         size: 25
     },
     "Tela2": {
-        icon: "add-circle-outline",
-        size: 32
+        icon: "plus",
+        size: 40
     },
     "Tela3": {
-        icon: "person-outline",
-        size: 25
+        icon: "user",
+        size: 30
     }
 };
 
 export default function Home() {
     return (
         <Tab.Navigator
-            screenOptions={({ route }) => ({
-                tabBarIcon: ({ color, size }) => {
-                    return <Icon name={routes[route.name]['icon']} size={routes[route.name]['size']} color={color} type={'ionicon'} />;
+            screenOptions={({ route, navigation }) => ({
+                tabBarIcon: ({ color, focused }) => {
+                    if (route.name === "Tela2") {
+                        return <MoneyButton
+                            focused={focused}
+                            onPress={() => navigation.navigate("Tela2")}
+                        />
+                    }
+                    return <AntDesign 
+                        name={routes[route.name]['icon']} 
+                        size={routes[route.name]['size']} 
+                        solid={true} 
+                        color={color} 
+                    />;
                 },
             })}
             tabBarOptions={{
                 activeTintColor: '#fff',
-                inactiveTintColor: 'gray',
+                inactiveTintColor: '#000',
                 showLabel: false,
                 style: {
-                    backgroundColor: '#623aa7'
+                    backgroundColor: '#623aa7',
+                    borderTopColor: 'rgba(255, 255, 255, 0.2)'
                 }
             }}
         >
-            <Tab.Screen name="Tela1" component={Screen1} />
+            <Tab.Screen name="ExpensesList" component={ExpensesList} />
             <Tab.Screen name="Tela2" component={Screen2} />
             <Tab.Screen name="Tela3" component={Screen3} />
         </Tab.Navigator>

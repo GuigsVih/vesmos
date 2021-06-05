@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 
-export default function Screen1() {
+export default function ExpensesList() {
     
     return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>

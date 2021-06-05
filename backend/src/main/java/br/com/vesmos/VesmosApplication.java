@@ -8,6 +8,6 @@ public class VesmosApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(VesmosApplication.class, args);
-	}  
+	}
 
 }

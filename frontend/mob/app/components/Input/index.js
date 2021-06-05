@@ -9,7 +9,8 @@ export default function Input({
     rightIcon, 
     onChange,
     value,
-    security
+    security,
+    error
     }) {
     return (
         <TextInput
@@ -23,6 +24,7 @@ export default function Input({
             onSubmitEditing={Keyboard.dismiss}
             onChangeText={onChange}
             secureTextEntry={security}
+            error={error}
         />
     );
 }

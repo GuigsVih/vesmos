@@ -11,7 +11,7 @@ public class AuthDTO {
 
     public AuthDTO(String token) 
     {
-        this.token = "Bearer " + token;
+        this.token = token;
     }
 
     public String getToken()

@@ -4,13 +4,13 @@ import Screen2 from '../Screen2';
 import Screen3 from '../Screen3';
 import { AntDesign } from '@expo/vector-icons';
 import MoneyButton from '../../components/MoneyButton';
-import ExpensesList from '../ExpensesList';
+import ReleasesList from '../ReleasesList';
 
 
 const Tab = createBottomTabNavigator();
 
 const routes = {
-    "ExpensesList": {
+    "ReleasesList": {
         icon: "menuunfold",
         size: 25
     },
@@ -53,7 +53,7 @@ export default function Home() {
                 }
             }}
         >
-            <Tab.Screen name="ExpensesList" component={ExpensesList} />
+            <Tab.Screen name="ReleasesList" component={ReleasesList} />
             <Tab.Screen name="Tela2" component={Screen2} />
             <Tab.Screen name="Tela3" component={Screen3} />
         </Tab.Navigator>

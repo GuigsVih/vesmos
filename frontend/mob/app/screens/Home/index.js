@@ -1,6 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Screen2 from '../Screen2';
+import AddRelease from '../AddRelease';
 import Screen3 from '../Screen3';
 import { AntDesign } from '@expo/vector-icons';
 import MoneyButton from '../../components/MoneyButton';
@@ -14,7 +14,7 @@ const routes = {
         icon: "menuunfold",
         size: 25
     },
-    "Tela2": {
+    "AddRelease": {
         icon: "plus",
         size: 40
     },
@@ -29,10 +29,10 @@ export default function Home() {
         <Tab.Navigator
             screenOptions={({ route, navigation }) => ({
                 tabBarIcon: ({ color, focused }) => {
-                    if (route.name === "Tela2") {
+                    if (route.name === "AddRelease") {
                         return <MoneyButton
                             focused={focused}
-                            onPress={() => navigation.navigate("Tela2")}
+                            onPress={() => navigation.navigate("AddRelease")}
                         />
                     }
                     return <AntDesign 
@@ -54,7 +54,7 @@ export default function Home() {
             }}
         >
             <Tab.Screen name="ReleasesList" component={ReleasesList} />
-            <Tab.Screen name="Tela2" component={Screen2} />
+            <Tab.Screen name="AddRelease" component={AddRelease} />
             <Tab.Screen name="Tela3" component={Screen3} />
         </Tab.Navigator>
     );

@@ -10,12 +10,18 @@ export default function Input({
     onChange,
     value,
     security,
-    error
+    error,
+    underlineColor = "transparent",
+    multiline,
+    numberOfLines,
+    keyboardType,
+    render,
+    theme
     }) {
     return (
         <TextInput
             style={style}
-            underlineColor="transparent"
+            underlineColor={underlineColor}
             dense={true}
             label={label}
             placeholder={placeholder}
@@ -23,8 +29,13 @@ export default function Input({
             value={value}
             onSubmitEditing={Keyboard.dismiss}
             onChangeText={onChange}
+            keyboardType={keyboardType}
             secureTextEntry={security}
             error={error}
+            multiline={multiline}
+            numberOfLines={numberOfLines}
+            render={render}
+            theme={theme}
         />
     );
 }

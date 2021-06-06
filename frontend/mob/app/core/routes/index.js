@@ -29,7 +29,11 @@ export default function Routes() {
                 name="Home"
                 component={Home}
                 options={{
-                    headerShown: false
+                    title: "",
+                    headerStyle: { backgroundColor: '#ffffff', borderBottomWidth: 0 },
+                    headerLeft: () => {
+                        return null;
+                    },
                 }}
             />
         </Stack.Navigator>

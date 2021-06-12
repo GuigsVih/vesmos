@@ -17,7 +17,7 @@ export default function AddRelease() {
                 underlineColor={""}
                 keyboardType={"numeric"}
                 style={{ height: 150, fontSize: 50, textAlign: "right" }}
-                theme={{ fonts: { regular: { fontFamily: 'CircularStd-Font' } } }}
+                theme={{ fonts: { regular: { fontFamily: 'CircularStd-Book' } } }}
                 render={props => (
                     <TextInputMask
                         {...props}

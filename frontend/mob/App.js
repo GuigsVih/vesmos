@@ -11,7 +11,6 @@ export default function App() {
 
   const [loaded] = useFonts({
     "CircularStd-Book": require('./assets/fonts/CircularStd-Book.otf'),
-    "CircularStd-Font": require('./assets/fonts/CircularStd-Font.otf'),
   });
   
   if (!loaded) {

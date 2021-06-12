@@ -1,6 +1,6 @@
 package br.com.vesmos.Models;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +9,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -21,6 +25,7 @@ import org.hibernate.annotations.UpdateTimestamp;
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
 @Entity(name="releases")
+@Table(name="releases", uniqueConstraints = {@UniqueConstraint(columnNames = {"bank_id", "credit_card_id"})})
 public class Release 
 {
     public enum StatusEnum {
@@ -42,12 +47,22 @@ public class Release
     private String description;
     @Column(nullable=false, precision=10, scale=2)
     private double value;
-    @Enumerated(EnumType.STRING)
+
     @Column(nullable=false)
+    @Enumerated(EnumType.STRING)
     private StatusEnum status;
-    @Enumerated(EnumType.STRING)
+    
     @Column(nullable=false)
+    @Enumerated(EnumType.STRING)
     private TypeEnum type;
+
+    @ManyToOne
+    @JoinColumn(name="bank_id")
+    private Bank bank;
+
+    @ManyToOne
+    @JoinColumn(name="credit_card_id")
+    private CreditCard creaditCard;
     
     @Column(name="created_at")
     @Temporal(TemporalType.TIMESTAMP)

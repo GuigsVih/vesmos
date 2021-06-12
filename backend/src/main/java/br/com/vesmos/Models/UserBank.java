@@ -1,6 +1,7 @@
 package br.com.vesmos.Models;
 
-import java.sql.Date;
+import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +10,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -21,7 +26,8 @@ import org.hibernate.annotations.UpdateTimestamp;
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
 @Entity(name="user_banks")
-public class UserBank
+@Table(name="user_banks", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "bank_id"})})
+public class UserBank implements Serializable
 {
     public enum TypeEnum {
         CURRENT,
@@ -37,6 +43,14 @@ public class UserBank
     @Column(nullable=false)
     private TypeEnum type;
     
+    @ManyToOne
+    @JoinColumn(name="bank_id", referencedColumnName = "id")
+    private Bank bank;
+
+    @ManyToOne
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+    private User user;
+
     @Column(name="created_at")
     @Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp

@@ -1,12 +1,14 @@
 package br.com.vesmos.Models;
 
-import java.sql.Date;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -38,4 +40,8 @@ public class Bank
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     private Date updatedAt;
+
+    @OneToMany(mappedBy="bank")
+    private List<UserBank> user;
+
 }

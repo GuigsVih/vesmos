@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../../screens/Login';
 import LoginWithEmail from '../../screens/Login/LoginWithEmail';
 import Home from '../../screens/Home';
+import CreateAccount from '../../screens/CreateAccount';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,14 @@ export default function Routes() {
             <Stack.Screen
                 name="LoginWithEmail"
                 component={LoginWithEmail}
+                options={{
+                    title: "",
+                    headerStyle: { backgroundColor: '#ffffff', borderBottomWidth: 0 }
+                }}
+            />
+            <Stack.Screen
+                name="CreateAccount"
+                component={CreateAccount}
                 options={{
                     title: "",
                     headerStyle: { backgroundColor: '#ffffff', borderBottomWidth: 0 }

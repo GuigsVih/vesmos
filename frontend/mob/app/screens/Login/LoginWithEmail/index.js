@@ -44,8 +44,8 @@ export default function LoginWithEmail({ navigation }) {
         } catch (e) {
             if (e.name === "ValidationError" && e.inner) {
                 setErrors(createYupErrorsObject(e));
-            } else {            
-                console.log(e);    
+            } else {
+                console.log(e);
                 if (e?.response?.status === 400) {
                     setErrorMessageBadge("E-mail e/ou senha incorretos");
                 } else {
@@ -61,7 +61,7 @@ export default function LoginWithEmail({ navigation }) {
             <Logo />
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss}>
                 <Text style={styles.helloAgain}>Que bom ver você por aqui ☺️</Text>
-                {errorMessageBadge && <ErrorBadge message={errorMessageBadge} />}                
+                {errorMessageBadge && <ErrorBadge message={errorMessageBadge} />}
                 <Input
                     style={styles.input}
                     label={"Email"}

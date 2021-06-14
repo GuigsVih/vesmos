@@ -56,7 +56,7 @@ export default function Login({ navigation }) {
 				buttonStyle={[styles.mailButton, styles.containerButton]}
 				titleStyle={styles.mailTextButton}
 			/>
-			<TouchableOpacity onPress={develop}>
+			<TouchableOpacity onPress={() => navigation.navigate("CreateAccount")}>
 				<Text style={styles.createAccount}>Criar conta</Text>
 			</TouchableOpacity>
 			<Text style={styles.termsTextAlign}>Ao utilizar o ..., você está de acordo com os nossos

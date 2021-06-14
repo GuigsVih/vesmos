@@ -23,10 +23,9 @@ import br.com.vesmos.Validators.AuthValidator;
  */
 @RestController
 @RequestMapping("/auth")
-public class AuthController 
-{
-    
-    @Autowired 
+public class AuthController {
+
+    @Autowired
     private AuthenticationManager manager;
 
     @Autowired
@@ -40,21 +39,18 @@ public class AuthController
      * @return User
      */
     @PostMapping
-    public ResponseEntity<?> auth(@RequestBody @Valid AuthValidator data)
-    {
-        UsernamePasswordAuthenticationToken toLogin = new UsernamePasswordAuthenticationToken(
-            data.getEmail(), 
-            data.getPassword()
-        );
+    public ResponseEntity<?> auth(@RequestBody @Valid AuthValidator data) {
+        UsernamePasswordAuthenticationToken toLogin = new UsernamePasswordAuthenticationToken(data.getEmail(),
+                data.getPassword());
 
         try {
             Authentication authenticated = manager.authenticate(toLogin);
             String token = tokenService.generate(authenticated);
-            
+
             return ResponseEntity.ok(new AuthDTO(token));
-        } catch (Exception e) {            
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }
-    
+
 }

@@ -3,7 +3,8 @@ package br.com.vesmos.Validators;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-public class AuthValidator {
+public class AuthValidator 
+{
     
     @NotNull @Email
     private String email;

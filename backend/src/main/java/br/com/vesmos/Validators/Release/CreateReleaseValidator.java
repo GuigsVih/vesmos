@@ -1,6 +1,7 @@
 package br.com.vesmos.Validators.Release;
 
-import javax.validation.constraints.DecimalMax;
+import java.util.Optional;
+
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
@@ -11,7 +12,6 @@ import org.springframework.lang.Nullable;
 
 import br.com.vesmos.Enum.StatusEnum;
 import br.com.vesmos.Enum.TypeEnum;
-import br.com.vesmos.Models.Release;
 import br.com.vesmos.Validators.Annotations.Enum.ValidateEnum;
 
 /**
@@ -20,8 +20,7 @@ import br.com.vesmos.Validators.Annotations.Enum.ValidateEnum;
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
 public class CreateReleaseValidator 
-{
-    
+{    
     @NotNull
     @Length(max=255)
     private String description;
@@ -32,23 +31,23 @@ public class CreateReleaseValidator
     
     @NotNull
     @ValidateEnum(enumClass=StatusEnum.class)
-    private StatusEnum status;
+    private String status;
 
     @NotNull
     @ValidateEnum(enumClass=TypeEnum.class)
-    private TypeEnum type;
+    private String type;
 
     @JsonProperty("category_id")
     @Nullable
-    private Integer categoryId;
+    private Optional<Integer> categoryId;
     
     @JsonProperty("bank_id")
     @Nullable
-    private Integer bankId;
+    private Optional<Integer> bankId;
 
     @JsonProperty("credit_card_id")
     @Nullable
-    private Integer creditCardId;
+    private Optional<Integer> creditCardId;
 
     public String getDescription()
     {
@@ -62,44 +61,26 @@ public class CreateReleaseValidator
 
     public TypeEnum getType()
     {
-        return type;
+        return TypeEnum.valueOf(type);
     }
 
     public StatusEnum getStatus()
     {
-        return status;
+        return StatusEnum.valueOf(status);
     }
     
-    public Integer getCategoryId()
+    public Optional<Integer> getCategoryId()
     {
-        return categoryId;
+        return categoryId;      
     }
 
-    public Integer getCreditCardId()
+    public Optional<Integer> getCreditCardId()
     {
         return creditCardId;
     }
     
-    public Integer getBankId()
+    public Optional<Integer> getBankId()
     {
         return bankId;
-    }
-
-    /**
-     * Convert post data to release model
-     * 
-     * @return Release
-     */
-    public Release convert()
-    {
-        Release release = new Release();
-        release.setDescription(getDescription());
-        release.setStatus(getStatus());
-        release.setType(getType());
-        release.setValue(getValue());
-        release.setDescription(getDescription());
-        release.setDescription(getDescription());
-
-        return release;
     }
 }

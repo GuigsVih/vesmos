@@ -2,13 +2,13 @@ package br.com.vesmos.Repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import br.com.vesmos.Models.Release;
+import br.com.vesmos.Models.Category;
 
 /**
- * Release repository
+ * Category Repository
  * 
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
-public interface ReleaseRepository extends JpaRepository<Release, Integer>
+public interface CategoryRepository extends JpaRepository<Category, Integer>
 {
 }

@@ -3,6 +3,8 @@ package br.com.vesmos.Services.Auth;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,5 +29,11 @@ public class AuthenticationService implements UserDetailsService {
         }
 
         throw new UsernameNotFoundException("E-mail e/ou senha incorretos");
+    }
+
+    public User getAuthenticatedUser()
+    {       
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return (User) auth.getPrincipal();
     }
 }

@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -47,19 +48,19 @@ public class Release
     @Enumerated(EnumType.STRING)
     private TypeEnum type;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="user_id", nullable=false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="bank_id")
     private Bank bank;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="credit_card_id")
     private CreditCard creditCard;
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="category_id")
     private Category category;
     
@@ -73,14 +74,21 @@ public class Release
     @UpdateTimestamp
     private Date updatedAt;
 
+    
+    public Integer getId()
+    {
+        return id;
+    }
+
     public String getDescription()
     {
         return description;
     }
 
-    public void setDescription(String description)
+    public Release setDescription(String description)
     {
         this.description = description;
+        return this;
     }
 
     public String getStatus()
@@ -88,9 +96,10 @@ public class Release
         return status.name();
     }
 
-    public void setStatus(StatusEnum status)
+    public Release setStatus(StatusEnum status)
     {
         this.status = status;
+        return this;
     }
 
     public String getType()
@@ -98,18 +107,20 @@ public class Release
         return type.name();
     }
 
-    public void setType(TypeEnum type)
+    public Release setType(TypeEnum type)
     {
         this.type = type;
+        return this;
     }
     public Double getValue()
     {
         return value;
     }
 
-    public void setValue(Double value)
+    public Release setValue(Double value)
     {
         this.value = value;
+        return this;
     }
 
     public Bank getBank()
@@ -117,27 +128,36 @@ public class Release
         return bank;
     }
 
-    public void setBank(Bank bank)
+    public Release setBank(Bank bank)
     {
         this.bank = bank;
+        return this;
     }
     public CreditCard getCreditCard()
     {
         return creditCard;
     }
 
-    public void setCreditCard(CreditCard creditCard)
+    public Release setCreditCard(CreditCard creditCard)
     {
         this.creditCard = creditCard;
+        return this;
     }
     public Category getCategory()
     {
         return category;
     }
 
-    public void setCategory(Category category)
+    public Release setCategory(Category category)
     {
         this.category = category;
+        return this;
+    }
+    
+    public Release setUser(User user)
+    {
+        this.user = user;
+        return this;
     }
 
 }

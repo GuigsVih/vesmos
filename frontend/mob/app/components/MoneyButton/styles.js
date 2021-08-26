@@ -9,4 +9,5 @@ export const Button = styled(LinearGradient)`
   align-items: center;
   justify-content: center;
   bottom: 30%;
+  background-color: #623AA7;
 `;

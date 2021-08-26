@@ -10,6 +10,7 @@ import { createYupErrorsObject } from '../../core/helpers/createYupErrorsObject'
 import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Keyboard } from 'react-native';
 import { createAccount } from '../../core/services/user';
+import Logo from '../../components/Logo';
 
 const INITIAL_DATA = {
     name: "",
@@ -44,7 +45,8 @@ export default function CreateAccount() {
     }
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.container}>
+            <Logo />
             <TouchableWithoutFeedback onPress={() => Keyboard.dismiss}>
                 <Text style={styles.createAccountText}>Crie sua conta</Text>
                 <Input
@@ -120,6 +122,6 @@ export default function CreateAccount() {
                     disabled={loading}
                 />
             </TouchableWithoutFeedback>
-        </ScrollView>
+        </View>
     );
 }

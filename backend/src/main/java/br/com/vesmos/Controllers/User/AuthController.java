@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vesmos.Services.Auth.TokenService;
 import br.com.vesmos.TransferObjects.AuthDTO;
+import br.com.vesmos.TransferObjects.BaseMessageDTO;
 import br.com.vesmos.Validators.AuthValidator;
 
 /**
@@ -50,7 +51,7 @@ public class AuthController {
 
             return ResponseEntity.ok(new AuthDTO(token));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuário ou senha inválidos.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new BaseMessageDTO("Usuário ou senha inválidos."));
         }
     }
 

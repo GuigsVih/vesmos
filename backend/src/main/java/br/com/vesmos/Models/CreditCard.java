@@ -22,18 +22,18 @@ import org.hibernate.annotations.UpdateTimestamp;
  * 
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
-@Entity(name="credit_cards")
+@Entity
 @Table(name="credit_cards", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id"})})
 public class CreditCard 
 {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable=false)
     private String name;
     @Column(name="credit_limit", nullable=false, precision=10, scale=2)
     private double creditLimit;
-    
+
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;

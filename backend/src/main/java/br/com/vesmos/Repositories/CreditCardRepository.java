@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.vesmos.Models.CreditCard;
 
-public interface CreditCardRepository extends JpaRepository<CreditCard, Integer>
+public interface CreditCardRepository extends JpaRepository<CreditCard, Long>
 {    
 }

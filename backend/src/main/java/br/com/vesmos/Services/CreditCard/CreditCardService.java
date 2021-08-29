@@ -23,12 +23,12 @@ public class CreditCardService
     /**
      * Find by id and user_id
      * 
-     * @param Optional<Integer> id
-     * @param Integer userId
+     * @param Optional<Long> id
+     * @param Long userId
      * 
      * @return CrediCard
      */
-    public CreditCard findByIdAndUserId(Optional<Integer> id) throws RegisterDoesNotExistsException
+    public CreditCard findByIdAndUserId(Optional<Long> id) throws RegisterDoesNotExistsException
     {
         if (id.isPresent()) {
             return creditCardRepository.findById(id.get())

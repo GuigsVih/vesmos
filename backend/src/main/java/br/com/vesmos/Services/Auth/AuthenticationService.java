@@ -20,7 +20,8 @@ public class AuthenticationService implements UserDetailsService {
     private UserRepository repository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException 
+    {
         
         Optional<User> user = repository.findByEmail(email);
 
@@ -31,9 +32,14 @@ public class AuthenticationService implements UserDetailsService {
         throw new UsernameNotFoundException("E-mail e/ou senha incorretos");
     }
 
+    /**
+     * Get authenticated user
+     * 
+     * @return User
+     */
     public User getAuthenticatedUser()
     {       
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();        
         return (User) auth.getPrincipal();
     }
 }

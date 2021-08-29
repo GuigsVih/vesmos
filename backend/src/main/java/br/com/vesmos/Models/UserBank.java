@@ -25,7 +25,7 @@ import org.hibernate.annotations.UpdateTimestamp;
  * 
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
-@Entity(name="user_banks")
+@Entity
 @Table(name="user_banks", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "bank_id"})})
 public class UserBank implements Serializable
 {
@@ -35,8 +35,8 @@ public class UserBank implements Serializable
     };
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable=false)
     private String nickname;
     @Enumerated(EnumType.STRING)

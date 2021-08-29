@@ -28,13 +28,13 @@ import br.com.vesmos.Enum.TypeEnum;
  * 
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
-@Entity(name="releases")
+@Entity
 @Table(name="releases", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "category_id", "bank_id", "credit_card_id"})})
 public class Release 
 {    
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable=false)
     private String description;
     @Column(nullable=false, precision=10, scale=2)
@@ -61,7 +61,7 @@ public class Release
     private CreditCard creditCard;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="category_id")
+    @JoinColumn(name="category_id", nullable=false)
     private Category category;
     
     @Column(name="created_at")
@@ -75,7 +75,7 @@ public class Release
     private Date updatedAt;
 
     
-    public Integer getId()
+    public Long getId()
     {
         return id;
     }
@@ -160,4 +160,8 @@ public class Release
         return this;
     }
 
+    public User getUser()
+    {
+        return user;
+    }
 }

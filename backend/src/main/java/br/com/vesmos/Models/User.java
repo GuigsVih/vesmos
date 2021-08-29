@@ -2,15 +2,16 @@ package br.com.vesmos.Models;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -24,15 +25,16 @@ import org.springframework.security.core.userdetails.UserDetails;
  * 
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
-@Entity(name="users")
+@Entity
+@Table(name="users")
 public class User implements UserDetails
 {
     
 	private static final long serialVersionUID = 1L;
     
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable=false)
     private String name;
     @Column(nullable=false, unique=true)
@@ -42,7 +44,19 @@ public class User implements UserDetails
     private String picture;
     @Column(columnDefinition="tinyint(1) default 1")
     private Boolean active = true;
+        
+    @OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
+    private Set<Release> releases;
     
+    @OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
+    private Set<CreditCard> creditCards;
+    
+    @OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
+    private Set<UserBank> userBanks;
+    
+    @OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
+    private Set<Bank> banks;
+
     @Column(name="created_at")
     @Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
@@ -53,10 +67,7 @@ public class User implements UserDetails
     @UpdateTimestamp
     private Date updatedAt;
 
-    @OneToMany(mappedBy="user")
-    private List<UserBank> bank;
-
-    public Integer getId()
+    public Long getId()
     {
         return id;
     }

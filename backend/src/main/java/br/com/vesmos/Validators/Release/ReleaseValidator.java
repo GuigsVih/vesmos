@@ -19,7 +19,7 @@ import br.com.vesmos.Validators.Annotations.Enum.ValidateEnum;
  * 
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
-public class CreateReleaseValidator 
+public class ReleaseValidator 
 {    
     @NotNull
     @Length(max=255)
@@ -38,16 +38,16 @@ public class CreateReleaseValidator
     private String type;
 
     @JsonProperty("category_id")
-    @Nullable
-    private Optional<Integer> categoryId;
+    @NotNull
+    private Long categoryId;
     
     @JsonProperty("bank_id")
     @Nullable
-    private Optional<Integer> bankId;
+    private Optional<Long> bankId;
 
     @JsonProperty("credit_card_id")
     @Nullable
-    private Optional<Integer> creditCardId;
+    private Optional<Long> creditCardId;
 
     public String getDescription()
     {
@@ -69,17 +69,17 @@ public class CreateReleaseValidator
         return StatusEnum.valueOf(status);
     }
     
-    public Optional<Integer> getCategoryId()
+    public Long getCategoryId()
     {
         return categoryId;      
     }
 
-    public Optional<Integer> getCreditCardId()
+    public Optional<Long> getCreditCardId()
     {
         return creditCardId;
     }
     
-    public Optional<Integer> getBankId()
+    public Optional<Long> getBankId()
     {
         return bankId;
     }

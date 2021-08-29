@@ -9,7 +9,7 @@ import br.com.vesmos.Services.Auth.AuthenticationService;
 import br.com.vesmos.Services.Bank.BankService;
 import br.com.vesmos.Services.Category.CategoryService;
 import br.com.vesmos.Services.CreditCard.CreditCardService;
-import br.com.vesmos.Validators.Release.CreateReleaseValidator;
+import br.com.vesmos.Validators.Release.ReleaseValidator;
 
 /**
  * Resbonsable for convertion to model
@@ -36,10 +36,10 @@ public class ReleaseConvertService
      * 
      * @return Release
      */
-    public Release convert(CreateReleaseValidator data) throws RegisterDoesNotExistsException
+    public Release convert(ReleaseValidator data) throws RegisterDoesNotExistsException
     {
         Release release = new Release();
-
+        
         release.setDescription(data.getDescription())
             .setStatus(data.getStatus())
             .setType(data.getType())

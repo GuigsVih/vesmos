@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -20,12 +21,13 @@ import org.hibernate.annotations.UpdateTimestamp;
  * 
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
-@Entity(name="banks")
+@Entity
+@Table(name="banks")
 public class Bank 
 {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
     @Column(nullable=false)
     private String name;
     @Column(nullable=false)

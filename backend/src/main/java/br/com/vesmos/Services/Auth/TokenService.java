@@ -49,13 +49,13 @@ public class TokenService {
         }
     }
 
-    public int getUserId(String token) 
+    public Long getUserId(String token) 
     {
         Claims claims = Jwts.parser()
             .setSigningKey(this.signature)
             .parseClaimsJws(token)
             .getBody();
         
-        return Integer.parseInt(claims.getSubject());
+        return Long.parseLong(claims.getSubject());
     }
 }

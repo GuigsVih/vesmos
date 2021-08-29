@@ -1,13 +1,13 @@
 package br.com.vesmos.Services.Category;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.vesmos.Exceptions.RegisterDoesNotExistsException;
 import br.com.vesmos.Models.Category;
+import br.com.vesmos.Models.User;
 import br.com.vesmos.Repositories.CategoryRepository;
+import br.com.vesmos.Services.Auth.AuthenticationService;
 
 /**
  * Category service
@@ -20,20 +20,21 @@ public class CategoryService
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired 
+    private AuthenticationService authService;
+
     /**
      * Get category by id and user id
      * 
-     * @param Optional<Integer> id
-     * @param Integer           userId
+     * @param Long id
+     * @param Long userId
      * 
      * @return Category
      */
-    public Category findByIdAndUserId(Optional<Integer> id) throws RegisterDoesNotExistsException
+    public Category findByIdAndUserId(Long id) throws RegisterDoesNotExistsException
     {
-        if (id.isPresent()) {
-            return categoryRepository.findById(id.get())
-                .orElseThrow(() -> new RegisterDoesNotExistsException("Categoria inválida."));
-        }
-        return null;
+        User user = authService.getAuthenticatedUser();
+        return categoryRepository.findByIdAndUserId(id, user.getId())
+            .orElseThrow(() -> new RegisterDoesNotExistsException("Categoria não encontrada."));
     }
 }

@@ -23,12 +23,12 @@ public class BankService
     /**
      * Get by bank_id and user_id value
      * 
-     * @param Optional<Integer> id
-     * @param Integer userId
+     * @param Optional<Long> id
+     * @param Long userId
      * 
      * @return Bank
      */
-    public Bank findByIdAndUserId(Optional<Integer> id) throws RegisterDoesNotExistsException
+    public Bank findByIdAndUserId(Optional<Long> id) throws RegisterDoesNotExistsException
     {
         if (id.isPresent()) {
             return bankRepository.findById(id.get())

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.vesmos.Models.User;
 import br.com.vesmos.Repositories.UserRepository;
+import br.com.vesmos.TransferObjects.BaseMessageDTO;
 import br.com.vesmos.Validators.User.CreateAccountValidator;
 
 /**
@@ -36,9 +37,9 @@ public class UserController {
         try {
             User user = data.convert();
             userRepository.save(user);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.ok().body(new BaseMessageDTO("Usuário criado com sucesso."));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(new BaseMessageDTO("Erro ao criar usuário."));
         }
     }
 }

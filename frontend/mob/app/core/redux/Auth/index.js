@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-community/async-storage";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { put, takeLatest } from "redux-saga/effects";
@@ -34,7 +35,7 @@ export const reducer = persistReducer(
       }
 
       case actionTypes.Logout: {
-        localStorage.removeItem('token');
+        AsyncStorage.removeItem('token');
         return initialAuthState;
       }
 
@@ -50,23 +51,23 @@ export const reducer = persistReducer(
 );
 
 export const actions = {
-  login: authToken => ({ type: actionTypes.Login, payload: { authToken } }),
-  logout: () => ({ type: actionTypes.Logout }),
-  requestUser: user => ({
+  loginAction: authToken => ({ type: actionTypes.Login, payload: { authToken } }),
+  logoutAction: () => ({ type: actionTypes.Logout }),
+  requestUserAction: user => ({
     type: actionTypes.UserRequested,
     payload: { user }
   }),
-  fulfillUser: user => ({ type: actionTypes.UserLoaded, payload: { user } })
+  fulfillUserAction: user => ({ type: actionTypes.UserLoaded, payload: { user } })
 };
 
 export function* saga() {
   yield takeLatest(actionTypes.Login, function* loginSaga() {
-    yield put(actions.requestUser());
+    yield put(actions.requestUserAction());
   });
 
   yield takeLatest(actionTypes.UserRequested, function* userRequested() {
     const { data: user } = yield getUserByToken();
 
-    yield put(actions.fulfillUser(user));
+    yield put(actions.fulfillUserAction(user));
   });
 }

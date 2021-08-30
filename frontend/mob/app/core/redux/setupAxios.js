@@ -1,14 +1,14 @@
-import AsyncStorage from "@react-native-community/async-storage";
-
-export default function setupAxios(axios) {
+import { actions } from './Auth';
+ 
+export default function setupAxios(axios, store) {
   axios.interceptors.request.use(
     (config) => {
-      AsyncStorage.getItem('token')
-        .then((authToken) => {
-          if (authToken) {
-            config.headers.Authorization = `Bearer ${authToken}`;
-          }
-        });
+      const {
+        auth: { authToken },
+      } = store.getState();
+      if (authToken) {
+        config.headers.Authorization = `Bearer ${authToken}`;
+      }
 
       return config;
     },
@@ -18,8 +18,8 @@ export default function setupAxios(axios) {
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
-       if (error.response.status === 403) {
-          (async () => await AsyncStorage.removeItem('token'));
+       if (error.response.status === 401) {
+          store.dispatch(actions.logout());
        } else {
           return Promise.reject(error);
        }

@@ -8,11 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.vesmos.Models.User;
+import br.com.vesmos.Services.Auth.AuthenticationService;
 import br.com.vesmos.Services.Auth.TokenService;
 import br.com.vesmos.TransferObjects.AuthDTO;
 import br.com.vesmos.TransferObjects.BaseMessageDTO;
@@ -32,6 +35,9 @@ public class AuthController {
 
     @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private AuthenticationService authService;
 
     /**
      * Authenticate user
@@ -53,6 +59,13 @@ public class AuthController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new BaseMessageDTO("Usuário ou senha inválidos."));
         }
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me()
+    {
+        User user = (User) authService.getAuthenticatedUser();
+        return ResponseEntity.ok().body(user);
     }
 
 }

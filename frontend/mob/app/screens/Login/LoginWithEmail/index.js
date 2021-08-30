@@ -1,26 +1,30 @@
 import React, { useState } from 'react';
+
 import { Alert } from 'react-native';
+import { connect } from 'react-redux';
+import { injectIntl } from 'react-intl';
 import { Keyboard } from 'react-native';
 import { View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { HelperText, TextInput } from 'react-native-paper';
-import Button from '../../../components/Button';
-import ErrorBadge from '../../../components/ErrorBadge';
-import Input from '../../../components/Input';
-import Logo from '../../../components/Logo';
-import { createYupErrorsObject } from '../../../core/helpers/createYupErrorsObject';
-import { login } from '../../../core/services/auth';
+import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
 import schema from './schema';
 import { styles } from './styles';
-import AsyncStorage from "@react-native-community/async-storage";
+import Logo from '../../../components/Logo';
+import Input from '../../../components/Input';
+import Button from '../../../components/Button';
+import * as auth from '../../../core/redux/Auth';
+import ErrorBadge from '../../../components/ErrorBadge';
+import { login } from '../../../core/services/auth';
+import { createYupErrorsObject } from '../../../core/helpers/createYupErrorsObject';
 
 const INITIAL_DATA = {
     email: "",
     password: ""
 }
 
-export default function LoginWithEmail({ navigation }) {
+export function LoginWithEmail({ loginAction, navigation }) {
 
     const [data, setData] = useState(INITIAL_DATA);
     const [loading, setLoading] = useState(false);
@@ -37,16 +41,14 @@ export default function LoginWithEmail({ navigation }) {
         setErrorMessageBadge(false);
         try {
             await schema.validate(data, { abortEarly: false });
-            setLoading(true);
             const res = await login(data);
-            await AsyncStorage.setItem('token', res.data.token);
+            loginAction(res.data.token);
             navigation.navigate("Home");
         } catch (e) {
             if (e.name === "ValidationError" && e.inner) {
                 setErrors(createYupErrorsObject(e));
             } else {
-                console.log(e);
-                if (e?.response?.status === 400) {
+                if (e?.response?.status === 401) {
                     setErrorMessageBadge("E-mail e/ou senha incorretos");
                 } else {
                     setErrorMessageBadge("Erro ao realizar login. Tente novamente mais tarde");
@@ -108,3 +110,5 @@ export default function LoginWithEmail({ navigation }) {
         </View>
     );
 }
+
+export default injectIntl(connect(null, auth.actions)(LoginWithEmail));

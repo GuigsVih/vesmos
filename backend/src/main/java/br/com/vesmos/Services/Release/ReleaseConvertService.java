@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.vesmos.Exceptions.RegisterDoesNotExistsException;
 import br.com.vesmos.Models.Release;
+import br.com.vesmos.Services.Account.AccountService;
 import br.com.vesmos.Services.Auth.AuthenticationService;
-import br.com.vesmos.Services.Bank.BankService;
 import br.com.vesmos.Services.Category.CategoryService;
 import br.com.vesmos.Services.CreditCard.CreditCardService;
 import br.com.vesmos.Validators.Release.ReleaseValidator;
@@ -23,7 +23,7 @@ public class ReleaseConvertService
     private CreditCardService creditCardService;
 
     @Autowired
-    private BankService bankService;
+    private AccountService accountService;
 
     @Autowired
     private CategoryService categoryService;
@@ -45,7 +45,7 @@ public class ReleaseConvertService
             .setType(data.getType())
             .setValue(data.getValue())
             .setCreditCard(creditCardService.findByIdAndUserId(data.getCreditCardId()))
-            .setBank(bankService.findByIdAndUserId(data.getBankId()))
+            .setAccount(accountService.findByIdAndUserId(data.getAccountId()))
             .setCategory(categoryService.findByIdAndUserId(data.getCategoryId()))
             .setUser(authenticationService.getAuthenticatedUser());
 

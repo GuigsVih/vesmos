@@ -28,10 +28,12 @@ public class Bank
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable=false)
     private String name;
+
     @Column(nullable=false)
-    private double picture;
+    private String picture;
     
     @Column(name="created_at")
     @Temporal(TemporalType.TIMESTAMP)
@@ -44,6 +46,6 @@ public class Bank
     private Date updatedAt;
 
     @OneToMany(mappedBy="bank")
-    private List<UserBank> user;
+    private List<Account> account;
 
 }

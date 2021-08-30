@@ -1,4 +1,4 @@
-package br.com.vesmos.Services.CreditCard;
+package br.com.vesmos.Services.Account;
 
 import java.util.Optional;
 
@@ -6,40 +6,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.vesmos.Exceptions.RegisterDoesNotExistsException;
-import br.com.vesmos.Models.CreditCard;
+import br.com.vesmos.Models.Account;
 import br.com.vesmos.Models.User;
-import br.com.vesmos.Repositories.CreditCardRepository;
+import br.com.vesmos.Repositories.AccountRepository;
 import br.com.vesmos.Services.Auth.AuthenticationService;
 
 /**
- * Credit card service
+ * Bank service
  * 
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
 @Service
-public class CreditCardService 
+public class AccountService 
 {
     @Autowired
-    private CreditCardRepository creditCardRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
     private AuthenticationService authService;
 
     /**
-     * Find by id and user_id
+     * Get by account id and user_id value
      * 
      * @param Optional<Long> id
      * @param Long userId
      * 
-     * @return CrediCard
+     * @return Bank
      */
-    public CreditCard findByIdAndUserId(Optional<Long> id) throws RegisterDoesNotExistsException
+    public Account findByIdAndUserId(Optional<Long> id) throws RegisterDoesNotExistsException
     {
         if (id.isPresent()) {
             User user = authService.getAuthenticatedUser();
-            return creditCardRepository.findByIdAndUserId(id.get(), user.getId())
-            .orElseThrow(() -> new RegisterDoesNotExistsException("Cartão de crédito inválido."));
-        }        
+            return accountRepository.findByIdAndUserId(id.get(), user.getId())
+                .orElseThrow(() -> new RegisterDoesNotExistsException("Conta inválida."));
+        }
         return null;
     }
 }

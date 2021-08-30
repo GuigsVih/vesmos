@@ -41,9 +41,9 @@ public class ReleaseValidator
     @NotNull
     private Long categoryId;
     
-    @JsonProperty("bank_id")
+    @JsonProperty("account_id")
     @Nullable
-    private Optional<Long> bankId;
+    private Optional<Long> accountId;
 
     @JsonProperty("credit_card_id")
     @Nullable
@@ -79,8 +79,8 @@ public class ReleaseValidator
         return creditCardId;
     }
     
-    public Optional<Long> getBankId()
+    public Optional<Long> getAccountId()
     {
-        return bankId;
+        return accountId;
     }
 }

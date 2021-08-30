@@ -29,8 +29,10 @@ public class CreditCard
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable=false)
     private String name;
+    
     @Column(name="credit_limit", nullable=false, precision=10, scale=2)
     private double creditLimit;
 

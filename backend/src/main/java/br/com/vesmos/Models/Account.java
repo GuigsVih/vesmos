@@ -20,28 +20,31 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import br.com.vesmos.Enum.AccountTypeEnum;
+
 /**
  * User banks model
  * 
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
 @Entity
-@Table(name="user_banks", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "bank_id"})})
-public class UserBank implements Serializable
+@Table(name="accounts", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "bank_id"})})
+public class Account implements Serializable
 {
-    public enum TypeEnum {
-        CURRENT,
-        SAVINGS
-    };
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable=false)
     private String nickname;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable=false)
-    private TypeEnum type;
+    private AccountTypeEnum type;
+
+    @Column(nullable=false, precision=10, scale=2)
+    private double balance;
     
     @ManyToOne
     @JoinColumn(name="bank_id", referencedColumnName = "id")

@@ -18,6 +18,6 @@ public interface ListReleaseDTO
     public Date getCreatedAt();
     public Long getUserId();
     public Long getCategoryId();
-    public Optional<Long> getBankId();
+    public Optional<Long> getAccountId();
     public Optional<Long> getCreditCardId();
 }

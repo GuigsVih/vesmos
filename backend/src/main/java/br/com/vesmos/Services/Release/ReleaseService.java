@@ -44,7 +44,7 @@ public class ReleaseService
             .setType(TypeEnum.valueOf(data.getType()))
             .setValue(data.getValue())
             .setCreditCard(data.getCreditCard())
-            .setBank(data.getBank())
+            .setAccount(data.getAccount())
             .setCategory(data.getCategory());
 
         releaseRepository.save(release);

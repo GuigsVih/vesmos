@@ -35,13 +35,18 @@ public class User implements UserDetails
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable=false)
     private String name;
+
     @Column(nullable=false, unique=true)
     private String email;
+
     @Column(nullable=false)
     private String password;
+
     private String picture;
+
     @Column(columnDefinition="tinyint(1) default 1")
     private Boolean active = true;
         
@@ -52,10 +57,7 @@ public class User implements UserDetails
     private Set<CreditCard> creditCards;
     
     @OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
-    private Set<UserBank> userBanks;
-    
-    @OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
-    private Set<Bank> banks;
+    private Set<Account> accounts;
 
     @Column(name="created_at")
     @Temporal(TemporalType.TIMESTAMP)

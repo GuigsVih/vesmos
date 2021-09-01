@@ -52,7 +52,6 @@ public class ReleaseController
     @GetMapping
     public @ResponseBody List<ListReleaseDTO> get() 
     {
-        System.out.println("ausdiasuidouoidas");
         List<ListReleaseDTO> releases = releaseService.findAllByUser();
         return releases;
     }

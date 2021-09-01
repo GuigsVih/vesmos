@@ -12,11 +12,12 @@ import React from 'react';
 import Routes from './app/core/routes';
 import api from "./app/core/services/api";
 import * as redux from "./app/core/redux";
-import store from './app/core/redux/store';
+import store, { persistor } from './app/core/redux/store';
+import { PersistGate } from "redux-persist/integration/react";
 
 export default function App() {
 
-  
+
   const [loaded] = useFonts({
     "CircularStd-Book": require('./assets/fonts/CircularStd-Book.otf'),
     "FuturaPT-Book": require('./assets/fonts/FuturaPT-Book.otf'),
@@ -29,11 +30,13 @@ export default function App() {
   redux.setupAxios(api, store);
   return (
     <Provider store={store}>
-      <IntlProvider locale="en">
-        <NavigationContainer>
-          <Routes />
-        </NavigationContainer>
-      </IntlProvider>
+      <PersistGate persistor={persistor}>
+        <IntlProvider locale="en">
+          <NavigationContainer>
+            <Routes />
+          </NavigationContainer>
+        </IntlProvider>
+      </PersistGate>
     </Provider>
   );
 }

@@ -13,7 +13,7 @@ export default function Routes() {
 	const auth = useAuth();
 
 	return (
-		!auth.authToken ?
+		!auth?.authToken ?
 			<Stack.Navigator initialRouteName="Login">
 				<Stack.Screen
 					name="Login"

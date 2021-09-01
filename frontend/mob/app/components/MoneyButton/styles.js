@@ -1,13 +1,29 @@
-import styled from 'styled-components/native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { StyleSheet } from 'react-native';
 
-export const Button = styled(LinearGradient)`
-  width: 60px;
-  height: 60px;
-  border-radius: 30px;
-  border: 2px solid #000;
-  align-items: center;
-  justify-content: center;
-  bottom: 30%;
-  background-color: #623AA7;
-`;
+export const styles = StyleSheet.create({
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: "#b19cd9",
+    position: "absolute",
+    marginTop: -60,
+    shadowColor: "#803dc0",
+    shadowRadius: 5,
+    shadowOffset: { height: 10 },
+    shadowOpacity: 0.3,
+    borderWidth: 3,
+    borderColor: "#FFFFFF"
+  },
+  secondaryButton: {
+    position: "absolute",
+    alignItems: "center",
+    justifyContent: "center",
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: "#fff"
+  }
+});

@@ -5,7 +5,6 @@ import { fetchReleases } from '../../../core/services/release';
 export default function ExpensesList() {
 
 	const getReleases = async () => {
-		console.log('here');
 		try {
 			const res = await fetchReleases();
 			console.log(res);

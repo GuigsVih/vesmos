@@ -1,16 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { styles } from './styles';
 import { Animated, View } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
-export default function MoneyButton({ focused }) {
+export default function MoneyButton() {
 
-  const [open, setOpen] = useState(false);
-
-  const toggleMoneyButton = () => {
-    setOpen(!open);
-  }
   const mode = React.useRef(new Animated.Value(0)).current;
   const buttonSize = React.useRef(new Animated.Value(1)).current;
 
@@ -60,11 +55,6 @@ export default function MoneyButton({ focused }) {
   const pulseY = mode.interpolate({
     inputRange: [0, 1],
     outputRange: [-50, -100]
-  });
-
-  const rotation = mode.interpolate({
-    inputRange: [0, 1],
-    outputRange: ["0deg", "90deg"]
   });
 
   const sizeStyle = {

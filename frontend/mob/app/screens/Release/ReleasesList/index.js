@@ -1,25 +1,15 @@
-import React, { useEffect } from 'react';
-import { Text, View } from 'react-native';
-import { fetchReleases } from '../../../core/services/release';
+import React, { useState } from 'react';
+import { View, Text } from 'react-native';
+import MonthCarousel from '../../../components/MonthCarousel';
+import List from '../../../components/Release/List';
+import { styles } from './styles';
 
 export default function ExpensesList() {
 
-	const getReleases = async () => {
-		try {
-			const res = await fetchReleases();
-			console.log(res);
-		} catch (e) {
-			console.log(e?.response?.status);
-		}
-	}
-
-	useEffect(() => {
-		getReleases();
-	}, []);
-
 	return (
-		<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-			<Text>Muito</Text>
+		<View style={styles.container}>
+			<MonthCarousel />
+			<List />
 		</View>
 	);
 }

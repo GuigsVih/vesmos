@@ -29,8 +29,8 @@ const routes = {
 export default function Home() {
     return (
         <Tab.Navigator
-            screenOptions={({ route, navigation }) => ({
-                tabBarIcon: ({ color, focused }) => {
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ color }) => {
                     if (route.name === "ChooseRelease") {
                         return <MoneyButton />
                     }
@@ -55,7 +55,6 @@ export default function Home() {
             <Tab.Screen name="ChooseRelease" component={ChooseRelease}
                 listeners={{
                     tabPress: e => {
-                        // Prevent default action
                         e.preventDefault();
                     },
                 }} />

@@ -2,9 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
     container: {
-        flex: 1, 
-        alignItems: 'center', 
-        justifyContent: 'center',
-        fontFamily: "CircularStd-Book"
+        flex: 1,
+        backgroundColor: '#dcd3ee'
     }
 });

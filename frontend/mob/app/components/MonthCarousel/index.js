@@ -6,18 +6,24 @@ import { View } from 'react-native';
 import { items } from './config';
 import { styles } from './styles';
 import { Caption } from 'react-native-paper';
+import { TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export default function MonthCarousel() {
 
-	const [activeIndex, setActiveIndex] = useState(0);
+	const [activeIndex, setActiveIndex] = useState(new Date().getMonth() - 1);
 	const [carousel, setCarousel] = useState();
-	const month = new Date().getMonth();
 
-	const renderItems = ({ item }) => {
+	const setNewIndex = (index) => {
+		setActiveIndex(index);
+	}
+
+	const renderItems = ({ item, index }) => {
 		return (
+			<TouchableWithoutFeedback onPress={() => setNewIndex(index)}>
 			<View style={styles.itemContainer}>
 				<Caption style={styles.monthText}>{item}</Caption>
 			</View>
+			</TouchableWithoutFeedback>
 		)
 	}
 
@@ -31,7 +37,7 @@ export default function MonthCarousel() {
 					sliderWidth={430}
 					itemWidth={100}
 					activeSlideOffset={20}
-					firstItem={month - 1}
+					firstItem={activeIndex}
 					scrollEnabled={true}
 					activeSlideAlignment="center"
 					renderItem={renderItems}

@@ -37,11 +37,11 @@ export default function CreateAccount() {
             setLoading(true);
             await createAccount(data);
         } catch (e) {
+            setLoading(false);
             if (e.name === "ValidationError" && e.inner) {
                 setErrors(createYupErrorsObject(e));
             }
         }
-        setLoading(false);
     }
 
     return (

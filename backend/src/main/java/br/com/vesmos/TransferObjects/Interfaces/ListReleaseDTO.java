@@ -1,6 +1,5 @@
 package br.com.vesmos.TransferObjects.Interfaces;
 
-import java.util.Date;
 import java.util.Optional;
 
 /**
@@ -15,8 +14,10 @@ public interface ListReleaseDTO
     public Double getValue();
     public String getStatus();
     public String getType();
-    public Date getCreatedAt();
-    public Long getUserId();
+    public String getPaymentDate();
+    public String getCategoryName();
+    public String getCategoryIcon();
+    public String getCategoryBadgeColor();
     public Long getCategoryId();
     public Optional<Long> getAccountId();
     public Optional<Long> getCreditCardId();

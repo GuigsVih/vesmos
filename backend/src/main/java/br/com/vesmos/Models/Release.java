@@ -50,6 +50,10 @@ public class Release
     @Enumerated(EnumType.STRING)
     private TypeEnum type;
 
+    @Column(nullable=false, name="payment_date")
+    @Temporal(TemporalType.DATE)
+    private Date paymentDate;
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id", nullable=false)
     private User user;
@@ -122,6 +126,17 @@ public class Release
     public Release setValue(Double value)
     {
         this.value = value;
+        return this;
+    }
+
+    public Date getPaymentDate()
+    {
+        return paymentDate;
+    }
+    
+    public Release setPaymentDate(Date paymentDate)
+    {
+        this.paymentDate = paymentDate;
         return this;
     }
 

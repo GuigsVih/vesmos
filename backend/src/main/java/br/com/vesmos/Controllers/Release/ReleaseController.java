@@ -1,6 +1,9 @@
 package br.com.vesmos.Controllers.Release;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,8 +37,7 @@ import br.com.vesmos.Validators.Release.ReleaseValidator;
  */
 @RestController
 @RequestMapping("/release")
-public class ReleaseController 
-{
+public class ReleaseController {
     @Autowired
     private ReleaseConvertService convertService;
 
@@ -50,10 +53,15 @@ public class ReleaseController
      * @return ResponseEntity
      */
     @GetMapping
-    public @ResponseBody List<ListReleaseDTO> get() 
-    {
-        List<ListReleaseDTO> releases = releaseService.findAllByUser();
-        return releases;
+    public @ResponseBody Map<String, List<ListReleaseDTO>> get(
+        @RequestParam("initialDate") String initialDate,
+        @RequestParam("finalDate") String finalDate
+        ) {
+        List<ListReleaseDTO> releases = releaseService.findAllByUser(initialDate, finalDate);
+        LinkedHashMap<String, List<ListReleaseDTO>> groupedByDay = releases.stream()
+                .collect(Collectors.groupingBy(item -> item.getPaymentDate(), LinkedHashMap::new, Collectors.toList()));
+
+        return groupedByDay;
     }
 
     /**
@@ -64,8 +72,7 @@ public class ReleaseController
      * @return ResponseEntity
      */
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody @Valid ReleaseValidator data) 
-    {
+    public ResponseEntity<?> create(@RequestBody @Valid ReleaseValidator data) {
         try {
             releaseRepository.save(convertService.convert(data));
 
@@ -73,28 +80,29 @@ public class ReleaseController
         } catch (RegisterDoesNotExistsException e) {
             return ResponseEntity.badRequest().body(new BaseMessageDTO(e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new BaseMessageDTO("Erro ao criar lançamento."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new BaseMessageDTO("Erro ao criar lançamento."));
         }
     }
 
     /**
      * Update a release, filtering by logged user
      * 
-     * @param Long id
+     * @param Long             id
      * @param ReleaseValidator data containing [name, value, category_id...]
      * 
      * @return ResponseEntity
      */
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody @Valid ReleaseValidator data) 
-    {
-        try {           
+    public ResponseEntity<?> update(@PathVariable("id") Long id, @RequestBody @Valid ReleaseValidator data) {
+        try {
             releaseService.update(id, convertService.convert(data));
             return ResponseEntity.ok().body(new BaseMessageDTO("Lançamento atualizado com sucesso!"));
         } catch (RegisterDoesNotExistsException e) {
             return ResponseEntity.badRequest().body(new BaseMessageDTO(e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new BaseMessageDTO("Erro ao atualizar lançamento."));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new BaseMessageDTO("Erro ao atualizar lançamento."));
         }
     }
 
@@ -107,8 +115,7 @@ public class ReleaseController
      */
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) 
-    {
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         try {
             releaseService.delete(id);
             return ResponseEntity.ok().body(new BaseMessageDTO("Lançamento deletado com sucesso!"));

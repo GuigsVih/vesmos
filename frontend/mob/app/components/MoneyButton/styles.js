@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: "#b19cd9",
+    backgroundColor: "#623aa7",
     position: "absolute",
     marginTop: -60,
     shadowColor: "#803dc0",
@@ -25,5 +25,5 @@ export const styles = StyleSheet.create({
     height: 48,
     borderRadius: 24,
     backgroundColor: "#fff"
-  }
+  },
 });

@@ -1,12 +1,10 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import AddRelease from '../Release/AddRelease';
 import Screen3 from '../Screen3';
 import { AntDesign } from '@expo/vector-icons';
 import MoneyButton from '../../components/MoneyButton';
 import ReleasesList from '../Release/ReleasesList';
 import ChooseRelease from '../Release/ChooseRelease';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 
 const Tab = createBottomTabNavigator();
@@ -43,7 +41,7 @@ export default function Home() {
                 },
             })}
             tabBarOptions={{
-                activeTintColor: '#803dc0',
+                activeTintColor: '#623aa7',
                 showLabel: false,
                 style: {
                     backgroundColor: '#fff',

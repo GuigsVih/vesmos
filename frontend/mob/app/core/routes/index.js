@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../../screens/Login';
 import LoginWithEmail from '../../screens/Login/LoginWithEmail';
@@ -9,11 +9,11 @@ import { useAuth } from '../hooks/auth';
 const Stack = createStackNavigator();
 
 export default function Routes() {
-
+	
 	const auth = useAuth();
-
+	
 	return (
-		!auth?.authToken ?
+		!auth.authToken ?
 			<Stack.Navigator initialRouteName="Login">
 				<Stack.Screen
 					name="Login"
@@ -40,13 +40,13 @@ export default function Routes() {
 				/>
 			</Stack.Navigator>
 			:
-			<Stack.Navigator initialRouteName="Login">
+			<Stack.Navigator initialRouteName="Home">
 				<Stack.Screen
 					name="Home"
 					component={Home}
 					options={{
 						title: "",
-						headerStyle: { backgroundColor: '#ffffff', borderBottomWidth: 0 },
+						headerStyle: { backgroundColor: '#623aa7', borderBottomWidth: 0, elevation: 0, shadowOpacity: 0 },
 						headerLeft: () => {
 							return null;
 						},

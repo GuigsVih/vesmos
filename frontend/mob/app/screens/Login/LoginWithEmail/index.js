@@ -39,12 +39,15 @@ export function LoginWithEmail({ loginAction, navigation }) {
     const signIn = async () => {
         setErrors({});
         setErrorMessageBadge(false);
+        setLoading(true);
         try {
             await schema.validate(data, { abortEarly: false });
             const res = await login(data);
             loginAction(res.data.token);
+            setLoading(false);
             navigation.navigate("Home");
         } catch (e) {
+            setLoading(false);
             if (e.name === "ValidationError" && e.inner) {
                 setErrors(createYupErrorsObject(e));
             } else {
@@ -55,7 +58,6 @@ export function LoginWithEmail({ loginAction, navigation }) {
                 }
             }
         }
-        setLoading(false);
     }
 
     return (

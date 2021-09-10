@@ -23,10 +23,10 @@ public class ReleaseService
     @Autowired
     private AuthenticationService authService;
 
-    public List<ListReleaseDTO> findAllByUser()
+    public List<ListReleaseDTO> findAllByUser(String initalDate, String finalDate)
     {   
         User user = authService.getAuthenticatedUser();
-        return releaseRepository.findAllByUserId(user.getId());
+        return releaseRepository.findAllByUserId(user.getId(), initalDate, finalDate);
     }
 
     public Release findByIdAndUserId(Long id) throws RegisterDoesNotExistsException

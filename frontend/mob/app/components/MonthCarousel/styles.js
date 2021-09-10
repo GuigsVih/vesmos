@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
 	itemContainer: {
-		backgroundColor: 'floralwhite',
+		backgroundColor: '#fff',
 		borderRadius: 50,
 		marginRight: 5,
 		paddingTop: 5,
@@ -12,6 +12,6 @@ export const styles = StyleSheet.create({
 		textAlign: 'center',
 		fontSize: 13
 	},
-	carouselContainer: { flex: 0.2, paddingTop: 20 },
-	alignCarouselCenter: { flex: 5, flexDirection: 'row', justifyContent: 'center', marginTop: 10}
+	carouselContainer: { flex: 0.2 },
+	alignCarouselCenter: { flex: 5, flexDirection: 'row', justifyContent: 'center', marginTop: 10 }
 });

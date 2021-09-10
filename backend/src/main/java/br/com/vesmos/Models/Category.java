@@ -35,6 +35,12 @@ public class Category
     @Column(nullable=false)
     private String name;
 
+    @Column(nullable=false)
+    private String icon;
+    
+    @Column(nullable=false, name="badge_color")
+    private String badgeColor;
+
     @OneToMany(mappedBy="category", cascade=CascadeType.ALL, orphanRemoval=true)
     private Set<Release> releases;
 
@@ -61,7 +67,26 @@ public class Category
     {
         return name;
     }
-       
+    
+    public void setIcon(String icon)
+    {
+        this.icon = icon;
+    }
+
+    public String getIcon()
+    {
+        return icon;
+    }
+
+    public void setBadgeColor(String badgeColor)
+    {
+        this.badgeColor = badgeColor;
+    }
+
+    public String getBadgeColor()
+    {
+        return badgeColor;
+    } 
     public void setUser(User user)
     {
         this.user = user;

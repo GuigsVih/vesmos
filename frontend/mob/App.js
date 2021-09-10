@@ -1,6 +1,6 @@
 
 import 'intl';
-import 'intl/locale-data/jsonp/en';
+import 'intl/locale-data/jsonp/pt-BR';
 import 'react-native-gesture-handler';
 
 import { useFonts } from 'expo-font';
@@ -31,7 +31,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <IntlProvider locale="en">
+        <IntlProvider locale="pt-BR">
           <NavigationContainer>
             <Routes />
           </NavigationContainer>

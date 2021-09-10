@@ -1,5 +1,6 @@
 import api from "./api";
 
-export function fetchReleases() {
-    return api.get("/release");
+export function fetchReleases(params) {
+	console.log(params);
+    return api.get("/release", { params: params });
 } 

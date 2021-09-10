@@ -18,8 +18,8 @@ export default function setupAxios(axios, store) {
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
-       if (error.response.status === 401) {
-          store.dispatch(actions.logout());
+       if (error.response.status === 401 || error.response.status === 403) {
+          store.dispatch(actions.logoutAction());
        } else {
           return Promise.reject(error);
        }

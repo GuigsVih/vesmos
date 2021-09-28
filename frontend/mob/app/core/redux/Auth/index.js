@@ -35,7 +35,6 @@ export const reducer = persistReducer(
       }
 
       case actionTypes.Logout: {
-        console.log('here');
         AsyncStorage.removeItem('token');
         return initialAuthState;
       }

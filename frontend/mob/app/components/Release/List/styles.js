@@ -14,13 +14,6 @@ export const styles = StyleSheet.create({
 			width: 1
 		}
 	},
-	balanceContainer: {
-		marginTop: 10,
-		paddingLeft: 40,
-		paddingRight: 40,
-		paddingTop: 20,
-		paddingBottom: 15
-	},
 	row: {
 		flexDirection: 'row'
 	},

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
 	View,
 	Text,
@@ -8,8 +8,8 @@ import {
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { styles } from './styles';
 import { Feather, Ionicons } from '@expo/vector-icons';
-import { Caption, Divider } from 'react-native-paper';
-import { currencyFormat, formatDate } from '../../core/helpers/format';
+import { Caption } from 'react-native-paper';
+import { currencyFormat } from '../../core/helpers/format';
 
 export default function SwipeItem({ handleDelete, data }) {
 	const leftSwipe = (progress, dragX) => {

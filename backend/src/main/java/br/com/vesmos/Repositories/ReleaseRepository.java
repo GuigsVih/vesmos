@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import br.com.vesmos.Models.Release;
 import br.com.vesmos.TransferObjects.Interfaces.ListReleaseDTO;
+import br.com.vesmos.TransferObjects.Interfaces.Balance.BalanceFromReleasesDTO;
 
 /**
  * Release repository
@@ -33,13 +34,23 @@ public interface ReleaseRepository extends JpaRepository<Release, Long>
     "INNER JOIN categories c " + 
     "ON c.id = r.category_id " + 
     "WHERE r.user_id = :userId " +
-    "AND r.payment_date BETWEEN :initalDate AND :finalDate " +
+    "AND r.payment_date BETWEEN :initialDate AND :finalDate " +
     "ORDER BY r.payment_date DESC";
 
+    final String BALANCE_FROM_RELEASES = "SELECT " +
+    "IFNULL(SUM(r.value), 0) AS releaseBalance " +
+    "FROM releases r " +
+    "WHERE r.status IN (:status) " +
+    "AND r.user_id = :userId " +
+    "AND r.payment_date BETWEEN :initialDate AND :finalDate";
+
     @Query(value=FIND_ALL_BY_USER_ID_SQL, nativeQuery=true)
-    List<ListReleaseDTO> findAllByUserId(Long userId, String initalDate, String finalDate);
+    List<ListReleaseDTO> findAllByUserId(Long userId, String initialDate, String finalDate);
+
+    @Query(value=BALANCE_FROM_RELEASES, nativeQuery=true)
+    BalanceFromReleasesDTO getBalanceFromReleases(Long userId, String initialDate, String finalDate, List<String> status);
 
     Optional<Release> findByIdAndUserId(Long id, Long userId);
-    
+
     void deleteByIdAndUserId(Long id, Long userId);
 }

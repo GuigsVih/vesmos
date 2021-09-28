@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Carousel from 'react-native-snap-carousel';
 import { View } from 'react-native';
@@ -8,14 +8,23 @@ import { styles } from './styles';
 import { Caption } from 'react-native-paper';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
-export default function MonthCarousel() {
+export default function MonthCarousel({ fetchBetweenDates }) {
 
 	const [activeIndex, setActiveIndex] = useState(new Date().getMonth());
 	const [carousel, setCarousel] = useState();
 
 	const setNewIndex = (index) => {
+		fetchBetweenDates(index + 1);
 		setActiveIndex(index);
 	}
+
+	const setMonth = () => {
+		fetchBetweenDates(activeIndex + 1);
+	}
+
+	useEffect(() => {
+		setMonth()
+	}, []);
 
 	const renderItems = ({ item, index }) => {
 		return (
@@ -42,7 +51,7 @@ export default function MonthCarousel() {
 					scrollEnabled={true}
 					activeSlideAlignment="center"
 					renderItem={renderItems}
-					onSnapToItem={index => setActiveIndex(index)}
+					onSnapToItem={index => setNewIndex(index)}
 				/>
 			</View>
 		</View>

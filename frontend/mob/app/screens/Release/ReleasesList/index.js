@@ -9,17 +9,15 @@ import { TouchableOpacity } from 'react-native';
 import { getBetweenDatesFilter } from '../../../core/helpers/filters';
 
 export default function ReleasesList({ navigation }) {
-	const [filterDate, setFilterDate] = useState({});
+	const [filterDate, setFilterDate] = useState();
 	const isFocused = useIsFocused();
-	const currentYear = new Date().getFullYear();
-	const currentMonth = new Date().getMonth() + 1;
 
-	const fetchBetweenDates = () => {
-		return getBetweenDatesFilter(currentYear, currentMonth);
+	const fetchBetweenDates = (month) => {
+		const currentYear = new Date().getFullYear();
+		setFilterDate(getBetweenDatesFilter(currentYear, month));
 	}
 
 	useEffect(() => {
-		setFilterDate(fetchBetweenDates());
 		const stackParent = navigation.dangerouslyGetParent();
 		if (stackParent && isFocused) {
 			stackParent.setOptions({
@@ -40,11 +38,14 @@ export default function ReleasesList({ navigation }) {
 				barStyle={'light-content'}>
 			</StatusBar>
 			<View style={styles.container}>
-				<MonthCarousel />
-				<List 
-					focused={isFocused}
-					filterDate={filterDate}
-				/>
+				<MonthCarousel fetchBetweenDates={fetchBetweenDates}/>
+				{filterDate ?
+					<List
+						focused={isFocused}
+						filterDate={filterDate}
+					/>
+					: <></>
+				}
 			</View>
 		</>
 	);

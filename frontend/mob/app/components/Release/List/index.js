@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import React, { Fragment, useEffect, useState } from 'react';
+import { View, ScrollView } from 'react-native';
 import { Caption, Divider } from 'react-native-paper';
 import { styles } from './styles';
-import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import SwipeItem from '../../SwipeItem';
-import { FlatList } from 'react-native';
 import { fetchReleases } from '../../../core/services/release';
 import { ActivityIndicator } from 'react-native';
 import { formatDate } from '../../../core/helpers/format';
+import Balance from '../Balance';
 
 export default function List({ focused, filterDate }) {
 
@@ -16,7 +15,7 @@ export default function List({ focused, filterDate }) {
 
 	const getReleases = async () => {
 		setLoading(true);
-		try {;
+		try {
 			const res = await fetchReleases(filterDate);
 			setLoading(false);
 			setReleases(res.data);
@@ -26,61 +25,40 @@ export default function List({ focused, filterDate }) {
 	}
 
 	const deleteItem = (index) => {
-		const arr = [...lists];
-		arr.splice(index, 1);
-		setLists(arr);
+		//do nothing yet
 	};
 
 	useEffect(() => {
 		getReleases();
-	}, [focused]);
+	}, [focused, filterDate]);
 
 	return (
 		<View elevation={12 * 5} style={styles.container}>
-			<View style={styles.balanceContainer}>
-				<View style={styles.row}>
-					<View>
-						<View style={styles.row}>
-							<MaterialIcons style={{ marginRight: 10, marginTop: 2 }} name="account-balance" size={30} color="#0e1111" />
-							<View>
-								<Text style={styles.positive}>R$ 1000,00</Text>
-								<Caption style={{ marginTop: 0 }}>Balanço total</Caption>
-							</View>
-						</View>
-					</View>
-					<View style={{ flexDirection: 'row', marginLeft: 30 }}>
-						<FontAwesome style={{ marginRight: 10, marginTop: 2 }} name="balance-scale" size={30} color="#0e1111" />
-						<View>
-							<Text style={styles.negative}>R$ -500,00</Text>
-							<Caption style={{ marginTop: 0 }}>Balanço mensal</Caption>
-						</View>
-					</View>
-				</View>
-			</View>
+			<Balance filterDate={filterDate} focused={focused} />
 			<Divider />
 			{!loading ?
 				(Object.keys(releases).length > 0 ?
-					(Object.keys(releases).map(arr => (
-						<>
-							<View style={{ flexDirection: 'row' }}>
-								<View style={{ padding: 10 }} />
-								<Caption style={{ marginTop: 20 }}>{formatDate(arr)}</Caption>
-								<Divider />
-							</View>
-							<View>
-								<FlatList
-									data={releases[arr]}
-									renderItem={({ item }) => {
-										return <SwipeItem data={item} handleDelete={() => deleteItem(item.id)} />;
-									}}
-									keyExtractor={(item) => item.id.toString()}
-									ItemSeparatorComponent={() => {
-										return <Divider />;
-									}}
-								/>
-							</View>
-						</>
-					)))
+					<ScrollView>
+						{Object.keys(releases).map((arr, idx) => (
+							<Fragment key={idx}>
+								<View style={{ flexDirection: 'row' }}>
+									<View style={{ padding: 10 }} />
+									<Caption style={{ marginTop: 20 }}>{formatDate(arr)}</Caption>
+									<Divider />
+								</View>
+								<View>
+									{releases[arr].map((item, index) => (
+										<Fragment key={index}>
+											{index > 0 ?
+												<Divider />
+												: <></>}
+											<SwipeItem key={item.id} data={item} handleDelete={() => deleteItem(item.id)} />
+										</Fragment>
+									))}
+								</View>
+							</Fragment>
+						))}
+					</ScrollView>
 					:
 					<View style={styles.alignCenter}>
 						<Caption>Oops! Você não possui nenhuma transação cadastrada.</Caption>

@@ -2,7 +2,7 @@ import React from 'react';
 import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { styles } from './styles';
 import { Animated, View } from 'react-native';
-import { TouchableHighlight } from 'react-native-gesture-handler';
+import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function MoneyButton() {
 
@@ -62,42 +62,48 @@ export default function MoneyButton() {
   };
   return (
     <>
-        <View style={{ position: "absolute", alignItems: "center" }}>
-          <Animated.View style={{ position: "absolute", left: thermometerX, top: thermometerY }}>
-            <View style={styles.secondaryButton}>
+      <View style={{ position: "absolute", alignItems: "center" }}>
+        <Animated.View style={{ position: "absolute", left: thermometerX, top: thermometerY }}>
+          <View style={styles.secondaryButton}>
+            <TouchableOpacity>
               <MaterialIcons
                 name="trending-down"
                 size={24}
                 color={'tomato'}
               />
-            </View>
-          </Animated.View>
-          <Animated.View style={{ position: "absolute", left: timeX, top: timeY }}>
-            <View style={styles.secondaryButton}>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+        <Animated.View style={{ position: "absolute", left: timeX, top: timeY }}>
+          <View style={styles.secondaryButton}>
+            <TouchableOpacity>
               <MaterialCommunityIcons name="bank-transfer" size={24} color="#89cff0" />
-            </View>
-          </Animated.View>
-          <Animated.View style={{ position: "absolute", left: pulseX, top: pulseY }}>
-            <View style={styles.secondaryButton}>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+        <Animated.View style={{ position: "absolute", left: pulseX, top: pulseY }}>
+          <View style={styles.secondaryButton}>
+            <TouchableOpacity>
               <MaterialIcons
                 name="trending-up"
                 size={24}
                 color={'green'}
               />
-            </View>
-          </Animated.View>
-          <Animated.View style={[styles.button, sizeStyle]}>
-            <TouchableHighlight onPress={handlePress} underlayColor="#7F58FF">
-              <Animated.View>
-                <MaterialIcons
-                  name="attach-money"
-                  size={35}
-                  color={'#fff'}
-                />
-              </Animated.View>
-            </TouchableHighlight>
-          </Animated.View>
-        </View>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
+        <Animated.View style={[styles.button, sizeStyle]}>
+          <TouchableHighlight onPress={handlePress} underlayColor="#7F58FF">
+            <Animated.View>
+              <MaterialIcons
+                name="attach-money"
+                size={35}
+                color={'#fff'}
+              />
+            </Animated.View>
+          </TouchableHighlight>
+        </Animated.View>
+      </View>
     </>
   );
 }

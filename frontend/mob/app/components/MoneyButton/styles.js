@@ -24,6 +24,6 @@ export const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "#fff"
+    backgroundColor: "#f2f7f8"
   },
 });

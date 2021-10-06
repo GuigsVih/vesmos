@@ -1,10 +1,11 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import Login from '../../screens/Login';
-import LoginWithEmail from '../../screens/Login/LoginWithEmail';
-import Home from '../../screens/Home';
-import CreateAccount from '../../screens/CreateAccount';
 import { useAuth } from '../hooks/auth';
+import { createStackNavigator } from '@react-navigation/stack';
+import Home from '../../screens/Home';
+import Login from '../../screens/Login';
+import CreateAccount from '../../screens/CreateAccount';
+import AddRelease from '../../screens/Release/AddRelease';
+import LoginWithEmail from '../../screens/Login/LoginWithEmail';
 
 const Stack = createStackNavigator();
 
@@ -50,6 +51,15 @@ export default function Routes() {
 						headerLeft: () => {
 							return null;
 						},
+					}}
+				/>
+				<Stack.Screen
+					name="AddRelease"
+					component={AddRelease}
+					options={{
+						title: "",
+						headerTintColor: "#fff",
+						headerStyle: { backgroundColor: '#623aa7', borderBottomWidth: 0, elevation: 0, shadowOpacity: 0 }
 					}}
 				/>
 			</Stack.Navigator>

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { View, StatusBar } from 'react-native';
-import MonthCarousel from '../../../components/MonthCarousel';
-import List from '../../../components/Release/List';
-import { styles } from './styles';
-import { useIsFocused } from "@react-navigation/native";
 import { AntDesign } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useIsFocused } from "@react-navigation/native";
+import { View, StatusBar, TouchableOpacity } from 'react-native';
+
+import { styles } from './styles';
+import List from '../../../components/Release/List';
+import MonthCarousel from '../../../components/MonthCarousel';
 import { getBetweenDatesFilter } from '../../../core/helpers/filters';
 
 export default function ReleasesList({ navigation }) {

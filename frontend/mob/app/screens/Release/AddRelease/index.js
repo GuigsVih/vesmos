@@ -1,44 +1,60 @@
-import React, { useState } from 'react';
-import { Text, View } from 'react-native';
-import Input from '../../../components/Input';
 import { styles } from './styles';
-import { TextInputMask } from 'react-native-masked-text'
-import { ScrollView } from 'react-native-gesture-handler';
+import React, { useState } from 'react';
+import { Text, View, StatusBar } from 'react-native';
+import CurrencyInput from 'react-native-currency-input';
 
-export default function AddRelease() {
+import Input from '../../../components/Input';
+import CategorySelect from '../../../components/CategorySelect';
 
-    const [value, setValue] = useState(0);
-    const [moneyRef, setMoneyRef] = useState();
+const TYPES = {
+	'expense': 'despesa',
+	'revenue': 'receita',
+	'transfer': 'transferência'
+}
 
-    return (
-        <ScrollView style={styles.container} keyboardShouldPersistTaps={'never'}>
-            <Input
-                multiline={false}
-                underlineColor={""}
-                keyboardType={"numeric"}
-                style={{ height: 150, fontSize: 50, textAlign: "right" }}
-                theme={{ fonts: { regular: { fontFamily: 'CircularStd-Book' } } }}
-                render={props => (
-                    <TextInputMask
-                        {...props}
-                        type={'money'}
-                        options={{
-                            precision: 2,
-                            separator: ',',
-                            delimiter: '.',
-                            unit: '',
-                            suffixUnit: ''
-                        }}
-                        value={value}
-                        onChangeText={(formated) => {
-                            setValue(formated);
-                        }}
-                        ref={(ref) => setMoneyRef(ref)}
-                    />
-                )}
-            />
-            <Input label={"Descrição"} style={{ marginTop: 20 }} />
-            <Input label={"Categoria"} style={{ marginTop: 20 }} />
-        </ScrollView>
-    );
+export default function AddRelease({ route, navigation }) {
+
+	const [value, setValue] = useState();
+	const [borderColor, setBorderColor] = useState('#e7e7e7');
+
+	const onFocus = () => {
+  	setBorderColor("#731cef")
+	}
+
+  const onBlur = () => {
+    setBorderColor("#e7e7e7");
+  }
+
+	return (
+		<>
+			<StatusBar
+				backgroundColor="#623aa7"
+				barStyle={'light-content'}>
+			</StatusBar>
+			<View style={styles.container}>
+				<View style={styles.releaseTypeContainer}>
+					<Text style={styles.typeText}>Nova {TYPES[route.params.type]}</Text>
+				</View>
+				<View style={styles.formContainer}>
+					<CurrencyInput
+						value={value}
+						onChangeValue={setValue}
+						selectionColor={'#731cef'}
+						prefix="R$ "
+						delimiter="."
+						separator=","
+						precision={2}
+						placeholder={"R$ 0,00"}
+						onBlur={ () => onBlur() }
+						onFocus={ () => onFocus() }
+						style={[styles.currencyInput, { borderBottomColor: borderColor, borderBottomWidth: borderColor == '#731cef' ? 3 : 0 }]}
+					/>
+					<Input label={"Descrição"} style={styles.descriptionInput} />
+					<View style={{ margin: 40, marginTop: 8, marginBottom: 20 }}>
+						<CategorySelect />
+					</View>
+				</View>
+			</View>
+		</>
+	);
 }

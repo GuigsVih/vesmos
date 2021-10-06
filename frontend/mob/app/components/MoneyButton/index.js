@@ -4,10 +4,16 @@ import { styles } from './styles';
 import { Animated, View } from 'react-native';
 import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function MoneyButton() {
+export default function MoneyButton({ navigation }) {
 
   const mode = React.useRef(new Animated.Value(0)).current;
   const buttonSize = React.useRef(new Animated.Value(1)).current;
+
+  const handleAddRelease = (type) => {
+    navigation.navigate("AddRelease", {
+      type: type
+    });
+  }
 
   const handlePress = () => {
     Animated.sequence([
@@ -65,7 +71,7 @@ export default function MoneyButton() {
       <View style={{ position: "absolute", alignItems: "center" }}>
         <Animated.View style={{ position: "absolute", left: thermometerX, top: thermometerY }}>
           <View style={styles.secondaryButton}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => handleAddRelease('expense')}>
               <MaterialIcons
                 name="trending-down"
                 size={24}
@@ -76,14 +82,14 @@ export default function MoneyButton() {
         </Animated.View>
         <Animated.View style={{ position: "absolute", left: timeX, top: timeY }}>
           <View style={styles.secondaryButton}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => handleAddRelease('transfer')}>
               <MaterialCommunityIcons name="bank-transfer" size={24} color="#89cff0" />
             </TouchableOpacity>
           </View>
         </Animated.View>
         <Animated.View style={{ position: "absolute", left: pulseX, top: pulseY }}>
           <View style={styles.secondaryButton}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => handleAddRelease('revenue')}>
               <MaterialIcons
                 name="trending-up"
                 size={24}

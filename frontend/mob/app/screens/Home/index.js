@@ -24,13 +24,13 @@ const routes = {
     }
 };
 
-export default function Home() {
+export default function Home({ navigation }) {
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ color }) => {
                     if (route.name === "ChooseRelease") {
-                        return <MoneyButton />
+                        return <MoneyButton navigation={navigation} />
                     }
                     return <AntDesign
                         name={routes[route.name]['icon']}

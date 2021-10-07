@@ -30,8 +30,8 @@ export const styles = StyleSheet.create({
 	},
 	descriptionInput: {
 		margin: 40,
-		marginTop: 30,
-		marginBottom: 20
+		marginTop: 10,
+		marginBottom: 10
 	},
 	currencyInput: {
 		borderTopLeftRadius: 5,
@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
 	},
 	categoryContainer: {
 		margin: 40, 
-		marginTop: 8, 
+		marginTop: 0, 
 		marginBottom: 20
 	}
 });

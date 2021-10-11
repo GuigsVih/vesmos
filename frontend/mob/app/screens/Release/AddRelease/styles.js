@@ -32,7 +32,6 @@ export const styles = StyleSheet.create({
 		margin: 40,
 		marginTop: 10,
 		marginBottom: 10,
-		height: 56
 	},
 	currencyInput: {
 		borderRadius: 4,

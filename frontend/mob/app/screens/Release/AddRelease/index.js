@@ -15,14 +15,14 @@ const TYPES = {
 export default function AddRelease({ route, navigation }) {
 
 	const [value, setValue] = useState();
-	const [borderColor, setBorderColor] = useState('#e7e7e7');
+	const [borderColor, setBorderColor] = useState('rgba(0, 0, 0, 0.54)');
 
 	const onFocus = () => {
 		setBorderColor("#731cef")
 	}
 
 	const onBlur = () => {
-		setBorderColor("#e7e7e7");
+		setBorderColor("rgba(0, 0, 0, 0.54)");
 	}
 
 	return (
@@ -48,9 +48,9 @@ export default function AddRelease({ route, navigation }) {
 							placeholder={"R$ 0,00"}
 							onBlur={() => onBlur()}
 							onFocus={() => onFocus()}
-							style={[styles.currencyInput, { borderBottomColor: borderColor, borderBottomWidth: borderColor == '#731cef' ? 3 : 0 }]}
+							style={[styles.currencyInput, { borderColor: borderColor, borderWidth: borderColor == '#731cef' ? 2 : 1 }]}
 						/>
-						<Input label={"Descrição"} style={styles.descriptionInput} />
+						<Input label={"Descrição"} mode={'outlined'} style={styles.descriptionInput} />
 						<View style={styles.categoryContainer}>
 							<CategorySelect />
 						</View>

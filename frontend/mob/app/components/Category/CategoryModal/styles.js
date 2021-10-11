@@ -13,5 +13,9 @@ export const styles = StyleSheet.create({
 		flex: 1, 
 		alignItems: 'center', 
 		justifyContent: 'center' 
-	}
+	},
+	categoryIcon: {
+		padding: 10, 
+		borderRadius: 50,
+	},
 });

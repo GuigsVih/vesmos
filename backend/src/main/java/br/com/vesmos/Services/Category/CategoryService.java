@@ -1,5 +1,7 @@
 package br.com.vesmos.Services.Category;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +10,7 @@ import br.com.vesmos.Models.Category;
 import br.com.vesmos.Models.User;
 import br.com.vesmos.Repositories.CategoryRepository;
 import br.com.vesmos.Services.Auth.AuthenticationService;
+import br.com.vesmos.TransferObjects.Interfaces.ListCategoryDTO;
 
 /**
  * Category service
@@ -36,5 +39,10 @@ public class CategoryService
         User user = authService.getAuthenticatedUser();
         return categoryRepository.findByIdAndUserId(id, user.getId())
             .orElseThrow(() -> new RegisterDoesNotExistsException("Categoria não encontrada."));
+    }
+
+    public List<ListCategoryDTO> findByUserIdOrNull(Long userId)
+    {
+        return categoryRepository.findByUserIdOrNull(userId);
     }
 }

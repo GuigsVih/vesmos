@@ -31,11 +31,11 @@ export const styles = StyleSheet.create({
 	descriptionInput: {
 		margin: 40,
 		marginTop: 10,
-		marginBottom: 10
+		marginBottom: 10,
+		height: 56
 	},
 	currencyInput: {
-		borderTopLeftRadius: 5,
-		borderTopRightRadius: 5,
+		borderRadius: 4,
 		margin: 40,
 		marginTop: 30,
 		marginBottom: 0,
@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
 		paddingBottom: 23,
 		fontSize: 40,
 		fontFamily: "MavenPro-Regular",
-		backgroundColor: "#e7e7e7"
+		backgroundColor: "#f6f6f6"
 	},
 	categoryContainer: {
 		margin: 40, 

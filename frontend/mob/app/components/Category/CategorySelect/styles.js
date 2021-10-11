@@ -2,10 +2,10 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
 	container: {
-		padding: 15,
-		borderTopLeftRadius: 5,
-		borderTopRightRadius: 5,
-		backgroundColor: '#e7e7e7'
+		borderRadius: 4,
+		borderWidth: 1,
+		borderColor: "rgba(0, 0, 0, 0.54)",
+		backgroundColor: '#f6f6f6'
 	},
 	text: {
 		color: "#737373",
@@ -14,5 +14,9 @@ export const styles = StyleSheet.create({
 	toEnd: {
 		flex: 1,
 		alignItems: "flex-end"
-	}
+	},	
+	categoryIcon: {
+		padding: 8,
+		borderRadius: 50,
+	},
 });

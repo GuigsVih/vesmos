@@ -16,7 +16,8 @@ export default function Input({
     numberOfLines,
     keyboardType,
     render,
-    theme
+    theme,
+    mode = 'flat'
     }) {
     return (
         <TextInput
@@ -35,6 +36,7 @@ export default function Input({
             multiline={multiline}
             numberOfLines={numberOfLines}
             render={render}
+            mode={mode}
             theme={theme}
         />
     );

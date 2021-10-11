@@ -1,15 +1,32 @@
-import React, { useState } from 'react';
-import { View, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
 import Modal from "react-native-modal";
 import { Caption, Divider, TextInput } from 'react-native-paper';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, Ionicons } from '@expo/vector-icons';
 
-import { styles } from './styles';
 import Input from '../../Input';
+import { styles } from './styles';
+import { fetchCategories } from '../../../core/services/category';
 
-export default function CategoryModal({ visible, setVisible }) {
+export default function CategoryModal({ visible, setVisible, handleCategory }) {
 
 	const [category, setCategory] = useState();
+	const [categories, setCategories] = useState([]);
+
+	const getCategories = async () => {
+		try {
+			const res = await fetchCategories();
+			setCategories(res.data);
+		} catch (e) {
+			//
+		}
+	}
+
+	useEffect(() => {
+		if (visible) {
+			getCategories();
+		}
+	}, [visible]);
 
 	return (
 		<>
@@ -19,7 +36,7 @@ export default function CategoryModal({ visible, setVisible }) {
 				onBackButtonPress={() => setVisible(false)}
 				onSwipeComplete={() => setVisible(false)}
 				style={{ justifyContent: 'flex-end', margin: 0 }}
-				swipeDirection={['down', 'up']}
+				swipeDirection={['down']}
 			>
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 					<View style={styles.content}>
@@ -35,9 +52,27 @@ export default function CategoryModal({ visible, setVisible }) {
 							onChange={(value) => setCategory(value)}
 						/>
 						<Divider style={{ marginTop: 30 }} />
-						<View style={styles.alignCenter}>
-							<Caption>Nenhuma categoria encontrada</Caption>
-						</View>
+						{categories.length > 0 ? (
+							categories.map((data, index) => (
+								<TouchableOpacity key={index} onPress={() => handleCategory(data)} >
+									<View style={{ marginTop: 15, marginBottom: 10 }}>
+										<View style={{ flexDirection: 'row' }}>
+											<View style={[{ backgroundColor: data.badgeColor }, styles.categoryIcon]}>
+												<Ionicons name={data.icon} size={24} color="white" />
+											</View>
+											<View style={{ marginLeft: 20, marginTop: 10 }}>
+												<Caption style={{ fontSize: 13 }}>{data.name}</Caption>
+											</View>
+										</View>
+									</View>
+									<Divider />
+								</TouchableOpacity>
+							))
+						) :
+							<View style={styles.alignCenter}>
+								<Caption>Nenhuma categoria encontrada</Caption>
+							</View>
+						}
 					</View>
 				</TouchableWithoutFeedback>
 			</Modal>

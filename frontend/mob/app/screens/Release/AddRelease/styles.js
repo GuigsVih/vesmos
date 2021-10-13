@@ -45,9 +45,9 @@ export const styles = StyleSheet.create({
 		fontFamily: "MavenPro-Regular",
 		backgroundColor: "#f6f6f6"
 	},
-	categoryContainer: {
+	selectionContainer: {
 		margin: 40, 
 		marginTop: 0, 
-		marginBottom: 20
+		marginBottom: 10
 	}
 });

@@ -7,6 +7,7 @@ import { useFonts } from 'expo-font';
 import { Provider } from 'react-redux';
 import { IntlProvider } from 'react-intl';
 import { NavigationContainer } from '@react-navigation/native';
+import moment from 'moment';
 
 import React from 'react';
 import Routes from './app/core/routes';

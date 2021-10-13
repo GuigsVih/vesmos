@@ -28,7 +28,7 @@ export default function CategorySelect() {
 									<Ionicons name={category.icon} size={15} color="white" />
 								</View>
 								<View style={{ marginLeft: 10, marginTop: 5 }}>
-									<Caption style={{ fontSize: 13 }}>{category.name}</Caption>
+									<Caption style={{ fontSize: 13, color: "#000" }}>{category.name}</Caption>
 								</View>
 							</>
 							:

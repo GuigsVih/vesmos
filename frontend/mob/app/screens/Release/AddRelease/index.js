@@ -5,6 +5,10 @@ import CurrencyInput from 'react-native-currency-input';
 import { styles } from './styles';
 import Input from '../../../components/Input';
 import CategorySelect from '../../../components/Category/CategorySelect';
+import DatePicker from '../../../components/DatePicker';
+import RepeatCharge from '../../../components/RepeatCharge';
+import PaymentSelect from '../../../components/Payment/PaymentSelect';
+import Button from '../../../components/Button';
 
 const TYPES = {
 	'expense': 'despesa',
@@ -15,6 +19,7 @@ const TYPES = {
 export default function AddRelease({ route, navigation }) {
 
 	const [value, setValue] = useState();
+	const [paymentDate, setPaymentDate] = useState(new Date());
 	const [borderColor, setBorderColor] = useState('rgba(0, 0, 0, 0.54)');
 
 	const onFocus = () => {
@@ -51,8 +56,29 @@ export default function AddRelease({ route, navigation }) {
 							style={[styles.currencyInput, { borderColor: borderColor, borderWidth: borderColor == '#731cef' ? 2 : 1 }]}
 						/>
 						<Input label={"Descrição"} mode={'outlined'} style={styles.descriptionInput} />
-						<View style={styles.categoryContainer}>
+						<View style={styles.selectionContainer}>
 							<CategorySelect />
+						</View>
+						<View style={styles.selectionContainer}>
+							<DatePicker
+								selectValue={paymentDate.toISOString().split('T')[0]}
+								datePickerValue={paymentDate}
+								setValue={(date) => setPaymentDate(date)}
+							/>
+						</View>
+						<View style={[styles.selectionContainer, { marginTop: 10 }]}>
+							<RepeatCharge />
+						</View>
+						<View style={[styles.selectionContainer, { marginTop: 15 }]}>
+							<PaymentSelect />
+						</View>
+						<View style={[styles.selectionContainer]}>							
+							<Button 
+								title={`Salvar`} 
+								loading={false} 
+								titleStyle={{ marginRight: 30 }}
+								buttonStyle={{ padding: 10, marginTop: 20, width: 350 }}
+							/>
 						</View>
 					</View>
 				</View>

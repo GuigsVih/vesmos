@@ -72,14 +72,12 @@ export default function AddRelease({ route, navigation }) {
 						<View style={[styles.selectionContainer, { marginTop: 15 }]}>
 							<PaymentSelect />
 						</View>
-						<View style={[styles.selectionContainer]}>							
-							<Button 
-								title={`Salvar`} 
-								loading={false} 
-								titleStyle={{ marginRight: 30 }}
-								buttonStyle={{ padding: 10, marginTop: 20, width: 350 }}
-							/>
-						</View>
+						<Button
+							title={`Salvar`}
+							loading={false}
+							buttonStyle={styles.buttonStyle}
+							titleStyle={{ marginRight: 10 }}
+						/>
 					</View>
 				</View>
 			</TouchableWithoutFeedback>

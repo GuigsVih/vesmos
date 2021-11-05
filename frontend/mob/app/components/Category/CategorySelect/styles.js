@@ -19,4 +19,10 @@ export const styles = StyleSheet.create({
 		padding: 8,
 		borderRadius: 50,
 	},
+	categoryName: { 
+		marginLeft: 10, 
+		marginTop: 5, 
+		fontSize: 13, 
+		color: "#000" 
+	}
 });

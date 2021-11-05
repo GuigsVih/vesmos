@@ -1,20 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, Fragment } from 'react';
 import Modal from "react-native-modal";
-import { Caption, Divider } from 'react-native-paper';
-import { Ionicons } from '@expo/vector-icons';
+import { Image } from 'react-native-elements';
+import { ActivityIndicator, Caption, Divider, Text } from 'react-native-paper';
+import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, ScrollView } from 'react-native';
 
+import { fetchPaymentMethods } from '../../../core/services/payment';
+import NuBank from '../../../../assets/icon/banks/nubank.png';
+import Bradesco from '../../../../assets/icon/banks/bradesco.png';
 import { styles } from './styles';
 
-export default function PaymentModal({ visible, setVisible, handleCategory }) {
+const PAYMENT_TYPES = {
+	"credit_cards": "Cartões de Crédito",
+	"accounts": "Contas"
+};
+
+export default function PaymentModal({ visible, setVisible, handlePayment }) {
 
 	const [paymentMethods, setPaymentMethods] = useState([]);
+	const [loading, setLoading] = useState(false);
 
 	const getPaymentMethods = async () => {
+		setLoading(true);
 		try {
+			const res = await fetchPaymentMethods();
+			setPaymentMethods(res.data);
 		} catch (e) {
 			//
 		}
+		setLoading(false);
 	}
 
 	useEffect(() => {
@@ -35,26 +48,44 @@ export default function PaymentModal({ visible, setVisible, handleCategory }) {
 			>
 				<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 					<View style={styles.content}>
-						{paymentMethods.length > 0 ? (
-							paymentMethods.map((data, index) => (
-								<TouchableOpacity key={index} onPress={() => handleCategory(data)} >
-									<View style={{ marginTop: 15, marginBottom: 10 }}>
-										<View style={{ flexDirection: 'row' }}>
-											<View style={[{ backgroundColor: data.badgeColor }, styles.categoryIcon]}>
-												<Ionicons name={data.icon} size={24} color="white" />
-											</View>
-											<View style={{ marginLeft: 20, marginTop: 10 }}>
-												<Caption style={{ fontSize: 13 }}>{data.name}</Caption>
-											</View>
+						{!loading ?
+							(Object.keys(paymentMethods).length > 0 ?
+								<ScrollView>
+									{Object.keys(paymentMethods).map((arr, index) => (
+										<View key={index} style={{ marginTop: 30 }}>
+											<Text style={styles.paymentTypeText}>{PAYMENT_TYPES[arr]}</Text>
+											{paymentMethods[arr].map((data, idx) => (
+												<Fragment key={idx}>
+													{idx == 0 ?
+														<Divider /> : <></>
+													}
+													<TouchableOpacity onPress={() => handlePayment(data)} >
+														<View style={{ marginTop: 10, marginBottom: 20 }}>
+															<View style={{ flexDirection: 'row' }}>
+																<View style={{ marginLeft: 10, marginTop: 10 }}>
+																	<View style={{ flex: 1, flexDirection: 'row' }}>
+																		{index > 0 ?
+																			<Image source={Bradesco} style={styles.bankImg} />
+																			:
+																			<Image source={NuBank} style={styles.bankImg} />
+																		}
+																		<Text style={styles.name}>{data.name}</Text>
+																	</View>
+																</View>
+															</View>
+														</View>
+													</TouchableOpacity>
+													<Divider />
+												</Fragment>
+											))}
 										</View>
-									</View>
-									<Divider />
-								</TouchableOpacity>
-							))
-						) :
-							<View style={styles.alignCenter}>
-								<Caption>Nenhuma forma de pagamento encontrada</Caption>
-							</View>
+									))}
+								</ScrollView>
+								:
+								<View style={styles.alignCenter}>
+									<Caption>Nenhuma forma de pagamento encontrada</Caption>
+								</View>
+							) : <ActivityIndicator size={'large'} style={styles.alignCenter} color={"#dadad3"} />
 						}
 					</View>
 				</TouchableWithoutFeedback>

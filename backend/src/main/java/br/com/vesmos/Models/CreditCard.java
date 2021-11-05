@@ -35,6 +35,10 @@ public class CreditCard
     
     @Column(name="credit_limit", nullable=false, precision=10, scale=2)
     private double creditLimit;
+    
+    @ManyToOne
+    @JoinColumn(name="account_id", referencedColumnName = "id")
+    private Account account;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -49,4 +53,14 @@ public class CreditCard
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     private Date updatedAt;
+
+    public Long getId()
+    {
+        return id;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
 }

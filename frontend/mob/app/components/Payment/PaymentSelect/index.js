@@ -1,32 +1,33 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
 import { Caption } from 'react-native-paper';
+import { Image } from 'react-native-elements';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { TouchableOpacity, View, Text } from 'react-native';
 
-import PaymentModal from '../PaymentModal';
 import { styles } from './styles';
+import PaymentModal from '../PaymentModal';
+import Bradesco from '../../../../assets/icon/banks/bradesco.png';
 
 export default function PaymentSelect() {
 
 	const [payment, setPayment] = useState();
 	const [modalVisible, setModalVisible] = useState(false);
 
-	const handlePayment = () => {
-
+	const handlePayment = (data) => {
+		setPayment(data);
+		setModalVisible(false);
 	}
 
-  return (
-    <>      
+	return (
+		<>
 			<TouchableOpacity onPress={() => setModalVisible(true)}>
-				<View style={[styles.container, { padding: payment && Object.keys(payment).length > 0 ? 12 : 15}]}>
+				<View style={[styles.container, { padding: payment && Object.keys(payment).length > 0 ? 12 : 15 }]}>
 					<View style={{ flexDirection: 'row' }}>
 						{payment && Object.keys(payment).length > 0 ?
 							<>
-								<View style={[{ backgroundColor: payment.badgeColor }, styles.paymentImg]}>
-									<Ionicons name={payment.icon} size={15} color="white" />
-								</View>
-								<View style={{ marginLeft: 10, marginTop: 5 }}>
-									<Caption style={{ fontSize: 13, color: "#000" }}>{payment.name}</Caption>
+								<View style={{ flex: 1, flexDirection: 'row' }}>
+									<Image source={Bradesco} style={styles.bankImg} />
+									<Caption style={{ fontSize: 13, color: "#000", marginLeft: 10, marginTop: 5 }}>{payment.name}</Caption>
 								</View>
 							</>
 							:
@@ -43,8 +44,8 @@ export default function PaymentSelect() {
 			<PaymentModal
 				visible={modalVisible}
 				setVisible={setModalVisible}
-				handleCategory={handlePayment}
+				handlePayment={handlePayment}
 			/>
-    </>
-  );
+		</>
+	);
 }

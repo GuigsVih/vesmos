@@ -63,4 +63,14 @@ public class Account implements Serializable
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     private Date updatedAt;
+
+    public Long getId()
+    {
+        return id;
+    }
+
+    public String getNickname()
+    {
+        return nickname;
+    }
 }

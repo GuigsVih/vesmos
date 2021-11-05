@@ -22,6 +22,11 @@ export const styles = StyleSheet.create({
 		marginBottom: 0, 
 		color: "#ff525a" 
 	},
+	normal: {
+		fontSize: 15,
+		marginBottom: 0,
+		color: "#000"
+	},
 	arrowPosition: { 
 		flex: 1, 
 		alignItems: 'center', 

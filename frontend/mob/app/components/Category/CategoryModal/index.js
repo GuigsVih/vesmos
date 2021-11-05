@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity } from 'react-native';
+import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text } from 'react-native';
 import Modal from "react-native-modal";
 import { Caption, Divider, TextInput } from 'react-native-paper';
 import { FontAwesome, Ionicons } from '@expo/vector-icons';
@@ -60,8 +60,8 @@ export default function CategoryModal({ visible, setVisible, handleCategory }) {
 											<View style={[{ backgroundColor: data.badgeColor }, styles.categoryIcon]}>
 												<Ionicons name={data.icon} size={24} color="white" />
 											</View>
-											<View style={{ marginLeft: 20, marginTop: 10 }}>
-												<Caption style={{ fontSize: 13 }}>{data.name}</Caption>
+											<View style={{ marginLeft: 20, marginTop: 13 }}>
+												<Text style={{ fontSize: 13 }}>{data.name}</Text>
 											</View>
 										</View>
 									</View>

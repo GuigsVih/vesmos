@@ -26,7 +26,7 @@ export default function RepeatCharge() {
             ]
           }
         >
-          <Text style={{ color: option == "fixed" ? "#fff" : "#000" }}>Fixo</Text>
+          <Text style={{ color: option == "fixed" ? "#fff" : "rgba(0, 0, 0, 0.54)" }}>Fixo</Text>
         </TouchableOpacity>      
         <TouchableOpacity 
           onPress={() => handleOption('parceled')} 
@@ -38,7 +38,7 @@ export default function RepeatCharge() {
             ]
           }
         >
-          <Text style={{ color: option == "parceled" ? "#fff" : "#000" }}>Parcelado</Text>
+          <Text style={{ color: option == "parceled" ? "#fff" : "rgba(0, 0, 0, 0.54)" }}>Parcelado</Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -20,17 +20,15 @@ export default function CategorySelect() {
 	return (
 		<>
 			<TouchableOpacity onPress={() => setModalVisible(true)}>
-				<View style={[styles.container, { padding: category && Object.keys(category).length > 0 ? 12 : 15}]}>
+				<View style={[styles.container, { padding: category && Object.keys(category).length > 0 ? 9 : 15}]}>
 					<View style={{ flexDirection: 'row' }}>
 						{category && Object.keys(category).length > 0 ?
-							<>
+							<View style={{ flex: 1, flexDirection: 'row', marginLeft: 5 }}>
 								<View style={[{ backgroundColor: category.badgeColor }, styles.categoryIcon]}>
 									<Ionicons name={category.icon} size={15} color="white" />
 								</View>
-								<View style={{ marginLeft: 10, marginTop: 5 }}>
-									<Caption style={{ fontSize: 13, color: "#000" }}>{category.name}</Caption>
-								</View>
-							</>
+								<Caption style={styles.categoryName}>{category.name}</Caption>
+							</View>
 							:
 							<>
 								<Text style={styles.text}>Categoria</Text>

@@ -29,7 +29,6 @@ public class CreditCardService
      * Find by id and user_id
      * 
      * @param Optional<Long> id
-     * @param Long userId
      * 
      * @return CrediCard
      */
@@ -39,7 +38,7 @@ public class CreditCardService
             User user = authService.getAuthenticatedUser();
             return creditCardRepository.findByIdAndUserId(id.get(), user.getId())
             .orElseThrow(() -> new RegisterDoesNotExistsException("Cartão de crédito inválido."));
-        }        
+        }
         return null;
     }
 }

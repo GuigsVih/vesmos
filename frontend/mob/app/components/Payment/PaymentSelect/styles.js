@@ -14,9 +14,11 @@ export const styles = StyleSheet.create({
 	toEnd: {
 		flex: 1,
 		alignItems: "flex-end"
-	},	
-	paymentImg: {
-		padding: 8,
+	},
+	bankImg: {
+		width: 32,
+		height: 32,
 		borderRadius: 50,
-	}
+		marginLeft: 3
+	},
 });

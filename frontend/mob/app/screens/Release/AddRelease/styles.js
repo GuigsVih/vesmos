@@ -49,5 +49,11 @@ export const styles = StyleSheet.create({
 		margin: 40, 
 		marginTop: 0, 
 		marginBottom: 10
+	},
+	buttonStyle: { 
+		padding: 10, 
+		marginTop: 20,
+		marginLeft: 40, 
+		width: 333 
 	}
 });

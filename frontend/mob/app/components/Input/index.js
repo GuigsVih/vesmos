@@ -17,7 +17,9 @@ export default function Input({
     keyboardType,
     render,
     theme,
-    mode = 'flat'
+    mode = 'flat',
+    maxLength,
+    minLength
     }) {
     return (
         <TextInput
@@ -38,6 +40,8 @@ export default function Input({
             render={render}
             mode={mode}
             theme={theme}
+            maxLength={maxLength}
+            minLength={minLength}
         />
     );
 }

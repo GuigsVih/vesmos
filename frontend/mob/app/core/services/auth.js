@@ -5,6 +5,5 @@ export function login(args) {
 }
 
 export function getUserByToken() {
-    console.log('here');
     return api.get("/auth/me");
 }

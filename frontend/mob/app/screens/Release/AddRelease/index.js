@@ -66,11 +66,11 @@ export default function AddRelease({ route, navigation }) {
 								setValue={(date) => setPaymentDate(date)}
 							/>
 						</View>
-						<View style={[styles.selectionContainer, { marginTop: 10 }]}>
-							<RepeatCharge />
-						</View>
-						<View style={[styles.selectionContainer, { marginTop: 15 }]}>
+						<View style={styles.selectionContainer}>
 							<PaymentSelect />
+						</View>
+						<View style={[styles.selectionContainer, { marginTop: 10 }]}>
+							<RepeatCharge chargeType={TYPES[route.params.type]} />
 						</View>
 						<Button
 							title={`Salvar`}

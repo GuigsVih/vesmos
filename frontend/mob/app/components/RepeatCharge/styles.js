@@ -15,7 +15,13 @@ export const styles = StyleSheet.create({
     borderRadius: 25
   },
   border: {
+  },
+  selectedContainer: {
+    backgroundColor: "#731cef"
+  },
+  unselectedContainer: {
     borderWidth: 1,
-    borderColor: "rgba(0, 0, 0, 0.54)"
+    borderColor: "rgba(0, 0, 0, 0.54)",
+    backgroundColor: "#f6f6f6"
   }
 });

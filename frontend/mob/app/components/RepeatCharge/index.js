@@ -1,29 +1,40 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import RepeatChargeModal from './RepeatChargeModal';
+import { View, Text, TouchableOpacity, ToastAndroid } from 'react-native';
 import { styles } from './styles';
+import { repeatType } from './config';
+import RepeatChargeModal from './RepeatChargeModal';
+import { Caption } from 'react-native-paper';
+import { currencyFormat } from '../../core/helpers/format';
 
-const REPEAT_TYPE = {
-  "fixed": "fixa",
-  "parceled": "parcelada"
-};
+export default function RepeatCharge({ value, chargeType, setRepeatData }) {
 
-export default function RepeatCharge({ chargeType }) {
-
+  const [time, setTime] = useState();
   const [option, setOption] = useState();
   const [visible, setVisible] = useState(false);
 
   const handleOption = (opt) => {
     if (opt == option) {
-      setOption(null);
+      cancel();
       return;
     }
-    handleRepeatChargeModal();
+    if (value == null || value == 0) {
+      ToastAndroid.show("É necessário definir um valor para a transação", ToastAndroid.SHORT)
+      return;
+    }
+    setVisible(!visible);
     setOption(opt);
   }
 
-  const handleRepeatChargeModal = () => {
-    setVisible(!visible);
+  const handleRepeatData = (time, unitOfMeasurement) => {
+    setTime(time);
+    setRepeatData({ option, time, unitOfMeasurement });
+  }
+
+  const cancel = () => {
+    setVisible(false);
+    setOption(null);
+    setTime(null);
+    setRepeatData(null);
   }
 
   return (
@@ -51,12 +62,17 @@ export default function RepeatCharge({ chargeType }) {
         >
           <Text style={{ color: option == "parceled" ? "#fff" : "rgba(0, 0, 0, 0.54)" }}>Parcelado</Text>
         </TouchableOpacity>
+        {option == 'parceled' && time > 1 ?
+          <Caption style={{ marginLeft: 20 }}>{time}x de {currencyFormat(value / time)}</Caption>
+          : <></>}
       </View>
       <RepeatChargeModal
         visible={visible}
-        setVisible={handleRepeatChargeModal}
+        setVisible={() => setVisible(!visible)}
         repeatType={option}
-        title={`${chargeType.charAt(0).toUpperCase() + chargeType.slice(1)} ${REPEAT_TYPE[option]}`} 
+        handleRepeatData={handleRepeatData}
+        title={`${chargeType.charAt(0).toUpperCase() + chargeType.slice(1)} ${repeatType[option]}`}
+        cancel={cancel}
       />
     </View>
   );

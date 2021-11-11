@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Text, View } from 'react-native';
 import Modal from "react-native-modal";
 
@@ -6,33 +6,12 @@ import { styles } from './styles';
 import Input from '../../../components/Input';
 import Picker from '../../Picker';
 import Button from '../../Button';
+import { units, installmentUnits } from '../config';
 
-const UNITS = {
-  "diary": "Diário",
-  "weekly": "Semanal",
-  "biweekly": "Quinzenal",
-  "monthly": "Mensal",
-  "bimonthly": "Bimestral",
-  "semester": "Semestral",
-  "quarterly": "Trimestral",
-  "yearly": "Anual"
-};
-
-const INSTALLMENT_UNITS = {
-  "diary": "Dias",
-  "weekly": "Semanas",
-  "biweekly": "Quinzenas",
-  "monthly": "Meses",
-  "bimonthly": "Bimestres",
-  "semester": "Semestres",
-  "quarterly": "Trimestres",
-  "yearly": "Anos"
-}
-
-export default function RepeatChargeModal({ title, visible, setVisible, repeatType }) {
+export default function RepeatChargeModal({ title, visible, setVisible, repeatType, handleRepeatData, cancel }) {
 
   const [time, setTime] = useState("2");
-  const [unitOfMeasurement, setUnitOfMeasurement] = useState(UNITS["monthly"]);
+  const [unitOfMeasurement, setUnitOfMeasurement] = useState("monthly");
 
   const formatTime = (value) => {
     if (value == "1") {
@@ -42,8 +21,9 @@ export default function RepeatChargeModal({ title, visible, setVisible, repeatTy
     setTime(value.replace(/[^0-9]/g, ''));
   }
 
-  const save = () => {
+  const handle = () => {
     setVisible(false);
+    handleRepeatData(time, unitOfMeasurement);
   }
 
   return (
@@ -51,6 +31,8 @@ export default function RepeatChargeModal({ title, visible, setVisible, repeatTy
       <Modal
         isVisible={visible}
         style={{ justifyContent: 'flex-end', margin: 0 }}
+        onSwipeComplete={cancel}
+        swipeDirection={['down']}
       >
         <View style={styles.content}>
           <Text style={styles.title}>{title}</Text>
@@ -70,12 +52,12 @@ export default function RepeatChargeModal({ title, visible, setVisible, repeatTy
                 </View>
                 : <></>
               }
-              <View style={[repeatType != 'fixed' ? {flex: 0.6, marginTop: 5.7, marginLeft: 15} : { flex: 0.8 }]}>
+              <View style={[repeatType != 'fixed' ? { flex: 0.6, marginTop: 5.7, marginLeft: 15 } : { flex: 0.8 }]}>
                 <Picker
                   label={"Unidade"}
                   value={unitOfMeasurement}
                   setValue={setUnitOfMeasurement}
-                  items={repeatType != 'fixed' ? INSTALLMENT_UNITS : UNITS}
+                  items={repeatType != 'fixed' ? installmentUnits : units}
                 />
               </View>
             </View>
@@ -84,7 +66,7 @@ export default function RepeatChargeModal({ title, visible, setVisible, repeatTy
               loading={false}
               buttonStyle={styles.buttonStyle}
               titleStyle={{ marginRight: 10 }}
-              onPress={save}
+              onPress={handle}
             />
           </View>
         </View>

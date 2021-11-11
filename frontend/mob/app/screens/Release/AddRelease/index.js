@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, StatusBar, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 
@@ -21,6 +21,7 @@ export default function AddRelease({ route, navigation }) {
 	const [value, setValue] = useState();
 	const [paymentDate, setPaymentDate] = useState(new Date());
 	const [borderColor, setBorderColor] = useState('rgba(0, 0, 0, 0.54)');
+	const [repeatData, setRepeatData] = useState({});
 
 	const onFocus = () => {
 		setBorderColor("#731cef")
@@ -70,7 +71,7 @@ export default function AddRelease({ route, navigation }) {
 							<PaymentSelect />
 						</View>
 						<View style={[styles.selectionContainer, { marginTop: 10 }]}>
-							<RepeatCharge chargeType={TYPES[route.params.type]} />
+							<RepeatCharge value={value} chargeType={TYPES[route.params.type]} setRepeatData={setRepeatData} />
 						</View>
 						<Button
 							title={`Salvar`}

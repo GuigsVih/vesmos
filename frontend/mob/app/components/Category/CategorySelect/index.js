@@ -7,13 +7,14 @@ import { styles } from './styles';
 import CategoryModal from '../CategoryModal';
 import { Caption } from 'react-native-paper';
 
-export default function CategorySelect() {
+export default function CategorySelect({ onSelect }) {
 
 	const [modalVisible, setModalVisible] = useState(false);
 	const [category, setCategory] = useState();
 
 	const handleCategory = (data) => {
 		setCategory(data);
+		onSelect(data.id);
 		setModalVisible(false);
 	}
 

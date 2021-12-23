@@ -14,14 +14,25 @@ const TYPES = {
 	'expense': 'despesa',
 	'revenue': 'receita',
 	'transfer': 'transferência'
-}
+};
+
+const DEFAULT_VALUES = {
+	value: 0,
+	description: "",
+	paymentDate: new Date(),
+	paymentId: null,
+	categoryId: null,
+	repeatCharge: {
+		option: null,
+		unitOfMeasurement: null,
+		time: null
+	}
+};
 
 export default function AddRelease({ route, navigation }) {
 
-	const [value, setValue] = useState();
-	const [paymentDate, setPaymentDate] = useState(new Date());
+	const [data, setData] = useState(DEFAULT_VALUES);
 	const [borderColor, setBorderColor] = useState('rgba(0, 0, 0, 0.54)');
-	const [repeatData, setRepeatData] = useState({});
 
 	const onFocus = () => {
 		setBorderColor("#731cef")
@@ -29,6 +40,10 @@ export default function AddRelease({ route, navigation }) {
 
 	const onBlur = () => {
 		setBorderColor("rgba(0, 0, 0, 0.54)");
+	}
+
+	const create = () => {
+		console.log(data);
 	}
 
 	return (
@@ -44,8 +59,8 @@ export default function AddRelease({ route, navigation }) {
 					</View>
 					<View style={styles.formContainer}>
 						<CurrencyInput
-							value={value}
-							onChangeValue={setValue}
+							value={data.value}
+							onChangeValue={(value) => setData({...data, value: value})}
 							selectionColor={'#731cef'}
 							prefix="R$ "
 							delimiter="."
@@ -56,28 +71,38 @@ export default function AddRelease({ route, navigation }) {
 							onFocus={() => onFocus()}
 							style={[styles.currencyInput, { borderColor: borderColor, borderWidth: borderColor == '#731cef' ? 2 : 1 }]}
 						/>
-						<Input label={"Descrição"} mode={'outlined'} style={styles.descriptionInput} />
+						<Input 
+							label={"Descrição"} 
+							mode={'outlined'} 
+							style={styles.descriptionInput} 
+							value={data.description} 
+							onChange={(value) => setData({...data, description: value})} />
 						<View style={styles.selectionContainer}>
-							<CategorySelect />
-						</View>
-						<View style={styles.selectionContainer}>
-							<DatePicker
-								selectValue={paymentDate.toISOString().split('T')[0]}
-								datePickerValue={paymentDate}
-								setValue={(date) => setPaymentDate(date)}
+							<CategorySelect
+							 	onSelect={(value) => setData({...data, categoryId: value})}
 							/>
 						</View>
 						<View style={styles.selectionContainer}>
-							<PaymentSelect />
+							<DatePicker
+								selectValue={data.paymentDate.toISOString().split('T')[0]}
+								datePickerValue={data.paymentDate}
+								onSelect={(value) => setData({...data, paymentDate: value})}
+							/>
+						</View>
+						<View style={styles.selectionContainer}>
+							<PaymentSelect								
+								onSelect={(value) => setData({...data, paymentId: value})}
+							/>
 						</View>
 						<View style={[styles.selectionContainer, { marginTop: 10 }]}>
-							<RepeatCharge value={value} chargeType={TYPES[route.params.type]} setRepeatData={setRepeatData} />
+							<RepeatCharge value={data.value} chargeType={TYPES[route.params.type]} setRepeatData={(option, unitOfMeasurement, time) => setData({ ...data, repeatCharge: { ...data.repeatCharge, option, unitOfMeasurement, time }})} />
 						</View>
 						<Button
 							title={`Salvar`}
 							loading={false}
 							buttonStyle={styles.buttonStyle}
 							titleStyle={{ marginRight: 10 }}
+							onPress={create}
 						/>
 					</View>
 				</View>

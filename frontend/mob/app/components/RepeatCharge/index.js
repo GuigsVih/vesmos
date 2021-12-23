@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ToastAndroid } from 'react-native';
 import { styles } from './styles';
-import { repeatType } from './config';
+import { repeatType, units } from './config';
 import RepeatChargeModal from './RepeatChargeModal';
 import { Caption } from 'react-native-paper';
 import { currencyFormat } from '../../core/helpers/format';
@@ -9,6 +9,7 @@ import { currencyFormat } from '../../core/helpers/format';
 export default function RepeatCharge({ value, chargeType, setRepeatData }) {
 
   const [time, setTime] = useState();
+  const [unitOfMeasurement, setUnitOfMeasurement] = useState();
   const [option, setOption] = useState();
   const [visible, setVisible] = useState(false);
 
@@ -27,14 +28,20 @@ export default function RepeatCharge({ value, chargeType, setRepeatData }) {
 
   const handleRepeatData = (time, unitOfMeasurement) => {
     setTime(time);
-    setRepeatData({ option, time, unitOfMeasurement });
+    setUnitOfMeasurement(unitOfMeasurement);
+    
+    if (option == 'fixed') {
+      setRepeatData(option, unitOfMeasurement, null);
+    } else {
+      setRepeatData(option, unitOfMeasurement, time);
+    }
   }
 
   const cancel = () => {
     setVisible(false);
     setOption(null);
     setTime(null);
-    setRepeatData(null);
+    setRepeatData(null, null, null);
   }
 
   return (
@@ -64,6 +71,7 @@ export default function RepeatCharge({ value, chargeType, setRepeatData }) {
         </TouchableOpacity>
         {option == 'parceled' && time > 1 ?
           <Caption style={{ marginLeft: 20 }}>{time}x de {currencyFormat(value / time)}</Caption>
+          : option == 'fixed' && time ? <Caption style={{ marginLeft: 20}}>{units[unitOfMeasurement]}</Caption>
           : <></>}
       </View>
       <RepeatChargeModal

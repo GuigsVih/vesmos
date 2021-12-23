@@ -23,7 +23,7 @@ export default function MonthCarousel({ fetchBetweenDates }) {
 	}
 
 	useEffect(() => {
-		setMonth()
+		setMonth();
 	}, []);
 
 	const renderItems = ({ item, index }) => {

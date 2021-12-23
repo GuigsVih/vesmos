@@ -8,13 +8,14 @@ import { styles } from './styles';
 import PaymentModal from '../PaymentModal';
 import Bradesco from '../../../../assets/icon/banks/bradesco.png';
 
-export default function PaymentSelect() {
+export default function PaymentSelect({ onSelect }) {
 
 	const [payment, setPayment] = useState();
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const handlePayment = (data) => {
 		setPayment(data);
+		onSelect(data.id)
 		setModalVisible(false);
 	}
 

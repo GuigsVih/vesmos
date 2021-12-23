@@ -10,7 +10,7 @@ import { formatDate } from '../../core/helpers/format';
 export default function DatePicker({
   datePickerValue,
   selectValue,
-  setValue,
+  onSelect,
   mode = "date",
   display = "default",
   placeholder = "Escolha uma data"
@@ -20,7 +20,7 @@ export default function DatePicker({
 
   const setDate = (event, date) => {
     setShow(false);
-    setValue(moment(date).toDate());
+    onSelect(moment(date).toDate());
   }
 
   return (

@@ -22,6 +22,7 @@ export default function App() {
   const [loaded] = useFonts({
     "FuturaPT-Book": require('./assets/fonts/FuturaPT-Book.otf'),
     "FuturaPT-Medium": require('./assets/fonts/FuturaPT-Medium.otf'),
+    "MavenPro-Bold": require('./assets/fonts/MavenPro-Bold.ttf'),
     "MavenPro-Regular": require('./assets/fonts/MavenPro-Regular.ttf'),
     "MavenPro-Medium": require('./assets/fonts/MavenPro-Medium.ttf'),
   });

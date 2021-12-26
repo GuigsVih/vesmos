@@ -35,6 +35,9 @@ public class CreditCard
     
     @Column(name="credit_limit", nullable=false, precision=10, scale=2)
     private double creditLimit;
+
+    @Column(name="limit_used", nullable=false, precision=10, scale=2)
+    private double limitUsed;
     
     @ManyToOne
     @JoinColumn(name="account_id", referencedColumnName = "id")

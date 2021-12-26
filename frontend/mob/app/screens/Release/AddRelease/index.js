@@ -67,7 +67,7 @@ export default function AddRelease({ route, navigation }) {
 			const paymentDate = data.paymentDate.toISOString().split('T')[0];
 			const params = { ...data, ...{ paymentDate } };
 			const res = await createRelease(params);
-            navigation.navigate("Home");
+            navigation.navigate("BottomMenu");
 		} catch (e) {
 			if (e.name === "ValidationError" && e.inner) {
 				setErrors(createYupErrorsObject(e));

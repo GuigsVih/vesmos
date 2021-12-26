@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuth } from '../hooks/auth';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from '../../screens/Home';
+import BottomMenu from '../../screens/BottomMenu';
 import Login from '../../screens/Login';
 import CreateAccount from '../../screens/CreateAccount';
 import AddRelease from '../../screens/Release/AddRelease';
@@ -41,10 +41,10 @@ export default function Routes() {
 				/>
 			</Stack.Navigator>
 			:
-			<Stack.Navigator initialRouteName="Home">
+			<Stack.Navigator initialRouteName="BottomMenu">
 				<Stack.Screen
-					name="Home"
-					component={Home}
+					name="BottomMenu"
+					component={BottomMenu}
 					options={{
 						title: "",
 						headerStyle: { backgroundColor: '#623aa7', borderBottomWidth: 0, elevation: 0, shadowOpacity: 0 },

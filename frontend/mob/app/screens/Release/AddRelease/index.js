@@ -9,6 +9,13 @@ import DatePicker from '../../../components/DatePicker';
 import RepeatCharge from '../../../components/RepeatCharge';
 import PaymentSelect from '../../../components/Payment/PaymentSelect';
 import Button from '../../../components/Button';
+import schema from './schema';
+import { createYupErrorsObject } from '../../../core/helpers/createYupErrorsObject';
+import { Caption, HelperText, Switch } from 'react-native-paper';
+import { ScrollView } from 'react-native-gesture-handler';
+import { createRelease } from '../../../core/services/release';
+import { formatDate } from '../../../core/helpers/format';
+import { createRequestErrorObject } from '../../../core/helpers/createRequestErrorObject';
 
 const TYPES = {
 	'expense': 'despesa',
@@ -20,18 +27,26 @@ const DEFAULT_VALUES = {
 	value: 0,
 	description: "",
 	paymentDate: new Date(),
-	paymentId: null,
-	categoryId: null,
+	paymentId: "",
+	categoryId: "",
+	status: "PAID",
+	payment: {
+		type: "",
+		id: ""
+	},
 	repeatCharge: {
-		option: null,
-		unitOfMeasurement: null,
-		time: null
+		option: "",
+		time: "",
+		unitOfMeasurement: ""
 	}
 };
 
 export default function AddRelease({ route, navigation }) {
 
+	const [errors, setErrors] = useState(false);
+	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState(DEFAULT_VALUES);
+	const [status, setStatus] = useState(true);
 	const [borderColor, setBorderColor] = useState('rgba(0, 0, 0, 0.54)');
 
 	const onFocus = () => {
@@ -42,8 +57,36 @@ export default function AddRelease({ route, navigation }) {
 		setBorderColor("rgba(0, 0, 0, 0.54)");
 	}
 
-	const create = () => {
-		console.log(data);
+	const create = async () => {
+		setErrors({});
+		setLoading(true);
+		try {
+			await schema.validate(data, { abortEarly: false });
+			const paymentDate = data.paymentDate.toISOString().split('T')[0];
+			const params = { ...data, ...{ paymentDate } };
+			const res = await createRelease(params);
+			console.log(res.data);
+
+		} catch (e) {
+			if (e.name === "ValidationError" && e.inner) {
+				setErrors(createYupErrorsObject(e));
+			} else if (e?.response?.status == 400) {
+				setErrors(createRequestErrorObject(e.response.data));
+			}
+		}
+		setLoading(false);
+	}
+
+	const setReleaseStatus = (val) => {
+		setStatus(val);
+		setData({...data, status: getStatus(val) });
+	}
+
+	const getStatus = (val) => {
+		if (val) {
+			return "PAID";
+		}
+		return "UNPAID";
 	}
 
 	return (
@@ -57,10 +100,10 @@ export default function AddRelease({ route, navigation }) {
 					<View style={styles.releaseTypeContainer}>
 						<Text style={styles.typeText}>Nova {TYPES[route.params.type]}</Text>
 					</View>
-					<View style={styles.formContainer}>
+					<ScrollView style={styles.formContainer}>
 						<CurrencyInput
 							value={data.value}
-							onChangeValue={(value) => setData({...data, value: value})}
+							onChangeValue={(value) => setData({ ...data, value: value })}
 							selectionColor={'#731cef'}
 							prefix="R$ "
 							delimiter="."
@@ -71,40 +114,83 @@ export default function AddRelease({ route, navigation }) {
 							onFocus={() => onFocus()}
 							style={[styles.currencyInput, { borderColor: borderColor, borderWidth: borderColor == '#731cef' ? 2 : 1 }]}
 						/>
-						<Input 
-							label={"Descrição"} 
-							mode={'outlined'} 
-							style={styles.descriptionInput} 
-							value={data.description} 
-							onChange={(value) => setData({...data, description: value})} />
+						<View style={styles.errorContainer}>
+							{errors?.value && (
+								<HelperText type="error" visible={errors?.value}>
+									{errors?.value}
+								</HelperText>
+							)}
+						</View>
+						<Input
+							label={"Descrição"}
+							mode={'outlined'}
+							style={styles.descriptionInput}
+							value={data.description}
+							onChange={(value) => setData({ ...data, description: value })}
+						/>
+						<View style={[styles.errorContainer, { marginTop: 0, marginBottom: 10 }]}>
+							{errors?.description && (
+								<HelperText type="error" visible={errors?.description}>
+									{errors?.description}
+								</HelperText>
+							)}
+						</View>
 						<View style={styles.selectionContainer}>
 							<CategorySelect
-							 	onSelect={(value) => setData({...data, categoryId: value})}
+								onSelect={(value) => setData({ ...data, categoryId: value })}
 							/>
+							<View style={[styles.errorContainer, { marginLeft: 0, marginTop: 10 }]}>
+								{errors?.categoryId && (
+									<HelperText type="error" visible={errors?.categoryId}>
+										{errors?.categoryId}
+									</HelperText>
+								)}
+							</View>
 						</View>
 						<View style={styles.selectionContainer}>
 							<DatePicker
 								selectValue={data.paymentDate.toISOString().split('T')[0]}
 								datePickerValue={data.paymentDate}
-								onSelect={(value) => setData({...data, paymentDate: value})}
+								onSelect={(value) => setData({ ...data, paymentDate: value })}
 							/>
+							<View style={[styles.errorContainer, { marginLeft: 0, marginTop: 10 }]}>
+								{errors?.paymentDate && (
+									<HelperText type="error" visible={errors?.paymentDate}>
+										{errors?.paymentDate}
+									</HelperText>
+								)}
+							</View>
 						</View>
 						<View style={styles.selectionContainer}>
-							<PaymentSelect								
-								onSelect={(value) => setData({...data, paymentId: value})}
+							<PaymentSelect
+								onSelect={(type, id) => setData({ ...data, payment: { ...data.payment, type, id } })}
 							/>
+							<View style={[styles.errorContainer, { marginLeft: 0, marginTop: 10, marginBottom: 0 }]}>
+								{errors["payment.id"] || errors["payment.type"] ? (
+									<HelperText type="error" visible={errors["payment.id"] ? errors["payment.id"] : errors["payment.type"]}>
+										{errors["payment.id"] ? errors["payment.id"] : errors["payment.type"]}
+									</HelperText>
+								) : <></>}
+							</View>
 						</View>
 						<View style={[styles.selectionContainer, { marginTop: 10 }]}>
-							<RepeatCharge value={data.value} chargeType={TYPES[route.params.type]} setRepeatData={(option, unitOfMeasurement, time) => setData({ ...data, repeatCharge: { ...data.repeatCharge, option, unitOfMeasurement, time }})} />
+							<RepeatCharge value={data.value} chargeType={TYPES[route.params.type]} setRepeatData={(option, unitOfMeasurement, time) => setData({ ...data, repeatCharge: { ...data.repeatCharge, option, unitOfMeasurement, time } })} />
+						</View>
+						<View style={[styles.selectionContainer, { marginTop: 0, alignItems: 'flex-start' }]}>
+							<View style={{ flexDirection: 'row' }}>
+								<Switch value={status} onValueChange={setReleaseStatus} color={"#623aa7"} />
+								<Caption style={{ marginTop: 15, marginLeft: 10}}>Pago?</Caption>
+							</View>
 						</View>
 						<Button
 							title={`Salvar`}
-							loading={false}
+							loading={loading}
+							disabled={loading}
 							buttonStyle={styles.buttonStyle}
 							titleStyle={{ marginRight: 10 }}
 							onPress={create}
 						/>
-					</View>
+					</ScrollView>
 				</View>
 			</TouchableWithoutFeedback>
 		</>

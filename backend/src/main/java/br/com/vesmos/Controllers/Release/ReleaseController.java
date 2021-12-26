@@ -81,7 +81,7 @@ public class ReleaseController {
             return ResponseEntity.badRequest().body(new BaseMessageDTO(e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new BaseMessageDTO("Erro ao criar lançamento."));
+                    .body(new BaseMessageDTO(e.getMessage()));//"Erro ao criar lançamento."));
         }
     }
 

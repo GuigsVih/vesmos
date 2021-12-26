@@ -18,10 +18,10 @@ import br.com.vesmos.TransferObjects.Interfaces.ListCategoryDTO;
 public interface CategoryRepository extends JpaRepository<Category, Long>
 {
     final String FIND_BY_ID_AND_USER_ID = "SELECT * " +
-    "FROM categories c" +
+    "FROM categories c " +
     "WHERE c.id = :id " +
-    "AND c.user_id = :userId " +
-    "OR c.user_id IS NULL";
+    "AND (c.user_id = :userId " +
+    "OR c.user_id IS NULL)";
 
     final String FIND_BY_USER_ID_OR_NULL = "SELECT " +
     "c.id AS id, " +

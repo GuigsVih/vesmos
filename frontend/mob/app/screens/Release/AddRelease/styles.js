@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
 	},
 	descriptionInput: {
 		margin: 40,
-		marginTop: 10,
+		marginTop: 5,
 		marginBottom: 10,
 	},
 	currencyInput: {
@@ -52,8 +52,13 @@ export const styles = StyleSheet.create({
 	},
 	buttonStyle: { 
 		padding: 10, 
-		marginTop: 20,
+		marginTop: 5,
 		marginLeft: 40, 
 		width: 333 
+	},
+	errorContainer: { 
+		marginLeft: 40, 
+		marginTop: 15,
+		marginBottom: 0 
 	}
 });

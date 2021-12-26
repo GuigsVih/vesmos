@@ -1,14 +1,12 @@
 package br.com.vesmos.Validators.Release;
 
-import java.util.Optional;
+import java.util.Date;
 
+import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.hibernate.validator.constraints.Length;
-import org.springframework.lang.Nullable;
 
 import br.com.vesmos.Enum.StatusEnum;
 import br.com.vesmos.Enum.TypeEnum;
@@ -19,68 +17,58 @@ import br.com.vesmos.Validators.Annotations.Enum.ValidateEnum;
  * 
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
-public class ReleaseValidator 
-{    
+public class ReleaseValidator {
     @NotNull
-    @Length(max=255)
+    @Length(min = 1, max = 255)
     private String description;
-    
+
     @NotNull
-    @DecimalMin(value="0.01")
+    @DecimalMin(value = "0.01")
     private Double value;
-    
+
     @NotNull
-    @ValidateEnum(enumClass=StatusEnum.class)
+    private Date paymentDate;
+
+    @NotNull
+    @ValidateEnum(enumClass = StatusEnum.class)
     private String status;
 
     @NotNull
-    @ValidateEnum(enumClass=TypeEnum.class)
+    @ValidateEnum(enumClass = TypeEnum.class)
     private String type;
 
-    @JsonProperty("category_id")
     @NotNull
     private Long categoryId;
-    
-    @JsonProperty("account_id")
-    @Nullable
-    private Optional<Long> accountId;
 
-    @JsonProperty("credit_card_id")
-    @Nullable
-    private Optional<Long> creditCardId;
+    @NotNull
+    @Valid
+    private PaymentValidator payment;
 
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
-    public Double getValue()
-    {
+    public Double getValue() {
         return value;
     }
 
-    public TypeEnum getType()
-    {
+    public TypeEnum getType() {
         return TypeEnum.valueOf(type);
     }
 
-    public StatusEnum getStatus()
-    {
+    public StatusEnum getStatus() {
         return StatusEnum.valueOf(status);
     }
-    
-    public Long getCategoryId()
-    {
-        return categoryId;      
+
+    public Long getCategoryId() {
+        return categoryId;
     }
 
-    public Optional<Long> getCreditCardId()
-    {
-        return creditCardId;
+    public PaymentValidator getPayment() {
+        return payment;
     }
-    
-    public Optional<Long> getAccountId()
-    {
-        return accountId;
+
+    public Date getPaymentDate() {
+        return paymentDate;
     }
 }

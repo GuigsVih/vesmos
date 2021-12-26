@@ -15,7 +15,7 @@ export default function PaymentSelect({ onSelect }) {
 
 	const handlePayment = (data) => {
 		setPayment(data);
-		onSelect(data.id)
+		onSelect(data.type, data.id)
 		setModalVisible(false);
 	}
 

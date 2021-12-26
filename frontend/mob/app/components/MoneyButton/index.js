@@ -10,16 +10,19 @@ export default function MoneyButton({ navigation }) {
   const buttonSize = React.useRef(new Animated.Value(1)).current;
 
   const handleAddRelease = (type) => {
-    navigation.navigate("AddRelease", {
-      type: type
-    });
+    handlePress();
+    setTimeout(() => {
+      navigation.navigate("AddRelease", {
+        type: type
+      });
+    }, 100)
   }
 
   const handlePress = () => {
     Animated.sequence([
       Animated.timing(buttonSize, {
         toValue: 0.95,
-        duration: 200,
+        duration: 0.1,
         useNativeDriver: false
       }),
       Animated.timing(buttonSize, {

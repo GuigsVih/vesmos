@@ -30,6 +30,9 @@ export const styles = StyleSheet.create({
 	negative: {
 		color: "#ff525a"
 	},
+	positive: {
+		color: "#118C4F"
+	},
 	textRight: {
 		textAlign: 'right', 
 	}

@@ -2,9 +2,13 @@ package br.com.vesmos.Validators.Release;
 
 import java.util.Date;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -27,6 +31,8 @@ public class ReleaseValidator {
     private Double value;
 
     @NotNull
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, locale = "pt-BR", timezone = "Brazil/East")
     private Date paymentDate;
 
     @NotNull

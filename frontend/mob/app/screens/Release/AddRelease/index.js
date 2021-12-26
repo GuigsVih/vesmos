@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StatusBar, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { Text, View, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
 import CurrencyInput from 'react-native-currency-input';
 
 import { styles } from './styles';
@@ -12,10 +12,9 @@ import Button from '../../../components/Button';
 import schema from './schema';
 import { createYupErrorsObject } from '../../../core/helpers/createYupErrorsObject';
 import { Caption, HelperText, Switch } from 'react-native-paper';
-import { ScrollView } from 'react-native-gesture-handler';
 import { createRelease } from '../../../core/services/release';
-import { formatDate } from '../../../core/helpers/format';
 import { createRequestErrorObject } from '../../../core/helpers/createRequestErrorObject';
+import CustomSnackbar from '../../../components/CustomSnackbar';
 
 const TYPES = {
 	'expense': 'despesa',
@@ -30,6 +29,7 @@ const DEFAULT_VALUES = {
 	paymentId: "",
 	categoryId: "",
 	status: "PAID",
+	type: "EXPENSE",
 	payment: {
 		type: "",
 		id: ""
@@ -47,6 +47,8 @@ export default function AddRelease({ route, navigation }) {
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState(DEFAULT_VALUES);
 	const [status, setStatus] = useState(true);
+	const [snackbarVisible, setSnackbarVisible] = useState(false);
+	const [snackbarType, setSnackbarType] = useState();
 	const [borderColor, setBorderColor] = useState('rgba(0, 0, 0, 0.54)');
 
 	const onFocus = () => {
@@ -65,13 +67,15 @@ export default function AddRelease({ route, navigation }) {
 			const paymentDate = data.paymentDate.toISOString().split('T')[0];
 			const params = { ...data, ...{ paymentDate } };
 			const res = await createRelease(params);
-			console.log(res.data);
-
+            navigation.navigate("Home");
 		} catch (e) {
 			if (e.name === "ValidationError" && e.inner) {
 				setErrors(createYupErrorsObject(e));
 			} else if (e?.response?.status == 400) {
 				setErrors(createRequestErrorObject(e.response.data));
+			} else {
+				setSnackbarType("error");
+				setSnackbarVisible(true);
 			}
 		}
 		setLoading(false);
@@ -79,7 +83,7 @@ export default function AddRelease({ route, navigation }) {
 
 	const setReleaseStatus = (val) => {
 		setStatus(val);
-		setData({...data, status: getStatus(val) });
+		setData({ ...data, status: getStatus(val) });
 	}
 
 	const getStatus = (val) => {
@@ -88,6 +92,18 @@ export default function AddRelease({ route, navigation }) {
 		}
 		return "UNPAID";
 	}
+
+	const setType = (type) => {
+		if (type == 'expense') {
+			setData({ ...data, type: "EXPENSE" });
+		} else {
+			setData({ ...data, type: "REVENUE" });
+		}
+	}
+
+	useEffect(() => {
+		setType(route.params.type);
+	}, [route.params.type]);
 
 	return (
 		<>
@@ -100,7 +116,7 @@ export default function AddRelease({ route, navigation }) {
 					<View style={styles.releaseTypeContainer}>
 						<Text style={styles.typeText}>Nova {TYPES[route.params.type]}</Text>
 					</View>
-					<ScrollView style={styles.formContainer}>
+					<ScrollView style={styles.formContainer} contentContainerStyle={{ flexGrow: 1 }}>
 						<CurrencyInput
 							value={data.value}
 							onChangeValue={(value) => setData({ ...data, value: value })}
@@ -179,7 +195,7 @@ export default function AddRelease({ route, navigation }) {
 						<View style={[styles.selectionContainer, { marginTop: 0, alignItems: 'flex-start' }]}>
 							<View style={{ flexDirection: 'row' }}>
 								<Switch value={status} onValueChange={setReleaseStatus} color={"#623aa7"} />
-								<Caption style={{ marginTop: 15, marginLeft: 10}}>Pago?</Caption>
+								<Caption style={{ marginTop: 15, marginLeft: 10 }}>Pago?</Caption>
 							</View>
 						</View>
 						<Button
@@ -190,7 +206,14 @@ export default function AddRelease({ route, navigation }) {
 							titleStyle={{ marginRight: 10 }}
 							onPress={create}
 						/>
+						<View style={{ flex: 1, padding: 50 }}></View>
 					</ScrollView>
+					<CustomSnackbar
+						visible={snackbarVisible}
+						setVisible={setSnackbarVisible}
+						type={snackbarType}
+						message={`Erro ao criar ${TYPES[route.params.type]}`}
+					/>
 				</View>
 			</TouchableWithoutFeedback>
 		</>

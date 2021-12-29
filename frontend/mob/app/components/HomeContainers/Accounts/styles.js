@@ -13,14 +13,14 @@ export const styles = StyleSheet.create({
         marginTop: 10,
         fontFamily: "MavenPro-Bold"
     },
-    createCardContainer: {
+    createAccountContainer: {
         flex: 1,
         alignItems: "flex-end",
         justifyContent: "center",
         marginRight: 20,
         marginTop: 5
     },
-    createCardButton: {
+    createAccountButton: {
         padding: 5, 
         borderRadius: 50, 
         backgroundColor: "#009c49"
@@ -31,9 +31,13 @@ export const styles = StyleSheet.create({
 		borderRadius: 50,
         marginTop: 5
 	},
-    limit: {
-        fontSize: 10,
-        fontFamily: "MavenPro-Medium",
-        color: "#000"
+    alignBalance: {
+        flex: 10, 
+        alignItems: "flex-end",
+        justifyContent: "flex-end"
+    },
+    balanceText: {
+        color: "#000",
+        fontFamily: "MavenPro-Medium"
     }
 });

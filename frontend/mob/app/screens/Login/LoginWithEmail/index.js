@@ -45,7 +45,7 @@ export function LoginWithEmail({ loginAction, navigation }) {
             const res = await login(data);
             loginAction(res.data.token);
             setLoading(false);
-            navigation.navigate("Home");
+            navigation.navigate("BottomMenu");
         } catch (e) {
             setLoading(false);
             if (e.name === "ValidationError" && e.inner) {

@@ -29,7 +29,7 @@ export default function List({ focused, filterDate }) {
 	};
 
 	useEffect(() => {
-		getReleases();
+		focused && getReleases();
 	}, [focused, filterDate]);
 
 	return (

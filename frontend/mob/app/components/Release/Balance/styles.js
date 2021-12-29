@@ -28,9 +28,9 @@ export const styles = StyleSheet.create({
 		color: "#000"
 	},
 	arrowPosition: { 
-		flex: 1, 
 		alignItems: 'center', 
 		padding: 10, 
 		marginRight: 40,
+		paddingBottom: -10
 	}
 });

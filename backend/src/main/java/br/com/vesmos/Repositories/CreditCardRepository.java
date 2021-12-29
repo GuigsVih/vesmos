@@ -34,7 +34,7 @@ public interface CreditCardRepository extends JpaRepository<CreditCard, Long>
     "c.name AS name, " +
     "c.credit_limit AS creditLimit, " +
     "c.limit_used AS limitUsed, " +
-    "a.nickname AS accountNickname " +
+    "a.nickname AS accountNickname, " +
     "b.picture AS imgUrl " +
     "FROM credit_cards c " +
     "INNER JOIN accounts a " +

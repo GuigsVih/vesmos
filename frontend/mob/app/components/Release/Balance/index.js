@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { styles } from './styles';
 import { MaterialIcons, AntDesign, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Caption } from 'react-native-paper';
 import { fetchBalances } from '../../../core/services/balance';
 import { currencyFormat } from '../../../core/helpers/format';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function Balance({ filterDate, focused }) {
 
@@ -75,7 +76,7 @@ export default function Balance({ filterDate, focused }) {
 						<></>
 					}
 					<TouchableOpacity style={styles.arrowPosition} onPress={futureBalance}>
-						<AntDesign name={arrowIcon} size={14} color="black" />
+						<AntDesign name={arrowIcon} size={14} color="#000" />
 					</TouchableOpacity>
 				</>
 			) : <></>}

@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -23,7 +22,7 @@ import org.hibernate.annotations.UpdateTimestamp;
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
 @Entity
-@Table(name="credit_cards", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id"})})
+@Table(name="credit_cards")
 public class CreditCard 
 {
     @Id
@@ -40,7 +39,7 @@ public class CreditCard
     private double limitUsed;
     
     @ManyToOne
-    @JoinColumn(name="account_id", referencedColumnName = "id")
+    @JoinColumn(name="account_id")
     private Account account;
 
     @ManyToOne

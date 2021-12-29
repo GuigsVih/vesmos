@@ -28,7 +28,7 @@ export default function Home({ navigation }) {
             <View style={styles.welcomeContainer}>
                 <Image source={DefaultUserIcon} style={styles.userImg} />
                 <View style={{ alignSelf: "flex-end", marginBottom: 15 }}>
-                    <Text style={styles.welcomeText}>Bem vindo,</Text>
+                    <Text style={styles.welcomeText}>Olá,</Text>
                     <Text style={styles.welcomeText}>Guilherme!</Text>
                 </View>
             </View>

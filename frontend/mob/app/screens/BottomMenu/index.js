@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Home from '../Home';
 import User from '../User';
-import Charts from '../Charts';
+import Savings from '../Savings';
 import ReleasesList from '../Release/ReleasesList';
 import ChooseRelease from '../Release/ChooseRelease';
 import MoneyButton from '../../components/MoneyButton';
@@ -26,9 +26,9 @@ const routes = {
         icon: "plus",
         size: 40
     },
-    "Charts": {
-        icon: "linechart",
-        size: 25
+    "Savings": {
+        icon: "inbox",
+        size: 33
     },
     "User": {
         icon: "user",
@@ -69,7 +69,7 @@ export default function BottomMenu({ navigation }) {
                         e.preventDefault();
                     },
                 }} />
-            <Tab.Screen name="Charts" component={Charts} />
+            <Tab.Screen name="Savings" component={Savings} />
             <Tab.Screen name="User" component={User} />
         </Tab.Navigator>
     );

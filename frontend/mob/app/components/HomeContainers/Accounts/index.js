@@ -8,6 +8,7 @@ import NuBank from '../../../../assets/icon/banks/nubank.png';
 import Bradesco from '../../../../assets/icon/banks/bradesco.png';
 import { currencyFormat } from '../../../core/helpers/format';
 import { fetchAccountsUsage } from '../../../core/services/account';
+import Button from '../../Button';
 
 const ACCOUNT_TYPE = {
     "CURRENT": "Conta corrente",
@@ -36,11 +37,12 @@ export default function Accounts({ focused }) {
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.title}>Contas bancárias</Text>
                     <View style={styles.createAccountContainer}>
-                        <TouchableOpacity>
+                        {accounts.length > 0 && <TouchableOpacity>
                             <View style={styles.createAccountButton}>
                                 <AntDesign name="plus" size={13} color="#fff" />
                             </View>
                         </TouchableOpacity>
+                        }
                     </View>
                 </View>
                 <Divider />
@@ -52,22 +54,32 @@ export default function Accounts({ focused }) {
                                 <View style={idx > 0 ? { marginTop: 10 } : { marginBottom: 15 }}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <View>
-                                        <Image source={idx > 0 ? NuBank: Bradesco} style={styles.bankImg} />
+                                            <Image source={idx > 0 ? NuBank : Bradesco} style={styles.bankImg} />
                                         </View>
                                         <View style={{ marginLeft: 12 }}>
                                             <Caption>{ACCOUNT_TYPE[account.accountType]}</Caption>
                                             <Text>{account.nickname}</Text>
                                         </View>
                                         <View style={styles.alignBalance}>
-                                        <Text style={styles.balanceText}>
-                                            {currencyFormat(account.balance)}
-                                        </Text>
+                                            <Text style={styles.balanceText}>
+                                                {currencyFormat(account.balance)}
+                                            </Text>
                                         </View>
                                     </View>
                                 </View>
                             </React.Fragment>
                         ))
-                        : <></>}
+                        : <View>
+                            <Caption
+                                style={{ textAlign: "center" }}>
+                                Você não possui contas bancárias cadastradas. Clique no botão abaixo para criar uma conta!
+                            </Caption>
+                            <Button
+                                title={"Criar conta"}
+                                titleStyle={{ marginRight: 50 }}
+                                buttonStyle={{ padding: 7, marginTop: 20 }}
+                            />
+                        </View>}
                 </View>
             </View>
         </View>

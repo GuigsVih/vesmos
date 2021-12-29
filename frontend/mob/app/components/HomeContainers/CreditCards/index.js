@@ -4,10 +4,11 @@ import { Caption, Divider } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
 
 import { styles } from './styles';
-import Bradesco from '../../../../assets/icon/banks/bradesco.png';
-import NuBank from '../../../../assets/icon/banks/nubank.png';
-import { fetchCreditCardsUsage } from '../../../core/services/creditCard';
 import { currencyFormat } from '../../../core/helpers/format';
+import NuBank from '../../../../assets/icon/banks/nubank.png';
+import Bradesco from '../../../../assets/icon/banks/bradesco.png';
+import { fetchCreditCardsUsage } from '../../../core/services/creditCard';
+import Button from '../../Button';
 
 export default function CreditCards({ focused }) {
 
@@ -32,11 +33,13 @@ export default function CreditCards({ focused }) {
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.title}>Cartões de crédito</Text>
                     <View style={styles.createCardContainer}>
-                        <TouchableOpacity>
-                            <View style={styles.createCardButton}>
-                                <AntDesign name="plus" size={13} color="#fff" />
-                            </View>
-                        </TouchableOpacity>
+                        {creditCards.length > 0 &&
+                            <TouchableOpacity>
+                                <View style={styles.createCardButton}>
+                                    <AntDesign name="plus" size={13} color="#fff" />
+                                </View>
+                            </TouchableOpacity>
+                        }
                     </View>
                 </View>
                 <Divider />
@@ -66,7 +69,17 @@ export default function CreditCards({ focused }) {
                                 </View>
                             </React.Fragment>
                         ))
-                        : <></>}
+                        : <View>
+                            <Caption
+                                style={{ textAlign: "center" }}>
+                                Você não possui cartões cadastrados. Clique no botão abaixo para criar um cartão!
+                            </Caption>
+                            <Button
+                                title={"Criar cartão"}
+                                titleStyle={{ marginRight: 50 }}
+                                buttonStyle={{ padding: 7, marginTop: 20 }} 
+                            />
+                        </View>}
                 </View>
             </View>
         </View>

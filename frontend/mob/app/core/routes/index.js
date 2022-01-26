@@ -3,9 +3,10 @@ import { useAuth } from '../hooks/auth';
 import { createStackNavigator } from '@react-navigation/stack';
 import BottomMenu from '../../screens/BottomMenu';
 import Login from '../../screens/Login';
-import CreateAccount from '../../screens/CreateAccount';
+import CreateUser from '../../screens/CreateUser';
 import AddRelease from '../../screens/Release/AddRelease';
 import LoginWithEmail from '../../screens/Login/LoginWithEmail';
+import CreateCreditCard from '../../screens/CreditCard/CreateCreditCard';
 
 const Stack = createStackNavigator();
 
@@ -32,8 +33,8 @@ export default function Routes() {
 					}}
 				/>
 				<Stack.Screen
-					name="CreateAccount"
-					component={CreateAccount}
+					name="CreateUser"
+					component={CreateUser}
 					options={{
 						title: "",
 						headerStyle: { backgroundColor: '#ffffff', borderBottomWidth: 0 }
@@ -56,6 +57,15 @@ export default function Routes() {
 				<Stack.Screen
 					name="AddRelease"
 					component={AddRelease}
+					options={{
+						title: "",
+						headerTintColor: "#fff",
+						headerStyle: { backgroundColor: '#623aa7', borderBottomWidth: 0, elevation: 0, shadowOpacity: 0 }
+					}}
+				/>
+				<Stack.Screen
+					name="CreateCreditCard"
+					component={CreateCreditCard}
 					options={{
 						title: "",
 						headerTintColor: "#fff",

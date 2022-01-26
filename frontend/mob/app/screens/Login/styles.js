@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
         color: "#fff",
         marginLeft: 15
     },
-    createAccount: {
+    createUser: {
         fontWeight: "700",
         marginTop: 50
     },

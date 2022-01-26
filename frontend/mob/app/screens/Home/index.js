@@ -33,7 +33,10 @@ export default function Home({ navigation }) {
                 </View>
             </View>
             <View style={{ marginTop: 15 }}>
-                <CreditCards focused={isFocused} />
+                <CreditCards 
+                    focused={isFocused} 
+                    navigation={navigation}
+                />
             </View>
             <View style={{ marginTop: 30 }}>
                 <Accounts focused={isFocused} />

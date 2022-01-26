@@ -10,7 +10,7 @@ import Bradesco from '../../../../assets/icon/banks/bradesco.png';
 import { fetchCreditCardsUsage } from '../../../core/services/creditCard';
 import Button from '../../Button';
 
-export default function CreditCards({ focused }) {
+export default function CreditCards({ focused, navigation }) {
 
     const [creditCards, setCreditCards] = useState([]);
 
@@ -34,7 +34,7 @@ export default function CreditCards({ focused }) {
                     <Text style={styles.title}>Cartões de crédito</Text>
                     <View style={styles.createCardContainer}>
                         {creditCards.length > 0 &&
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate("CreateCreditCard")}>
                                 <View style={styles.createCardButton}>
                                     <AntDesign name="plus" size={13} color="#fff" />
                                 </View>

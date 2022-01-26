@@ -9,7 +9,7 @@ import { HelperText, TextInput } from 'react-native-paper';
 import { createYupErrorsObject } from '../../core/helpers/createYupErrorsObject';
 import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Keyboard } from 'react-native';
-import { createAccount } from '../../core/services/user';
+import { createUser } from '../../core/services/user';
 import Logo from '../../components/Logo';
 
 const INITIAL_DATA = {
@@ -24,7 +24,7 @@ const INITIAL_SECURITY = {
     confirmPassword: true
 };
 
-export default function CreateAccount() {
+export default function CreateUser() {
     const [data, setData] = useState(INITIAL_DATA);
     const [error, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
@@ -35,7 +35,7 @@ export default function CreateAccount() {
         try {
             await schema.validate(data, { abortEarly: false });
             setLoading(true);
-            await createAccount(data);
+            await createUser(data);
         } catch (e) {
             setLoading(false);
             if (e.name === "ValidationError" && e.inner) {

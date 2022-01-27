@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
     content: {
         padding: 20,
-        height: '70%',
+        height: '40%',
         borderTopLeftRadius: 50,
         borderTopRightRadius: 50,
         backgroundColor: 'white',

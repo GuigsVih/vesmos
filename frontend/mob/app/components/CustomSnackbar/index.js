@@ -12,7 +12,7 @@ const TYPE_STYLES = {
         "textColor": "#0f5132"
     }
 }
-export default function CustomSnackbar({ type = "error", visible, setVisible, message }) {
+export default function CustomSnackbar({ type = "error", visible, setVisible, message, style }) {
     return (
         <Snackbar
             visible={visible}
@@ -23,7 +23,7 @@ export default function CustomSnackbar({ type = "error", visible, setVisible, me
                     setVisible(false)
                 },
             }}
-            style={{ backgroundColor: TYPE_STYLES[type]["backgroundColor"] }}
+            style={{ backgroundColor: TYPE_STYLES[type]["backgroundColor"], ...style }}
             theme={{ colors: { surface: TYPE_STYLES[type]["textColor"], accent: TYPE_STYLES[type]["backgroundColor"] } }}>
             {message}
         </Snackbar>

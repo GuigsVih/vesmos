@@ -58,7 +58,6 @@ public class ReleaseConvertService
         if (payment.getType().equals("accounts")) {
             release.setAccount(accountService.findByIdAndUserId(payment.getId()));            
         } else {
-            System.out.println("here");
             release.setCreditCard(creditCardService.findByIdAndUserId(payment.getId()));
         }
 

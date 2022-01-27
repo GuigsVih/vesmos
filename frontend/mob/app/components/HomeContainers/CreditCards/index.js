@@ -49,7 +49,7 @@ export default function CreditCards({ focused, navigation }) {
                             <React.Fragment key={idx}>
                                 {idx > 0 ? <Divider /> : <></>}
                                 <View style={idx > 0 ? { marginTop: 10 } : { marginBottom: 15 }}>
-                                    <View style={{ flexDirection: 'row' }}>
+                                    <View style={[{ flexDirection: 'row'}, idx > 0 && { marginBottom: 15 }]}>
                                         <View style={{ flexDirection: 'row' }}>
                                             <Image source={idx > 0 ? NuBank : Bradesco} style={styles.bankImg} />
                                             <View style={{ marginLeft: 12 }}>

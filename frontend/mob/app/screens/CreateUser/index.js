@@ -32,16 +32,16 @@ export default function CreateUser() {
 
     const onHandle = async () => {
         setErrors({});
+        setLoading(true);
         try {
             await schema.validate(data, { abortEarly: false });
-            setLoading(true);
             await createUser(data);
         } catch (e) {
-            setLoading(false);
             if (e.name === "ValidationError" && e.inner) {
                 setErrors(createYupErrorsObject(e));
             }
         }
+        setLoading(false);
     }
 
     return (

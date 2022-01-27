@@ -20,13 +20,13 @@ public interface CreditCardRepository extends JpaRepository<CreditCard, Long>
     final String FIND_BY_USER_ID = "SELECT " +
     "c.id, " +
     "c.name AS name, " +
-    "b.picture AS imgUrl, " +
+    "cp.picture AS imgUrl, " +
     "'credit_cards' AS type " +
     "FROM credit_cards c " +
     "INNER JOIN accounts a " +
     "ON a.id = c.account_id " +
-    "INNER JOIN banks b " +
-    "ON b.id = a.bank_id " +
+    "INNER JOIN companies cp " +
+    "ON cp.id = a.company_id " +
     "WHERE " +
     "c.user_id = :userId";
 
@@ -35,12 +35,12 @@ public interface CreditCardRepository extends JpaRepository<CreditCard, Long>
     "c.credit_limit AS creditLimit, " +
     "c.limit_used AS limitUsed, " +
     "a.nickname AS accountNickname, " +
-    "b.picture AS imgUrl " +
+    "cp.picture AS imgUrl " +
     "FROM credit_cards c " +
     "INNER JOIN accounts a " +
     "ON a.id = c.account_id " +
-    "INNER JOIN banks b " +
-    "ON b.id = a.bank_id " +
+    "INNER JOIN companies cp " +
+    "ON cp.id = a.company_id " +
     "WHERE " +
     "c.user_id = :userId";
     

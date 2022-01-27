@@ -23,12 +23,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 import br.com.vesmos.Enum.AccountTypeEnum;
 
 /**
- * User banks model
+ * User accounts
  * 
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
 @Entity
-@Table(name="accounts", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "bank_id"})})
+@Table(name="accounts", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "company_id"})})
 public class Account implements Serializable
 {
 
@@ -47,8 +47,8 @@ public class Account implements Serializable
     private double balance;
     
     @ManyToOne
-    @JoinColumn(name="bank_id", referencedColumnName = "id")
-    private Bank bank;
+    @JoinColumn(name="company_id", referencedColumnName = "id")
+    private Company company;
 
     @ManyToOne
     @JoinColumn(name="user_id", referencedColumnName = "id")

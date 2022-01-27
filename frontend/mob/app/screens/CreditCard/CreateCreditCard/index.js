@@ -7,12 +7,14 @@ import { styles } from './styles';
 import Input from '../../../components/Input';
 import CurrencyInput from 'react-native-currency-input';
 import Button from '../../../components/Button';
+import AccountSelect from '../../../components/Account/AccountSelect';
 
 const DEFAULT_DATA = {
     nickname: "",
     value: null,
     closure: null,
-    dueDate: null
+    dueDate: null,
+    accountId: null
 }
 
 export default function CreateCreditCard() {
@@ -31,6 +33,7 @@ export default function CreateCreditCard() {
 
     const create = () => {
         setLoading(true);
+        setLoading(false);
 
     }
 
@@ -58,21 +61,30 @@ export default function CreateCreditCard() {
                     onFocus={() => onFocus()}
                     style={[styles.currencyInput, { borderColor: borderColor, borderWidth: borderColor == '#731cef' ? 2 : 1 }]}
                 />
-                <View>
-                    <View>
+                <View style={{ marginTop: 15 }}>
+                    <View style={{ flexDirection: 'row' }}>
                         <Input
                             label={"Fechamento"}
                             mode={'outlined'}
                             value={data.closure}
+                            keyboardType={'number-pad'}
+                            style={{ width: 150 }}
                             onChange={(value) => setData({ ...data, closure: value })}
                         />
                         <Input
                             label={"Vencimento"}
                             mode={'outlined'}
                             value={data.dueDate}
+                            keyboardType={'number-pad'}
+                            style={{ width: 150, marginLeft: 52 }}
                             onChange={(value) => setData({ ...data, dueDate: value })}
                         />
                     </View>
+                </View>
+                <View style={{ marginTop: 20 }}>
+                    <AccountSelect                     
+						onSelect={(value) => setData({ ...data, accountId: value })}
+                    />
                 </View>
                 <Button
                     title={"Salvar"}

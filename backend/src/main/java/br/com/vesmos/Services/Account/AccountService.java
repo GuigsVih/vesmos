@@ -12,7 +12,7 @@ import br.com.vesmos.Repositories.AccountRepository;
 import br.com.vesmos.Services.Auth.AuthenticationService;
 
 /**
- * Bank service
+ * Company service
  * 
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
@@ -31,7 +31,7 @@ public class AccountService
      * @param Optional<Long> id
      * @param Long userId
      * 
-     * @return Bank
+     * @return Account
      */
     public Account findByIdAndUserId(Optional<Long> id) throws RegisterDoesNotExistsException
     {

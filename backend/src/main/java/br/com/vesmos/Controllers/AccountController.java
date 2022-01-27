@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.vesmos.Models.User;
 import br.com.vesmos.Repositories.AccountRepository;
 import br.com.vesmos.Services.Auth.AuthenticationService;
+import br.com.vesmos.TransferObjects.Interfaces.ListPaymentMethodDTO;
 import br.com.vesmos.TransferObjects.Interfaces.Payment.AccountUsageDTO;
 
 /**
@@ -27,6 +28,16 @@ public class AccountController
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @GetMapping
+    public ResponseEntity<?> getAccounts()
+    {
+        User user = authService.getAuthenticatedUser();
+        List<ListPaymentMethodDTO> accounts = accountRepository.findByUserId(user.getId());
+
+        return ResponseEntity.ok().body(accounts);
+
+    }
 
     @GetMapping("/usage")
     public ResponseEntity<?> getAccountsUsage()

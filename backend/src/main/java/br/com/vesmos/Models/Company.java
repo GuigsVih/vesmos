@@ -17,13 +17,13 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 /**
- * Bank model
+ * Company model
  * 
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
 @Entity
-@Table(name="banks")
-public class Bank 
+@Table(name="companies")
+public class Company 
 {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -45,7 +45,7 @@ public class Bank
     @UpdateTimestamp
     private Date updatedAt;
 
-    @OneToMany(mappedBy="bank")
+    @OneToMany(mappedBy="company")
     private List<Account> account;
 
 }

@@ -48,6 +48,7 @@ public class CreateAccountValidator
         user.setName(getName());
         user.setEmail(getEmail());
         user.setPassword(getPassword());
+        user.setActive(true);
 
         return user;
     }

@@ -18,8 +18,7 @@ export const styles = StyleSheet.create({
 		borderRadius: 4,
         paddingBottom: 7,
         fontWeight: "400",
-		backgroundColor: "#f6f6f6",
-        fontFamily: 'Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif',
+		backgroundColor: "#f6f6f6"
 	},
 	buttonStyle: { 
 		padding: 10, 

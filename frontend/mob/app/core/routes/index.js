@@ -6,7 +6,7 @@ import Login from '../../screens/Login';
 import CreateUser from '../../screens/CreateUser';
 import AddRelease from '../../screens/Release/AddRelease';
 import LoginWithEmail from '../../screens/Login/LoginWithEmail';
-import CreateCreditCard from '../../screens/CreditCard/CreateCreditCard';
+import CreateCreditCard from '../../screens/CreateCreditCard';
 
 const Stack = createStackNavigator();
 

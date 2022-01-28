@@ -18,48 +18,43 @@ export const styles = StyleSheet.create({
 			width: 1
 		}
 	},
-	releaseTypeContainer: {
-		padding: 20,
-		backgroundColor: '#623aa7'
-	},
-	typeText: {
+	title: {
 		fontSize: 25,
 		fontFamily: 'FuturaPT-Medium',
 		marginLeft: 20,
 		color: "#fff",
 	},
-	descriptionInput: {
+	titleContainer: {
+		padding: 20,
+		backgroundColor: '#623aa7'
+	},
+	currencyInput: {
+		margin: 40,
+		marginTop: 15,
+		marginBottom: 0,
+        fontSize: 16,
+        paddingTop: 7,
+        paddingLeft: 15,
+		borderRadius: 4,
+        paddingBottom: 7,
+        fontWeight: "400",
+		backgroundColor: "#f6f6f6"
+	},
+	buttonStyle: { 
+		padding: 8, 
+		marginTop: 25,
+        marginLeft: 38,
+        width: 333
+	},
+    input: {
 		margin: 40,
 		marginTop: 5,
 		marginBottom: 10,
 		borderRadius: 50
 	},
-	currencyInput: {
-		borderRadius: 4,
-		margin: 40,
-		marginTop: 30,
-		marginBottom: 0,
-		paddingLeft: 10,
-		paddingTop: 23,
-		paddingBottom: 23,
-		fontSize: 40,
-		fontFamily: "MavenPro-Regular",
-		backgroundColor: "#f6f6f6"
-	},
-	selectionContainer: {
-		margin: 40, 
-		marginTop: 0, 
-		marginBottom: 10
-	},
-	buttonStyle: { 
-		padding: 10, 
-		marginTop: 5,
-		marginLeft: 40, 
-		width: 333 
-	},
-	errorContainer: { 
-		marginLeft: 40, 
-		marginTop: 15,
-		marginBottom: 0 
-	}
+    accountContainer: { 
+        marginTop: 20, 
+        margin: 40, 
+        marginBottom: 0 
+    }
 });

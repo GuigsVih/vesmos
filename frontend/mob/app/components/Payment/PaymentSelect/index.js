@@ -7,6 +7,7 @@ import { TouchableOpacity, View, Text } from 'react-native';
 import { styles } from './styles';
 import PaymentModal from '../PaymentModal';
 import Bradesco from '../../../../assets/icon/banks/bradesco.png';
+import { env } from '../../../core/environment';
 
 export default function PaymentSelect({ onSelect }) {
 
@@ -27,7 +28,7 @@ export default function PaymentSelect({ onSelect }) {
 						{payment && Object.keys(payment).length > 0 ?
 							<>
 								<View style={{ flex: 1, flexDirection: 'row' }}>
-									<Image source={Bradesco} style={styles.bankImg} />
+									<Image source={{ uri: `${env.apiUrl}/${payment.imgUrl}` }} style={styles.bankImg} />
 									<Caption style={{ fontSize: 13, color: "#000", marginLeft: 10, marginTop: 5 }}>{payment.name}</Caption>
 								</View>
 							</>

@@ -1,9 +1,8 @@
 import axios from 'axios';
+import { env } from '../environment';
 
 export default axios.create({
-    baseURL: process.env.NODE_ENV === 'development'
-        ? 'http://192.168.15.138:8080'
-        : '',
+    baseURL: env.apiUrl,
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'

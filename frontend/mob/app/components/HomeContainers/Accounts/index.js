@@ -4,11 +4,10 @@ import { Caption, Divider } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
 
 import { styles } from './styles';
-import NuBank from '../../../../assets/icon/banks/nubank.png';
-import Bradesco from '../../../../assets/icon/banks/bradesco.png';
 import { currencyFormat } from '../../../core/helpers/format';
 import { fetchAccountsUsage } from '../../../core/services/account';
 import Button from '../../Button';
+import { env } from '../../../core/environment';
 
 const ACCOUNT_TYPE = {
     "CURRENT": "Conta corrente",
@@ -54,7 +53,7 @@ export default function Accounts({ focused }) {
                                 <View style={idx > 0 ? { marginTop: 10 } : { marginBottom: 15 }}>
                                     <View style={{ flexDirection: 'row' }}>
                                         <View>
-                                            <Image source={idx > 0 ? NuBank : Bradesco} style={styles.bankImg} />
+                                            <Image source={{uri: `${env.apiUrl}/${account.imgUrl}`}} style={styles.bankImg} />
                                         </View>
                                         <View style={{ marginLeft: 12 }}>
                                             <Caption>{ACCOUNT_TYPE[account.accountType]}</Caption>

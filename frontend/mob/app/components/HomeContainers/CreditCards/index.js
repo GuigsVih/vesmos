@@ -9,6 +9,7 @@ import NuBank from '../../../../assets/icon/banks/nubank.png';
 import Bradesco from '../../../../assets/icon/banks/bradesco.png';
 import { fetchCreditCardsUsage } from '../../../core/services/creditCard';
 import Button from '../../Button';
+import { env } from '../../../core/environment';
 
 export default function CreditCards({ focused, navigation }) {
 
@@ -51,7 +52,7 @@ export default function CreditCards({ focused, navigation }) {
                                 <View style={idx > 0 ? { marginTop: 10 } : { marginBottom: 15 }}>
                                     <View style={[{ flexDirection: 'row'}, idx > 0 && { marginBottom: 15 }]}>
                                         <View style={{ flexDirection: 'row' }}>
-                                            <Image source={idx > 0 ? NuBank : Bradesco} style={styles.bankImg} />
+                                            <Image source={{ uri: `${env.apiUrl}/${creditCard.imgUrl}`}} style={styles.bankImg} />
                                             <View style={{ marginLeft: 12 }}>
                                                 <Caption>{creditCard.accountNickname}</Caption>
                                                 <Text>{creditCard.name}</Text>

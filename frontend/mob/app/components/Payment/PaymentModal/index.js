@@ -8,6 +8,7 @@ import { fetchPaymentMethods } from '../../../core/services/payment';
 import NuBank from '../../../../assets/icon/banks/nubank.png';
 import Bradesco from '../../../../assets/icon/banks/bradesco.png';
 import { styles } from './styles';
+import { env } from '../../../core/environment';
 
 const PAYMENT_TYPES = {
 	"credit_cards": "Cartões de Crédito",
@@ -64,11 +65,7 @@ export default function PaymentModal({ visible, setVisible, handlePayment }) {
 															<View style={{ flexDirection: 'row' }}>
 																<View style={{ marginLeft: 10, marginTop: 10 }}>
 																	<View style={{ flex: 1, flexDirection: 'row' }}>
-																		{index > 0 ?
-																			<Image source={Bradesco} style={styles.bankImg} />
-																			:
-																			<Image source={NuBank} style={styles.bankImg} />
-																		}
+																		<Image source={{ uri: `${env.apiUrl}/${data.imgUrl}`}} style={styles.bankImg} />
 																		<Text style={styles.name}>{data.name}</Text>
 																	</View>
 																</View>

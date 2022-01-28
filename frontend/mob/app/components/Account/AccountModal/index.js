@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text } from 'react-native';
+
 import Modal from "react-native-modal";
+import { Image } from 'react-native-elements';
 import { Caption, Divider } from 'react-native-paper';
+import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text } from 'react-native';
 
 import { styles } from './styles';
+import { env } from '../../../core/environment';
 import { fetchAccounts } from '../../../core/services/account';
-import Bradesco from '../../../../assets/icon/banks/bradesco.png';
-import { Image } from 'react-native-elements';
 
 export default function AccountModal({ visible, setVisible, handleAccount }) {
 
@@ -46,7 +47,7 @@ export default function AccountModal({ visible, setVisible, handleAccount }) {
                                 <TouchableOpacity key={index} onPress={() => handleAccount(data)} >
                                     <View style={{ marginTop: 20, marginBottom: 10 }}>
                                         <View style={{ flexDirection: 'row' }}>
-                                            <Image source={Bradesco} style={styles.bankImg} />
+                                            <Image source={{uri: `${env.apiUrl}/${data.imgUrl}`}} style={styles.bankImg} />
                                             <View style={{ marginLeft: 10, marginTop: 0 }}>
                                                 <Text style={styles.name}>{data.name}</Text>
                                             </View>

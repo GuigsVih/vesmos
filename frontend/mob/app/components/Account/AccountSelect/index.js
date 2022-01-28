@@ -9,6 +9,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { styles } from './styles';
 import AccountModal from '../AccountModal';
 import Bradesco from '../../../../assets/icon/banks/bradesco.png';
+import { env } from '../../../core/environment';
 
 export default function AccountSelect({ onSelect }) {
 
@@ -28,7 +29,7 @@ export default function AccountSelect({ onSelect }) {
                     <View style={{ flexDirection: 'row' }}>
                         {account && Object.keys(account).length > 0 ?
                             <View style={{ flex: 1, flexDirection: 'row', marginLeft: 5 }}>
-                                <Image source={Bradesco} style={styles.bankImg} />
+                                <Image source={{ uri: `${env.apiUrl}/${account.imgUrl}`}} style={styles.bankImg} />
                                 <Caption style={styles.accountName}>{account.name}</Caption>
                             </View>
                             :

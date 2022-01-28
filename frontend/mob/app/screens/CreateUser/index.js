@@ -11,6 +11,10 @@ import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handl
 import { Keyboard } from 'react-native';
 import { createUser } from '../../core/services/user';
 import Logo from '../../components/Logo';
+import { login } from '../../core/services/auth';
+import { injectIntl } from 'react-intl';
+import { connect } from 'react-redux';
+import * as auth from '../../core/redux/Auth';
 
 const INITIAL_DATA = {
     name: "",
@@ -24,7 +28,7 @@ const INITIAL_SECURITY = {
     confirmPassword: true
 };
 
-export default function CreateUser() {
+export function CreateUser({ loginAction, navigation }) {
     const [data, setData] = useState(INITIAL_DATA);
     const [error, setErrors] = useState({});
     const [loading, setLoading] = useState(false);
@@ -36,6 +40,13 @@ export default function CreateUser() {
         try {
             await schema.validate(data, { abortEarly: false });
             await createUser(data);
+            const args = {
+                email: data.email,
+                password: data.password
+            }
+            const res = await login(args);
+            loginAction(res.data.token);
+            navigation.navigate("BottomMenu");
         } catch (e) {
             if (e.name === "ValidationError" && e.inner) {
                 setErrors(createYupErrorsObject(e));
@@ -125,3 +136,5 @@ export default function CreateUser() {
         </View>
     );
 }
+
+export default injectIntl(connect(null, auth.actions)(CreateUser));

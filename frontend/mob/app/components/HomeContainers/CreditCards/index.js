@@ -79,6 +79,7 @@ export default function CreditCards({ focused, navigation }) {
                                 title={"Criar cartão"}
                                 titleStyle={{ marginRight: 50 }}
                                 buttonStyle={{ padding: 7, marginTop: 20 }} 
+                                onPress={() => navigation.navigate("CreateCreditCard")}
                             />
                         </View>}
                 </View>

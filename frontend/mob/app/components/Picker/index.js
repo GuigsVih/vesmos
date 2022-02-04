@@ -20,7 +20,11 @@ export default function Picker({ value, setValue, label, items }) {
 				<View style={[styles.container, { padding: 10 }]}>
 					<View style={{ flexDirection: 'row' }}>
 						<>
-							<Text style={styles.text}>{items[value] ? items[value] : label}</Text>
+							{items[value] ?
+								<Text style={styles.text}>{items[value]}</Text>
+								:
+								<Text style={styles.label}>{label}</Text>
+							}
 							<View style={styles.toEnd}>
 								<AntDesign style={{ marginTop: 4 }} name="down" size={15} color="#737373" />
 							</View>

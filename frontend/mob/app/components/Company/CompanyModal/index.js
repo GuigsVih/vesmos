@@ -7,16 +7,16 @@ import { View, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text } from
 
 import { styles } from './styles';
 import { env } from '../../../core/environment';
-import { fetchAccounts } from '../../../core/services/account';
+import { fetchCompanies } from '../../../core/services/company';
 
-export default function AccountModal({ visible, setVisible, handleAccount }) {
+export default function CompanyModal({ visible, setVisible, handleCompany }) {
 
-    const [accounts, setAccounts] = useState([]);
+    const [companies, setCompanies] = useState([]);
 
-    const getAccounts = async () => {
+    const getCompanies = async () => {
         try {
-            const res = await fetchAccounts();
-            setAccounts(res.data);
+            const res = await fetchCompanies();
+            setCompanies(res.data);
         } catch (e) {
             //
         }
@@ -24,7 +24,7 @@ export default function AccountModal({ visible, setVisible, handleAccount }) {
 
     useEffect(() => {
         if (visible) {
-            getAccounts();
+            getCompanies();
         }
     }, [visible]);
 
@@ -40,13 +40,13 @@ export default function AccountModal({ visible, setVisible, handleAccount }) {
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                     <View style={styles.content}>
-						<Text style={styles.title}>Conta de pagamento</Text>
-                        {accounts.length > 0 ? (
-                            accounts.map((data, index) => (
-                                <TouchableOpacity key={index} onPress={() => handleAccount(data)} >
+						<Text style={styles.title}>Instituição</Text>
+                        {companies.length > 0 ? (
+                            companies.map((data, index) => (
+                                <TouchableOpacity key={index} onPress={() => handleCompany(data)} >
                                     <View style={{ marginTop: 20, marginBottom: 10 }}>
                                         <View style={{ flexDirection: 'row' }}>
-                                            <Image source={{uri: `${env.apiUrl}/${data.imgUrl}`}} style={styles.bankImg} />
+                                            <Image source={{uri: `${env.apiUrl}/${data.picture}`}} style={styles.bankImg} />
                                             <View style={{ marginLeft: 10, marginTop: 0 }}>
                                                 <Text style={styles.name}>{data.name}</Text>
                                             </View>
@@ -59,7 +59,7 @@ export default function AccountModal({ visible, setVisible, handleAccount }) {
                             ))
                         ) :
                             <View style={styles.alignCenter}>
-                                <Caption>Nenhuma conta encontrada</Caption>
+                                <Caption>Nenhuma instituição encontrada</Caption>
                             </View>
                         }
                     </View>

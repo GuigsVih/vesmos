@@ -1,5 +1,9 @@
 import api from './api';
 
+export const createAccount = (params) => {
+    return api.post("account", params);
+}
+
 export const fetchAccounts = () => {
     return api.get("account");
 }

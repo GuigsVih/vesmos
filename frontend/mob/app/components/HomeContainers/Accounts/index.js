@@ -13,7 +13,7 @@ const ACCOUNT_TYPE = {
     "CURRENT": "Conta corrente",
     "SAVINGS": "Conta poupança"
 }
-export default function Accounts({ focused }) {
+export default function Accounts({ focused, navigation }) {
 
     const [accounts, setAccounts] = useState([]);
 
@@ -36,11 +36,12 @@ export default function Accounts({ focused }) {
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={styles.title}>Contas bancárias</Text>
                     <View style={styles.createAccountContainer}>
-                        {accounts.length > 0 && <TouchableOpacity>
-                            <View style={styles.createAccountButton}>
-                                <AntDesign name="plus" size={13} color="#fff" />
-                            </View>
-                        </TouchableOpacity>
+                        {accounts.length > 0 &&
+                            <TouchableOpacity onPress={() => navigation.navigate("CreateAccount")}>
+                                <View style={styles.createAccountButton}>
+                                    <AntDesign name="plus" size={13} color="#fff" />
+                                </View>
+                            </TouchableOpacity>
                         }
                     </View>
                 </View>
@@ -51,9 +52,9 @@ export default function Accounts({ focused }) {
                             <React.Fragment key={idx}>
                                 {idx > 0 ? <Divider /> : <></>}
                                 <View style={idx > 0 ? { marginTop: 10 } : { marginBottom: 15 }}>
-                                    <View style={{ flexDirection: 'row' }}>
+                                    <View style={[{ flexDirection: 'row'}, idx > 0 && { marginBottom: 15 }]}>
                                         <View>
-                                            <Image source={{uri: `${env.apiUrl}/${account.imgUrl}`}} style={styles.bankImg} />
+                                            <Image source={{ uri: `${env.apiUrl}/${account.imgUrl}` }} style={styles.bankImg} />
                                         </View>
                                         <View style={{ marginLeft: 12 }}>
                                             <Caption>{ACCOUNT_TYPE[account.accountType]}</Caption>
@@ -77,6 +78,7 @@ export default function Accounts({ focused }) {
                                 title={"Criar conta"}
                                 titleStyle={{ marginRight: 50 }}
                                 buttonStyle={{ padding: 7, marginTop: 20 }}
+                                onPress={() => navigation.navigate("CreateAccount")}
                             />
                         </View>}
                 </View>

@@ -21,12 +21,14 @@ export default function ModalPicker({ visible, setVisible, handleValue, items })
               <ScrollView>
                 {Object.keys(items).map((data, index) => (
                   <Fragment key={index}>
+                    {index > 0 &&
+                      <Divider />
+                    }
                     <TouchableOpacity onPress={() => handleValue(data)} >
                       <View style={{ marginTop: 20, marginBottom: 20 }}>
                         <Text style={{ fontSize: 15 }}>{items[data]}</Text>
                       </View>
                     </TouchableOpacity>
-                    <Divider />
                   </Fragment>
                 ))}
               </ScrollView>

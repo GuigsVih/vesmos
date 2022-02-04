@@ -4,12 +4,10 @@ import { Caption, Divider } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
 
 import { styles } from './styles';
-import { currencyFormat } from '../../../core/helpers/format';
-import NuBank from '../../../../assets/icon/banks/nubank.png';
-import Bradesco from '../../../../assets/icon/banks/bradesco.png';
-import { fetchCreditCardsUsage } from '../../../core/services/creditCard';
 import Button from '../../Button';
 import { env } from '../../../core/environment';
+import { currencyFormat } from '../../../core/helpers/format';
+import { fetchCreditCardsUsage } from '../../../core/services/creditCard';
 
 export default function CreditCards({ focused, navigation }) {
 

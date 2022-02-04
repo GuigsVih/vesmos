@@ -15,7 +15,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -28,7 +27,7 @@ import br.com.vesmos.Enum.AccountTypeEnum;
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
 @Entity
-@Table(name="accounts", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "company_id"})})
+@Table(name="accounts")
 public class Account implements Serializable
 {
 
@@ -63,6 +62,36 @@ public class Account implements Serializable
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     private Date updatedAt;
+
+    public Account setNickname(String nickname)
+    {
+        this.nickname = nickname;
+        return this;
+    }
+
+    public Account setType(AccountTypeEnum type)
+    {
+        this.type = type;
+        return this;
+    }
+
+    public Account setBalance(double balance)
+    {  
+        this.balance = balance;
+        return this;
+    }
+
+    public Account setCompany(Company company)
+    {
+        this.company = company;
+        return this;
+    }
+    
+    public Account setUser(User user)
+    {
+        this.user = user;
+        return this;
+    }
 
     public Long getId()
     {

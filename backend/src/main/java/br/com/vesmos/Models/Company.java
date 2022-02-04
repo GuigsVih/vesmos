@@ -47,4 +47,19 @@ public class Company
 
     @OneToMany(mappedBy="company")
     private List<Account> account;
+
+    public Long getId()
+    {
+        return id;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public String getPicture()
+    {
+        return picture;
+    }
 }

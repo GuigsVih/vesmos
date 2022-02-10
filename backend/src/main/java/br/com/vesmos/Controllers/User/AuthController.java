@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.vesmos.Models.User;
 import br.com.vesmos.Services.Auth.AuthenticationService;
 import br.com.vesmos.Services.Auth.TokenService;
-import br.com.vesmos.TransferObjects.AuthDTO;
 import br.com.vesmos.TransferObjects.BaseMessageDTO;
+import br.com.vesmos.TransferObjects.Auth.AuthDTO;
+import br.com.vesmos.TransferObjects.Auth.MeDTO;
 import br.com.vesmos.Validators.AuthValidator;
 
 /**
@@ -65,7 +66,7 @@ public class AuthController {
     public ResponseEntity<?> me()
     {
         User user = (User) authService.getAuthenticatedUser();
-        return ResponseEntity.ok().body(user);
+        return ResponseEntity.ok().body(new MeDTO(user.getName(), user.getPicture()));
     }
 
 }

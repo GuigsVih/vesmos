@@ -40,7 +40,7 @@ public class Release
     private String description;
 
     @Column(nullable=false, precision=10, scale=2)
-    private double value;
+    private Double value;
 
     @Column(nullable=false)
     @Enumerated(EnumType.STRING)

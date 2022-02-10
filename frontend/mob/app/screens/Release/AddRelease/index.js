@@ -66,7 +66,7 @@ export default function AddRelease({ route, navigation }) {
 			await schema.validate(data, { abortEarly: false });
 			const paymentDate = data.paymentDate.toISOString().split('T')[0];
 			const params = { ...data, ...{ paymentDate } };
-			const res = await createRelease(params);
+			await createRelease(params);
 			navigation.navigate("BottomMenu");
 		} catch (e) {
 			if (e.name === "ValidationError" && e.inner) {

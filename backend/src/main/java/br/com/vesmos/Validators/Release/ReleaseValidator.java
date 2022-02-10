@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import org.hibernate.validator.constraints.Length;
+import org.springframework.lang.Nullable;
 
 import br.com.vesmos.Enum.StatusEnum;
 import br.com.vesmos.Enum.TypeEnum;
@@ -50,6 +51,9 @@ public class ReleaseValidator {
     @Valid
     private PaymentValidator payment;
 
+    @Nullable
+    private RepeatChargeValidator repeatCharge;
+
     public String getDescription() {
         return description;
     }
@@ -72,6 +76,10 @@ public class ReleaseValidator {
 
     public PaymentValidator getPayment() {
         return payment;
+    }
+
+    public RepeatChargeValidator getRepeatCharge() {
+        return repeatCharge;
     }
 
     public Date getPaymentDate() {

@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { put, takeLatest } from "redux-saga/effects";
-import { getUserByToken } from "../../services/auth";
+import { me } from "../../services/auth";
 
 export const actionTypes = {
   Login: "[Login] Action",
@@ -66,7 +66,7 @@ export function* saga() {
   });
 
   yield takeLatest(actionTypes.UserRequested, function* userRequested() {
-    const { data: user } = yield getUserByToken();
+    const { data: user } = yield me();
 
     yield put(actions.fulfillUserAction(user));
   });

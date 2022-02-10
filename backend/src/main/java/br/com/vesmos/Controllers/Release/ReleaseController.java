@@ -27,7 +27,6 @@ import br.com.vesmos.Services.Release.ReleaseConvertService;
 import br.com.vesmos.Services.Release.ReleaseService;
 import br.com.vesmos.TransferObjects.BaseMessageDTO;
 import br.com.vesmos.TransferObjects.Interfaces.ListReleaseDTO;
-import br.com.vesmos.Repositories.ReleaseRepository;
 import br.com.vesmos.Validators.Release.ReleaseValidator;
 
 /**
@@ -40,9 +39,6 @@ import br.com.vesmos.Validators.Release.ReleaseValidator;
 public class ReleaseController {
     @Autowired
     private ReleaseConvertService convertService;
-
-    @Autowired
-    private ReleaseRepository releaseRepository;
 
     @Autowired
     private ReleaseService releaseService;
@@ -74,8 +70,7 @@ public class ReleaseController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody @Valid ReleaseValidator data) {
         try {
-            releaseRepository.save(convertService.convert(data));
-
+            releaseService.create(data);
             return ResponseEntity.ok().body(new BaseMessageDTO("Lançamento criado com sucesso!"));
         } catch (RegisterDoesNotExistsException e) {
             return ResponseEntity.badRequest().body(new BaseMessageDTO(e.getMessage()));

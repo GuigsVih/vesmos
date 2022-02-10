@@ -1,4 +1,4 @@
-package br.com.vesmos.TransferObjects;
+package br.com.vesmos.TransferObjects.Auth;
 
 /**
  * DTO for authentication response

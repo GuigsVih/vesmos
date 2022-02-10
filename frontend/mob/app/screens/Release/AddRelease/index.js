@@ -28,7 +28,7 @@ const DEFAULT_VALUES = {
 	paymentDate: new Date(),
 	paymentId: "",
 	categoryId: "",
-	status: "PAID",
+	status: "UNPAID",
 	type: "EXPENSE",
 	payment: {
 		type: "",
@@ -46,7 +46,7 @@ export default function AddRelease({ route, navigation }) {
 	const [errors, setErrors] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState(DEFAULT_VALUES);
-	const [status, setStatus] = useState(true);
+	const [status, setStatus] = useState(false);
 	const [snackbarVisible, setSnackbarVisible] = useState(false);
 	const [snackbarType, setSnackbarType] = useState();
 	const [borderColor, setBorderColor] = useState('rgba(0, 0, 0, 0.54)');
@@ -119,7 +119,7 @@ export default function AddRelease({ route, navigation }) {
 					<ScrollView style={styles.formContainer} contentContainerStyle={{ flexGrow: 1 }}>
 						<CurrencyInput
 							value={data.value}
-							onChangeValue={(value) => setData({ ...data, value: value })}
+							onChangeValue={(value) => setData({ ...data, value: (value * -1) })}
 							selectionColor={'#731cef'}
 							prefix="R$ "
 							delimiter="."

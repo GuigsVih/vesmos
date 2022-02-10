@@ -78,9 +78,19 @@ public class ReleaseService {
         }
     }
 
-    public void createFixed(ReleaseValidator data) 
+    public void createFixed(ReleaseValidator data) throws RegisterDoesNotExistsException
     {
-        //
+        Calendar calendar = Calendar.getInstance();
+
+        for (Integer i = 0; i < 12; i++) {
+            Release release = convertService.convert(data);
+            calendar.setTime(data.getPaymentDate());
+            calendar.add(Calendar.MONTH, i);
+            release.setPaymentDate(calendar.getTime());
+            release.setDescription(data.getDescription());
+            release.setValue(data.getValue());
+            releaseRepository.save(release);
+        }
     }
 
     public void update(Long id, Release data) throws RegisterDoesNotExistsException 

@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -28,7 +27,6 @@ public class ReleaseValidator {
     private String description;
 
     @NotNull
-    @DecimalMin(value = "0.01")
     private Double value;
 
     @NotNull

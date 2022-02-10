@@ -39,7 +39,7 @@ public interface ReleaseRepository extends JpaRepository<Release, Long>
 
     final String BALANCE_FROM_RELEASES = "SELECT " +
     "IFNULL(SUM(r.value), 0) AS releaseBalance " +
-    "FROM releases r " +
+    "FROM releases r "  +
     "WHERE r.status IN (:status) " +
     "AND r.user_id = :userId " +
     "AND r.payment_date BETWEEN :initialDate AND :finalDate";

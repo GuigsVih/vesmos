@@ -36,7 +36,7 @@ export default function CompanyModal({ visible, setVisible, handleCompany }) {
                 onBackButtonPress={() => setVisible(false)}
                 onSwipeComplete={() => setVisible(false)}
                 style={{ justifyContent: 'flex-end', margin: 0 }}
-                swipeDirection={['down']}
+                swipeDirection={['right', 'left']}
             >
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
                     <View style={styles.content}>

@@ -65,7 +65,8 @@ export default function AddRelease({ route, navigation }) {
 		try {
 			await schema.validate(data, { abortEarly: false });
 			const paymentDate = data.paymentDate.toISOString().split('T')[0];
-			const params = { ...data, ...{ paymentDate } };
+			const value = data.value * -1;
+			const params = { ...data, ...{ paymentDate }, ...{ value } };
 			await createRelease(params);
 			navigation.navigate("BottomMenu");
 		} catch (e) {
@@ -119,7 +120,7 @@ export default function AddRelease({ route, navigation }) {
 					<ScrollView style={styles.formContainer} contentContainerStyle={{ flexGrow: 1 }}>
 						<CurrencyInput
 							value={data.value}
-							onChangeValue={(value) => setData({ ...data, value: (value * -1) })}
+							onChangeValue={(value) => setData({ ...data, value: value })}
 							selectionColor={'#731cef'}
 							prefix="R$ "
 							delimiter="."

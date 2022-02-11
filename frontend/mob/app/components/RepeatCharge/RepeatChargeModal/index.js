@@ -32,7 +32,7 @@ export default function RepeatChargeModal({ title, visible, setVisible, repeatTy
         isVisible={visible}
         style={{ justifyContent: 'flex-end', margin: 0 }}
         onSwipeComplete={cancel}
-        swipeDirection={['down']}
+        swipeDirection={['right', 'left']}
       >
         <View style={styles.content}>
           <Text style={styles.title}>{title}</Text>

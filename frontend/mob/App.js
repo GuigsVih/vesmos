@@ -5,6 +5,7 @@ import 'react-native-gesture-handler';
 
 import { useFonts } from 'expo-font';
 import { Provider } from 'react-redux';
+import { Provider as PaperProvider } from 'react-native-paper';
 import { IntlProvider } from 'react-intl';
 import { NavigationContainer } from '@react-navigation/native';
 import moment from 'moment';
@@ -34,13 +35,15 @@ export default function App() {
   redux.setupAxios(api, store);
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <IntlProvider locale="pt-BR">
-          <NavigationContainer>
-            <Routes />
-          </NavigationContainer>
-        </IntlProvider>
-      </PersistGate>
+      <PaperProvider>
+        <PersistGate persistor={persistor}>
+          <IntlProvider locale="pt-BR">
+            <NavigationContainer>
+              <Routes />
+            </NavigationContainer>
+          </IntlProvider>
+        </PersistGate>
+      </PaperProvider>
     </Provider>
   );
 }

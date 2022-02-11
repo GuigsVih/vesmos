@@ -7,3 +7,7 @@ export function fetchReleases(params) {
 export function createRelease(params) {
 	return api.post("/release", params);
 }
+
+export function removeRelease(id) {
+	return api.delete(`/release/${id}`);
+}

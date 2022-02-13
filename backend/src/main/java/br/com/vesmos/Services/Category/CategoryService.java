@@ -10,7 +10,7 @@ import br.com.vesmos.Models.Category;
 import br.com.vesmos.Models.User;
 import br.com.vesmos.Repositories.CategoryRepository;
 import br.com.vesmos.Services.Auth.AuthenticationService;
-import br.com.vesmos.TransferObjects.Interfaces.ListCategoryDTO;
+import br.com.vesmos.TransferObjects.Interfaces.CategoryDTO;
 
 /**
  * Category service
@@ -41,8 +41,14 @@ public class CategoryService
             .orElseThrow(() -> new RegisterDoesNotExistsException("Categoria não encontrada."));
     }
 
-    public List<ListCategoryDTO> findByUserIdOrNull(Long userId)
+    public List<CategoryDTO> findByUserIdOrNull(Long userId)
     {
         return categoryRepository.findByUserIdOrNull(userId);
+    }
+
+    public CategoryDTO findSelectedCategory(Long id)
+    {
+        User user = authService.getAuthenticatedUser();
+        return categoryRepository.findSelectedCategory(id, user.getId());
     }
 }

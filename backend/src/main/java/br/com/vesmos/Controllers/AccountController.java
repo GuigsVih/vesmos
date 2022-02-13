@@ -19,7 +19,7 @@ import br.com.vesmos.TransferObjects.BaseMessageDTO;
 import br.com.vesmos.Validators.CreateAccountValidator;
 import br.com.vesmos.Services.Auth.AuthenticationService;
 import br.com.vesmos.Services.Account.AccountConvertService;
-import br.com.vesmos.TransferObjects.Interfaces.ListPaymentMethodDTO;
+import br.com.vesmos.TransferObjects.Interfaces.Payment.PaymentDTO;
 import br.com.vesmos.TransferObjects.Interfaces.Payment.AccountUsageDTO;
 
 /**
@@ -44,7 +44,7 @@ public class AccountController
     public ResponseEntity<?> getAccounts()
     {
         User user = authService.getAuthenticatedUser();
-        List<ListPaymentMethodDTO> accounts = accountRepository.findByUserId(user.getId());
+        List<PaymentDTO> accounts = accountRepository.findByUserId(user.getId());
 
         return ResponseEntity.ok().body(accounts);
 

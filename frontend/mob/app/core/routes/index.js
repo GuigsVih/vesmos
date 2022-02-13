@@ -6,9 +6,9 @@ import Login from '../../screens/Login';
 import BottomMenu from '../../screens/BottomMenu';
 import CreateUser from '../../screens/CreateUser';
 import CreateAccount from '../../screens/CreateAccount';
-import AddRelease from '../../screens/Release/AddRelease';
 import CreateCreditCard from '../../screens/CreateCreditCard';
 import LoginWithEmail from '../../screens/Login/LoginWithEmail';
+import ReleaseForm from '../../screens/Release/ReleaseForm';
 
 const Stack = createStackNavigator();
 
@@ -57,8 +57,8 @@ export default function Routes() {
 					}}
 				/>
 				<Stack.Screen
-					name="AddRelease"
-					component={AddRelease}
+					name="ReleaseForm"
+					component={ReleaseForm}
 					options={{
 						title: "",
 						headerTintColor: "#fff",

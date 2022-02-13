@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import br.com.vesmos.Models.Category;
-import br.com.vesmos.TransferObjects.Interfaces.ListCategoryDTO;
+import br.com.vesmos.TransferObjects.Interfaces.CategoryDTO;
 
 /**
  * Category Repository
@@ -33,9 +33,23 @@ public interface CategoryRepository extends JpaRepository<Category, Long>
     "c.user_id = :userId " +
     "OR c.user_id IS NULL";
 
+    final String FIND_SELECTED_CATEGORY = "SELECT " +
+    "c.id AS id, " +
+    "c.name AS name, " +
+    "c.badge_color AS badgeColor, " +
+    "c.icon AS icon " +
+    "FROM categories c " +
+    "WHERE " + 
+    "c.id = :id " +
+    "AND ( c.user_id = :userId " +
+    "OR c.user_id IS NULL )";
+
     @Query(value=FIND_BY_ID_AND_USER_ID, nativeQuery=true)
     Optional<Category> findByIdAndUserId(@Param("id") Long id, @Param("userId") Long userId);
 
     @Query(value=FIND_BY_USER_ID_OR_NULL, nativeQuery=true)
-    List<ListCategoryDTO> findByUserIdOrNull(@Param("userId") Long userId);
+    List<CategoryDTO> findByUserIdOrNull(@Param("userId") Long userId);
+
+    @Query(value=FIND_SELECTED_CATEGORY, nativeQuery=true)
+    CategoryDTO findSelectedCategory(@Param("id") Long id, @Param("userId") Long userId);
 }

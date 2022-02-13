@@ -1,20 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StatusBar, TouchableWithoutFeedback, Keyboard, ScrollView } from 'react-native';
-import CurrencyInput from 'react-native-currency-input';
 
+import moment from 'moment';
+import CurrencyInput from 'react-native-currency-input';
+import { Text, View, StatusBar, TouchableWithoutFeedback, Keyboard } from 'react-native';
+
+import schema from './schema';
 import { styles } from './styles';
 import Input from '../../../components/Input';
-import CategorySelect from '../../../components/Category/CategorySelect';
+import Button from '../../../components/Button';
 import DatePicker from '../../../components/DatePicker';
 import RepeatCharge from '../../../components/RepeatCharge';
-import PaymentSelect from '../../../components/Payment/PaymentSelect';
-import Button from '../../../components/Button';
-import schema from './schema';
-import { createYupErrorsObject } from '../../../core/helpers/createYupErrorsObject';
-import { Caption, HelperText, Switch } from 'react-native-paper';
-import { createRelease } from '../../../core/services/release';
-import { createRequestErrorObject } from '../../../core/helpers/createRequestErrorObject';
+import { createRelease, updateRelease } from '../../../core/services/release';
 import CustomSnackbar from '../../../components/CustomSnackbar';
+import { Caption, HelperText, Switch } from 'react-native-paper';
+import PaymentSelect from '../../../components/Payment/PaymentSelect';
+import CategorySelect from '../../../components/Category/CategorySelect';
+import { createYupErrorsObject } from '../../../core/helpers/createYupErrorsObject';
+import { createRequestErrorObject } from '../../../core/helpers/createRequestErrorObject';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const TYPES = {
 	'expense': 'despesa',
@@ -23,13 +26,13 @@ const TYPES = {
 };
 
 const DEFAULT_VALUES = {
+	id: null,
 	value: 0,
 	description: "",
 	paymentDate: new Date(),
 	paymentId: "",
 	categoryId: "",
 	status: "UNPAID",
-	type: "EXPENSE",
 	payment: {
 		type: "",
 		id: ""
@@ -41,12 +44,11 @@ const DEFAULT_VALUES = {
 	}
 };
 
-export default function AddRelease({ route, navigation }) {
+export default function ReleaseForm({ route, navigation }) {
 
 	const [errors, setErrors] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [data, setData] = useState(DEFAULT_VALUES);
-	const [status, setStatus] = useState(false);
 	const [snackbarVisible, setSnackbarVisible] = useState(false);
 	const [snackbarType, setSnackbarType] = useState();
 	const [borderColor, setBorderColor] = useState('rgba(0, 0, 0, 0.54)');
@@ -59,52 +61,76 @@ export default function AddRelease({ route, navigation }) {
 		setBorderColor("rgba(0, 0, 0, 0.54)");
 	}
 
+	const save = () => {
+		if (data.id) {
+			update();
+		} else {
+			create();
+		}
+	}
+
 	const create = async () => {
 		setErrors({});
 		setLoading(true);
 		try {
 			await schema.validate(data, { abortEarly: false });
-			const paymentDate = data.paymentDate.toISOString().split('T')[0];
-			const value = data.value * -1;
-			const params = { ...data, ...{ paymentDate }, ...{ value } };
-			await createRelease(params);
+			await createRelease(getParams());
 			navigation.navigate("BottomMenu");
 		} catch (e) {
-			if (e.name === "ValidationError" && e.inner) {
-				setErrors(createYupErrorsObject(e));
-			} else if (e?.response?.status == 400) {
-				setErrors(createRequestErrorObject(e.response.data));
-			} else {
-				setSnackbarType("error");
-				setSnackbarVisible(true);
-			}
+			treatErrorResponse(e);
 		}
 		setLoading(false);
 	}
 
-	const setReleaseStatus = (val) => {
-		setStatus(val);
-		setData({ ...data, status: getStatus(val) });
-	}
-
-	const getStatus = (val) => {
-		if (val) {
-			return "PAID";
+	const update = async () => {
+		setErrors({});
+		setLoading(true);
+		try {
+			await schema.validate(data, { abortEarly: false });
+			await updateRelease(getParams());
+			navigation.navigate("BottomMenu");
+		} catch (e) {
+			console.log(e);
+			treatErrorResponse(e);			
 		}
-		return "UNPAID";
+		setLoading(false);
 	}
 
-	const setType = (type) => {
-		if (type == 'expense') {
-			setData({ ...data, type: "EXPENSE" });
+	const getParams = () => {
+		const paymentDate = data.paymentDate.toISOString().split('T')[0];
+		const value = data.value * -1;
+		const params = { ...data, ...{ paymentDate }, ...{ value } };
+		
+		return params;
+	}
+	const treatErrorResponse = (e) => {
+		if (e.name === "ValidationError" && e.inner) {
+			setErrors(createYupErrorsObject(e));
+		} else if (e?.response?.status == 400) {
+			setErrors(createRequestErrorObject(e.response.data));
 		} else {
-			setData({ ...data, type: "REVENUE" });
+			setSnackbarType("error");
+			setSnackbarVisible(true);
 		}
+	}
+
+	const formatExpenseToSet = (expense) => {
+		expense.paymentDate = moment(route.params.paymentDate).toDate();
+		expense.value = route.params.value * -1;
+		if (expense.creditCardId != null) {
+			expense.payment = { type: "credit_cards", id: expense.creditCardId };
+		} else {
+			expense.payment = { type: "accounts", id: expense.accountId };
+		}
+		setData(expense);
 	}
 
 	useEffect(() => {
-		setType(route.params.type);
-	}, [route.params.type]);
+		if (route.params?.id) {
+			formatExpenseToSet(route.params);
+		}
+
+	}, [route.params]);
 
 	return (
 		<>
@@ -115,7 +141,7 @@ export default function AddRelease({ route, navigation }) {
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 				<View style={styles.container}>
 					<View style={styles.releaseTypeContainer}>
-						<Text style={styles.typeText}>Nova {TYPES[route.params.type]}</Text>
+						<Text style={styles.typeText}>{data.id ? "Editar despesa" : "Nova despesa"}</Text>
 					</View>
 					<ScrollView style={styles.formContainer} contentContainerStyle={{ flexGrow: 1 }}>
 						<CurrencyInput
@@ -129,7 +155,7 @@ export default function AddRelease({ route, navigation }) {
 							placeholder={"R$ 0,00"}
 							onBlur={() => onBlur()}
 							onFocus={() => onFocus()}
-							style={[styles.currencyInput, { borderColor: borderColor, borderWidth: borderColor == '#731cef' ? 2 : 1 }]}
+							style={[styles.currencyInput, { borderColor: borderColor, borderBottomWidth: borderColor == '#731cef' ? 2 : 0 }]}
 						/>
 						<View style={styles.errorContainer}>
 							{errors?.value && (
@@ -140,7 +166,6 @@ export default function AddRelease({ route, navigation }) {
 						</View>
 						<Input
 							label={"Descrição"}
-							mode={'outlined'}
 							style={styles.descriptionInput}
 							value={data.description}
 							onChange={(value) => setData({ ...data, description: value })}
@@ -155,6 +180,7 @@ export default function AddRelease({ route, navigation }) {
 						<View style={styles.selectionContainer}>
 							<CategorySelect
 								onSelect={(value) => setData({ ...data, categoryId: value })}
+								categoryId={data.categoryId}
 							/>
 							<View style={[styles.errorContainer, { marginLeft: 0, marginTop: 10 }]}>
 								{errors?.categoryId && (
@@ -180,6 +206,7 @@ export default function AddRelease({ route, navigation }) {
 						</View>
 						<View style={styles.selectionContainer}>
 							<PaymentSelect
+								value={data.payment}
 								onSelect={(type, id) => setData({ ...data, payment: { ...data.payment, type, id } })}
 							/>
 							<View style={[styles.errorContainer, { marginLeft: 0, marginTop: 10, marginBottom: 0 }]}>
@@ -190,12 +217,18 @@ export default function AddRelease({ route, navigation }) {
 								) : <></>}
 							</View>
 						</View>
-						<View style={[styles.selectionContainer, { marginTop: 10 }]}>
-							<RepeatCharge value={data.value} chargeType={TYPES[route.params.type]} setRepeatData={(option, unitOfMeasurement, time) => setData({ ...data, repeatCharge: { ...data.repeatCharge, option, unitOfMeasurement, time } })} />
-						</View>
+						{!data.id &&
+							<View style={[styles.selectionContainer, { marginTop: 10 }]}>
+								<RepeatCharge value={data.value} chargeType={TYPES["expense"]} setRepeatData={(option, unitOfMeasurement, time) => setData({ ...data, repeatCharge: { ...data.repeatCharge, option, unitOfMeasurement, time } })} />
+							</View>
+						}
 						<View style={[styles.selectionContainer, { marginTop: 0, alignItems: 'flex-start' }]}>
 							<View style={{ flexDirection: 'row' }}>
-								<Switch value={status} onValueChange={setReleaseStatus} color={"#623aa7"} />
+								<Switch
+									color={"#623aa7"}
+									value={data.status == "PAID" ? true : false}
+									onValueChange={(value) => setData({ ...data, status: value ? "PAID" : "UNPAID" })}
+								/>
 								<Caption style={{ marginTop: 15, marginLeft: 10 }}>Pago?</Caption>
 							</View>
 						</View>
@@ -205,7 +238,7 @@ export default function AddRelease({ route, navigation }) {
 							disabled={loading}
 							buttonStyle={styles.buttonStyle}
 							titleStyle={{ marginRight: 10 }}
-							onPress={create}
+							onPress={save}
 						/>
 						<View style={{ flex: 1, padding: 50 }}></View>
 					</ScrollView>
@@ -213,7 +246,7 @@ export default function AddRelease({ route, navigation }) {
 						visible={snackbarVisible}
 						setVisible={setSnackbarVisible}
 						type={snackbarType}
-						message={`Erro ao criar ${TYPES[route.params.type]}`}
+						message={data.id ? "Erro ao editar despesa" : "Erro ao criar despesa"}
 					/>
 				</View>
 			</TouchableWithoutFeedback>

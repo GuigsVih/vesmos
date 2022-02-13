@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -6,8 +6,9 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { styles } from './styles';
 import CategoryModal from '../CategoryModal';
 import { Caption } from 'react-native-paper';
+import { fetchCategoryById } from '../../../core/services/category';
 
-export default function CategorySelect({ onSelect }) {
+export default function CategorySelect({ onSelect, categoryId }) {
 
 	const [modalVisible, setModalVisible] = useState(false);
 	const [category, setCategory] = useState();
@@ -17,6 +18,21 @@ export default function CategorySelect({ onSelect }) {
 		onSelect(data.id);
 		setModalVisible(false);
 	}
+
+	const getSelectedCategory = async () => {
+		try {
+			const res = await fetchCategoryById(categoryId);
+			handleCategory(res.data);
+		} catch (e) {
+			console.log(e.response.data);
+		}
+	}
+
+	useEffect(() => {
+		if (categoryId) {
+			getSelectedCategory();
+		}
+	}, [categoryId]);
 
 	return (
 		<>

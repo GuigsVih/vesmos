@@ -9,12 +9,10 @@ export default function MoneyButton({ navigation }) {
   const mode = React.useRef(new Animated.Value(0)).current;
   const buttonSize = React.useRef(new Animated.Value(1)).current;
 
-  const handleAddRelease = (type) => {
+  const handleReleaseForm = () => {
     handlePress();
     setTimeout(() => {
-      navigation.navigate("AddRelease", {
-        type: type
-      });
+      navigation.navigate("ReleaseForm");
     }, 100)
   }
 
@@ -74,7 +72,7 @@ export default function MoneyButton({ navigation }) {
       <View style={{ position: "absolute", alignItems: "center" }}>
         <Animated.View style={{ position: "absolute", left: thermometerX, top: thermometerY }}>
           <View style={styles.secondaryButton}>
-            <TouchableOpacity onPress={() => handleAddRelease('expense')}>
+            <TouchableOpacity onPress={() => handleReleaseForm()}>
               <MaterialIcons
                 name="trending-down"
                 size={24}
@@ -85,14 +83,14 @@ export default function MoneyButton({ navigation }) {
         </Animated.View>
         <Animated.View style={{ position: "absolute", left: timeX, top: timeY }}>
           <View style={styles.secondaryButton}>
-            <TouchableOpacity onPress={() => handleAddRelease('transfer')}>
+            <TouchableOpacity onPress={() => handleReleaseForm()}>
               <MaterialCommunityIcons name="bank-transfer" size={24} color="#89cff0" />
             </TouchableOpacity>
           </View>
         </Animated.View>
         <Animated.View style={{ position: "absolute", left: pulseX, top: pulseY }}>
           <View style={styles.secondaryButton}>
-            <TouchableOpacity onPress={() => handleAddRelease('revenue')}>
+            <TouchableOpacity onPress={() => handleReleaseForm()}>
               <MaterialIcons
                 name="trending-up"
                 size={24}

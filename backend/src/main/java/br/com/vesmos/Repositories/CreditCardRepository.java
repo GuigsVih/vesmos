@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import br.com.vesmos.Models.CreditCard;
-import br.com.vesmos.TransferObjects.Interfaces.ListPaymentMethodDTO;
+import br.com.vesmos.TransferObjects.Interfaces.Payment.PaymentDTO;
 import br.com.vesmos.TransferObjects.Interfaces.Payment.CreditCardUsageDTO;
 
 /**
@@ -44,12 +44,17 @@ public interface CreditCardRepository extends JpaRepository<CreditCard, Long>
     "WHERE " +
     "c.user_id = :userId";
     
+    final String FIND_ONE_CREDIT_CARD = FIND_BY_USER_ID + 
+    " AND c.id = :id";
 
     Optional<CreditCard> findByIdAndUserId(Long id, Long userId);
 
     @Query(value=FIND_BY_USER_ID, nativeQuery=true)
-    List<ListPaymentMethodDTO> findByUserId(Long userId);
+    List<PaymentDTO> findByUserId(Long userId);
 
     @Query(value=CREDIT_CARD_USAGE, nativeQuery=true)
     List<CreditCardUsageDTO> creditCardUsage(Long userId);
+
+    @Query(value=FIND_ONE_CREDIT_CARD, nativeQuery=true)
+    PaymentDTO findOneCreditCard(Long userId, Long id);
 }

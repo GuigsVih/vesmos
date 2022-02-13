@@ -43,6 +43,7 @@ export default function ReleasesList({ navigation }) {
 					<List
 						focused={isFocused}
 						filterDate={filterDate}
+						navigation={navigation}
 					/>
 					: <></>
 				}

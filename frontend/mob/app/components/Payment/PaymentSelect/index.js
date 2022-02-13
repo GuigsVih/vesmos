@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Caption } from 'react-native-paper';
 import { Image } from 'react-native-elements';
-import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity, View, Text } from 'react-native';
 
 import { styles } from './styles';
 import PaymentModal from '../PaymentModal';
-import Bradesco from '../../../../assets/icon/banks/bradesco.png';
 import { env } from '../../../core/environment';
+import { fetchPaymentById } from '../../../core/services/payment';
 
-export default function PaymentSelect({ onSelect }) {
+export default function PaymentSelect({ onSelect, value }) {
 
 	const [payment, setPayment] = useState();
 	const [modalVisible, setModalVisible] = useState(false);
@@ -19,6 +19,21 @@ export default function PaymentSelect({ onSelect }) {
 		onSelect(data.type, data.id)
 		setModalVisible(false);
 	}
+
+	const getSelectedPayment = async () => {
+		try {
+			const res = await fetchPaymentById(value);
+			setPayment(res.data);
+		} catch (e) {
+			//
+		}
+	}
+
+	useEffect(() => {
+		if (value.id) {
+			getSelectedPayment();
+		}
+	}, [value]);
 
 	return (
 		<>

@@ -5,7 +5,7 @@ package br.com.vesmos.TransferObjects.Interfaces;
  * 
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
-public interface ListCategoryDTO 
+public interface CategoryDTO 
 {
 	public Long getId();
 	public String getName();

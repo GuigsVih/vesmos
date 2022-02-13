@@ -11,7 +11,7 @@ import { Feather, Ionicons } from '@expo/vector-icons';
 import { Caption } from 'react-native-paper';
 import { currencyFormat } from '../../core/helpers/format';
 
-export default function SwipeItem({ handleDelete, data }) {
+export default function SwipeItem({ handleEdit, handleDelete, data }) {
 	const leftSwipe = (progress, dragX) => {
 		const scale = dragX.interpolate({
 			inputRange: [0, 100],
@@ -38,7 +38,7 @@ export default function SwipeItem({ handleDelete, data }) {
 		});
 
 		return (
-			<TouchableOpacity onPress={handleDelete} activeOpacity={0.6}>
+			<TouchableOpacity onPress={handleEdit} activeOpacity={0.6}>
 				<View style={[styles.box, styles.edit]}>
 					<Animated.Text style={{ transform: [{ scale: scale }] }}>
 						<Feather name="edit" size={32} color="white" />

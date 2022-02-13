@@ -58,6 +58,11 @@ public class Category
     @UpdateTimestamp
     private Date updatedAt;
     
+    public Long getId()
+    {
+        return id;
+    }
+
     public void setName(String name)
     {
         this.name = name;

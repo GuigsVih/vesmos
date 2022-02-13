@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.vesmos.Repositories.AccountRepository;
 import br.com.vesmos.Repositories.CreditCardRepository;
-import br.com.vesmos.TransferObjects.Interfaces.ListPaymentMethodDTO;
+import br.com.vesmos.TransferObjects.Interfaces.Payment.PaymentDTO;
 
 /**
  * Payment Service
@@ -32,13 +32,25 @@ public class PaymentService
      * 
      * @return List
      */
-    public List<ListPaymentMethodDTO> findByUserId(Long userId)
+    public List<PaymentDTO> findByUserId(Long userId)
     {
-        List<ListPaymentMethodDTO> creditCards = creditCardRepository.findByUserId(userId);
-        List<ListPaymentMethodDTO> accounts = accountRepository.findByUserId(userId);
+        List<PaymentDTO> creditCards = creditCardRepository.findByUserId(userId);
+        List<PaymentDTO> accounts = accountRepository.findByUserId(userId);
 
         return Stream.of(creditCards, accounts)
         .flatMap(x -> x.stream())
         .collect(Collectors.toList());
+    }
+
+    public PaymentDTO findByTypeAndId(Long id, String type, Long userId)
+    {
+        PaymentDTO payment;
+        if (type.equals("credit_cards")) {
+            payment = creditCardRepository.findOneCreditCard(userId, id);
+        } else {
+            payment = accountRepository.findOneAccount(userId, id);
+        }
+
+        return payment;
     }
 }

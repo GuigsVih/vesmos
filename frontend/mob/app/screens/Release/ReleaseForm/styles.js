@@ -32,9 +32,10 @@ export const styles = StyleSheet.create({
 		margin: 40,
 		marginTop: 5,
 		marginBottom: 10,
-		borderRadius: 50
+		backgroundColor: "#f6f6f6"
 	},
 	currencyInput: {
+		borderWidth: 0,
 		borderRadius: 4,
 		margin: 40,
 		marginTop: 30,

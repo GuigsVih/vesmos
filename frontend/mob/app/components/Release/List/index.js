@@ -9,7 +9,7 @@ import { formatDate } from '../../../core/helpers/format';
 import Balance from '../Balance';
 import ModalConfirm from '../../ModalConfirm';
 
-export default function List({ focused, filterDate }) {
+export default function List({ focused, filterDate, navigation }) {
 
 	const [releases, setReleases] = useState({});
 	const [loading, setLoading] = useState(false);
@@ -45,6 +45,10 @@ export default function List({ focused, filterDate }) {
 		setMessageConfirmModal(`Deseja realmente remover o lançamento "${data.description}"?`);
 	};
 
+	const editItem = (data) => {
+		navigation.navigate("ReleaseForm", data );
+	}
+
 	const hideDialog = () => {
 		setShowConfirmModal(false);
 	}
@@ -74,7 +78,12 @@ export default function List({ focused, filterDate }) {
 												{index > 0 ?
 													<Divider />
 													: <></>}
-												<SwipeItem key={item.id} data={item} handleDelete={() => showDeleteModal(item)} />
+												<SwipeItem 
+													key={item.id} 
+													data={item} 
+													handleDelete={() => showDeleteModal(item)}
+													handleEdit={() => editItem(item)}
+												/>
 											</Fragment>
 										))}
 									</View>
@@ -87,10 +96,10 @@ export default function List({ focused, filterDate }) {
 						</View>
 					) : <ActivityIndicator size={'large'} style={styles.alignCenter} color={"#dadad3"} />
 				}
-				<ModalConfirm 
-					visible={showConfirmModal}
-					hideDialog={hideDialog}
+				<ModalConfirm
 					handle={remove}
+					hideDialog={hideDialog}
+					visible={showConfirmModal}
 					title={"Remover lançamento"}
 					message={messageConfirmModal}
 				/>

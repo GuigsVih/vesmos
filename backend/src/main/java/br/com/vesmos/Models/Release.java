@@ -29,156 +29,145 @@ import br.com.vesmos.Enum.TypeEnum;
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
 @Entity
-@Table(name="releases", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "category_id", "account_id", "credit_card_id"})})
-public class Release 
-{    
+@Table(name = "releases", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "user_id", "category_id", "account_id", "credit_card_id" }) })
+public class Release implements Cloneable {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String description;
 
-    @Column(nullable=false, precision=10, scale=2)
+    @Column(nullable = false, precision = 10, scale = 2)
     private Double value;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
-    
-    @Column(nullable=false)
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TypeEnum type;
 
-    @Column(nullable=false, name="payment_date")
+    @Column(nullable = false, name = "payment_date")
     @Temporal(TemporalType.DATE)
     private Date paymentDate;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable=false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="account_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id")
     private Account account;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="credit_card_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "credit_card_id")
     private CreditCard creditCard;
 
-    @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="category_id", nullable=false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
-    
-    @Column(name="created_at")
+
+    @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
-	@CreationTimestamp
+    @CreationTimestamp
     private Date createdAt;
 
-    @Column(name="updated_at")
+    @Column(name = "updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     private Date updatedAt;
 
-    
-    public Long getId()
-    {
+    public Long getId() {
         return id;
     }
 
-    public String getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
-    public Release setDescription(String description)
-    {
+    public Release setDescription(String description) {
         this.description = description;
         return this;
     }
 
-    public String getStatus()
-    {
+    public String getStatus() {
         return status.name();
     }
 
-    public Release setStatus(StatusEnum status)
-    {
+    public Release setStatus(StatusEnum status) {
         this.status = status;
         return this;
     }
 
-    public String getType()
-    {
+    public String getType() {
         return type.name();
     }
 
-    public Release setType(TypeEnum type)
-    {
+    public Release setType(TypeEnum type) {
         this.type = type;
         return this;
     }
-    public Double getValue()
-    {
+
+    public Double getValue() {
         return value;
     }
 
-    public Release setValue(Double value)
-    {
+    public Release setValue(Double value) {
         this.value = value;
         return this;
     }
 
-    public Date getPaymentDate()
-    {
+    public Date getPaymentDate() {
         return paymentDate;
     }
-    
-    public Release setPaymentDate(Date paymentDate)
-    {
+
+    public Release setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
         return this;
     }
 
-    public Account getAccount()
-    {
+    public Account getAccount() {
         return account;
     }
 
-    public Release setAccount(Account account)
-    {
+    public Release setAccount(Account account) {
         this.account = account;
         return this;
     }
-    public CreditCard getCreditCard()
-    {
+
+    public CreditCard getCreditCard() {
         return creditCard;
     }
 
-    public Release setCreditCard(CreditCard creditCard)
-    {
+    public Release setCreditCard(CreditCard creditCard) {
         this.creditCard = creditCard;
         return this;
     }
-    public Category getCategory()
-    {
+
+    public Category getCategory() {
         return category;
     }
 
-    public Release setCategory(Category category)
-    {
+    public Release setCategory(Category category) {
         this.category = category;
         return this;
     }
-    
-    public Release setUser(User user)
-    {
+
+    public Release setUser(User user) {
         this.user = user;
         return this;
     }
 
-    public User getUser()
-    {
+    public User getUser() {
         return user;
+    }
+
+    @Override
+    public Release clone() throws CloneNotSupportedException 
+    {
+        return (Release) super.clone();
     }
 }

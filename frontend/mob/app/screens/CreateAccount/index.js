@@ -87,8 +87,7 @@ export default function CreateAccount({ navigation }) {
                         <Input
                             label={"Apelido"}
                             value={data.nickname}
-                            style={{ marginTop: 7 }}
-                            mode={"outlined"}
+                            style={{ marginTop: 15, backgroundColor: "#f6f6f6" }}
                             onChange={(value) => setData({ ...data, nickname: value })}
                         />
                         {errors?.nickname && (
@@ -108,7 +107,8 @@ export default function CreateAccount({ navigation }) {
                             minValue={0}
                             onBlur={() => onBlur()}
                             onFocus={() => onFocus()}
-                            style={[styles.currencyInput, { borderColor: borderColor, borderWidth: borderColor == '#731cef' ? 2 : 1 }]}
+                            placeholderTextColor={"#747474"}
+                            style={[styles.currencyInput, { borderColor: borderColor, borderWidth: borderColor == '#731cef' ? 2 : 0 }]}
                         />
                         {errors?.balance && (
                             <HelperText style={{ marginTop: 8 }} type="error" visible={errors?.balance}>

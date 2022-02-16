@@ -41,7 +41,8 @@ const DEFAULT_VALUES = {
 		option: "",
 		time: "",
 		unitOfMeasurement: ""
-	}
+	},
+	type: "EXPENSE"
 };
 
 export default function ReleaseForm({ route, navigation }) {
@@ -90,7 +91,6 @@ export default function ReleaseForm({ route, navigation }) {
 			await updateRelease(getParams());
 			navigation.navigate("BottomMenu");
 		} catch (e) {
-			console.log(e);
 			treatErrorResponse(e);			
 		}
 		setLoading(false);
@@ -100,7 +100,6 @@ export default function ReleaseForm({ route, navigation }) {
 		const paymentDate = data.paymentDate.toISOString().split('T')[0];
 		const value = data.value * -1;
 		const params = { ...data, ...{ paymentDate }, ...{ value } };
-		
 		return params;
 	}
 	const treatErrorResponse = (e) => {

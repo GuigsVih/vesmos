@@ -73,7 +73,6 @@ export default function CreateCreditCard({ navigation }) {
                     <ScrollView style={styles.formContainer} contentContainerStyle={{ flexGrow: 1, marginTop: 40 }}>
                         <Input
                             label={"Apelido"}
-                            mode={'outlined'}
                             value={data.name}
                             style={styles.input}
                             onChange={(value) => setData({ ...data, name: value })}
@@ -95,7 +94,8 @@ export default function CreateCreditCard({ navigation }) {
                             minValue={0}
                             onBlur={() => onBlur()}
                             onFocus={() => onFocus()}
-                            style={[styles.currencyInput, { borderColor: borderColor, borderWidth: borderColor == '#731cef' ? 2 : 1 }]}
+                            placeholderTextColor={"#747474"}
+                            style={[styles.currencyInput, { borderColor: borderColor, borderWidth: borderColor == '#731cef' ? 2 : 0 }]}
                         />
                         {errors?.creditLimit && (
                             <HelperText type="error" visible={errors?.creditLimit}>
@@ -107,7 +107,7 @@ export default function CreateCreditCard({ navigation }) {
                                 <View style={{ width: 150 }}>
                                     <Input
                                         label={"Fechamento"}
-                                        mode={'outlined'}
+                                        style={{ backgroundColor: "#f6f6f6" }}
                                         value={data.closure}
                                         keyboardType={'number-pad'}
                                         onChange={(value) => setData({ ...data, closure: value })}
@@ -121,7 +121,7 @@ export default function CreateCreditCard({ navigation }) {
                                 <View style={{ width: 150, marginLeft: 30 }}>
                                     <Input
                                         label={"Vencimento"}
-                                        mode={'outlined'}
+                                        style={{ backgroundColor: "#f6f6f6" }}
                                         value={data.dueDate}
                                         keyboardType={'number-pad'}
                                         onChange={(value) => setData({ ...data, dueDate: value })}

@@ -16,6 +16,7 @@ import br.com.vesmos.Models.Release;
 import br.com.vesmos.Models.User;
 import br.com.vesmos.Repositories.ReleaseRepository;
 import br.com.vesmos.Services.Auth.AuthenticationService;
+import br.com.vesmos.Services.Balance.BalanceService;
 import br.com.vesmos.TransferObjects.Interfaces.ListReleaseDTO;
 import br.com.vesmos.Validators.Release.ReleaseValidator;
 
@@ -23,6 +24,9 @@ import br.com.vesmos.Validators.Release.ReleaseValidator;
 public class ReleaseService {
     @Autowired
     private ReleaseRepository releaseRepository;
+
+    @Autowired
+    private BalanceService balanceService;
 
     @Autowired
     private ReleaseConvertService convertService;
@@ -49,6 +53,8 @@ public class ReleaseService {
 
     public void create(ReleaseValidator data) throws RegisterDoesNotExistsException 
     {
+        User user = authService.getAuthenticatedUser();
+
         switch (Optional.ofNullable(data.getRepeatCharge().getOption()).orElse(DEFAULT_VALUE)) {
             case PARCELED:
                 createParceled(data);
@@ -60,6 +66,7 @@ public class ReleaseService {
                 releaseRepository.save(convertService.convert(data));
                 break;
         }
+        balanceService.calculateBalance(data, user.getId());
     }
 
     public void createParceled(ReleaseValidator data) throws RegisterDoesNotExistsException 
@@ -93,9 +100,13 @@ public class ReleaseService {
         }
     }
 
-    public void update(Long id, Release data) throws RegisterDoesNotExistsException 
+    public void update(Long id, Release data) throws RegisterDoesNotExistsException, CloneNotSupportedException 
     {
         Release release = findByIdAndUserId(id);
+        Release oldRelease = release.clone();
+
+        User user = authService.getAuthenticatedUser();
+
         release.setDescription(data.getDescription())
                 .setStatus(StatusEnum.valueOf(data.getStatus()))
                 .setType(TypeEnum.valueOf(data.getType()))
@@ -105,6 +116,7 @@ public class ReleaseService {
                 .setCategory(data.getCategory());
 
         releaseRepository.save(release);
+        balanceService.updateReleaseBalanceCalculation(release, oldRelease, user.getId());
     }
 
     public void delete(Long id) 

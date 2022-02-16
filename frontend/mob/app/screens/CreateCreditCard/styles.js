@@ -30,13 +30,13 @@ export const styles = StyleSheet.create({
 	},
 	currencyInput: {
 		margin: 40,
-		marginTop: 15,
+		marginTop: 7,
 		marginBottom: 0,
         fontSize: 16,
-        paddingTop: 7,
+        paddingTop: 12,
         paddingLeft: 15,
 		borderRadius: 4,
-        paddingBottom: 7,
+        paddingBottom: 12,
         fontWeight: "400",
 		backgroundColor: "#f6f6f6"
 	},
@@ -50,10 +50,10 @@ export const styles = StyleSheet.create({
 		margin: 40,
 		marginTop: 5,
 		marginBottom: 10,
-		borderRadius: 50
+		backgroundColor: "#f6f6f6"
 	},
     accountContainer: { 
-        marginTop: 20, 
+        marginTop: 15, 
         margin: 40, 
         marginBottom: 0 
     }

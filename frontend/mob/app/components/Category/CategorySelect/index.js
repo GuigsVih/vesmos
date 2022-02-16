@@ -24,7 +24,7 @@ export default function CategorySelect({ onSelect, categoryId }) {
 			const res = await fetchCategoryById(categoryId);
 			handleCategory(res.data);
 		} catch (e) {
-			console.log(e.response.data);
+			//
 		}
 	}
 

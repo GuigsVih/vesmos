@@ -24,7 +24,7 @@ export default function CompanySelect({ onSelect }) {
     return (
         <>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
-                <View style={[styles.container, { padding: company && Object.keys(company).length > 0 ? 9 : 15}]}>
+                <View style={[styles.container, { padding: 15}]}>
                     <View style={{ flexDirection: 'row' }}>
                         {company && Object.keys(company).length > 0 ?
                             <View style={{ flex: 1, flexDirection: 'row', marginLeft: 5 }}>

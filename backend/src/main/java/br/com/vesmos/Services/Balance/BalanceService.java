@@ -121,7 +121,7 @@ public class BalanceService {
      * @return void
      */
     public void updateBalanceFromAccount(Release release, Release oldRelease, Long userId) {
-        if (release.getAccount().getId() != oldRelease.getAccount().getId()) {
+        if (oldRelease.getAccount() != null && release.getAccount().getId() != oldRelease.getAccount().getId()) {
             turnBackBalance(oldRelease, userId);
             if (StatusEnum.valueOf(release.getStatus()).equals(StatusEnum.PAID)) {
                 accountRepository.updateBalance(release.getAccount().getId(), release.getValue() * -1, userId);
@@ -162,7 +162,7 @@ public class BalanceService {
      * @return void
      */
     public void updateBalanceByChangedReleaseStatus(Release release, Release oldRelease, Long userId) {
-        if (!release.getStatus().equals(oldRelease.getStatus())) {
+        if (release.getAccount() != null && oldRelease.getAccount() != null && !release.getStatus().equals(oldRelease.getStatus())) {
             Double value = StatusEnum.valueOf(oldRelease.getStatus()).equals(StatusEnum.UNPAID)
                     ? release.getValue() * -1
                     : release.getValue();

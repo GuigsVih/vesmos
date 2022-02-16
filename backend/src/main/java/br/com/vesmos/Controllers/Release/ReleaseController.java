@@ -96,8 +96,13 @@ public class ReleaseController {
         } catch (RegisterDoesNotExistsException e) {
             return ResponseEntity.badRequest().body(new BaseMessageDTO(e.getMessage()));
         } catch (Exception e) {
+            System.out.print(e.getClass());
+            System.out.print(e.getClass());
+            System.out.print(e.getMessage());
+            System.out.print(e.getMessage());
+            System.out.print(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new BaseMessageDTO("Erro ao atualizar lançamento."));
+                    .body(new BaseMessageDTO(e.getMessage()));//"Erro ao atualizar lançamento."));
         }
     }
 

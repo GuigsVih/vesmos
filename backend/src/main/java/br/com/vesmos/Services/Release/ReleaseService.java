@@ -17,6 +17,7 @@ import br.com.vesmos.Models.User;
 import br.com.vesmos.Repositories.ReleaseRepository;
 import br.com.vesmos.Services.Auth.AuthenticationService;
 import br.com.vesmos.Services.Balance.BalanceService;
+import br.com.vesmos.Services.CreditCard.CreditCardBillService;
 import br.com.vesmos.TransferObjects.Interfaces.ListReleaseDTO;
 import br.com.vesmos.Validators.Release.ReleaseValidator;
 
@@ -33,6 +34,9 @@ public class ReleaseService {
 
     @Autowired
     private AuthenticationService authService;
+
+    @Autowired
+    private CreditCardBillService creditCardBillService;
 
     final String DEFAULT_VALUE = "normal";
     final String PARCELED = "parceled";
@@ -51,7 +55,7 @@ public class ReleaseService {
                 .orElseThrow(() -> new RegisterDoesNotExistsException("Lançamento não encontrado."));
     }
 
-    public void create(ReleaseValidator data) throws RegisterDoesNotExistsException 
+    public void create(ReleaseValidator data) throws RegisterDoesNotExistsException, Exception
     {
         User user = authService.getAuthenticatedUser();
 
@@ -67,6 +71,7 @@ public class ReleaseService {
                 break;
         }
         balanceService.calculateBalance(data, user.getId());
+        creditCardBillService.calculateBill(data, user);
     }
 
     public void createParceled(ReleaseValidator data) throws RegisterDoesNotExistsException 

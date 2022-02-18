@@ -34,7 +34,7 @@ public class CreditCardBill
     private Long id;
    
     @Column(name="value", nullable=false, precision=10, scale=2)
-    private double value;
+    private Double value;
 
     @Column(name="month", nullable=false, length=2)
     private int month;
@@ -63,4 +63,75 @@ public class CreditCardBill
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     private Date updatedAt;
+
+    public Long getId()
+    {
+        return id;
+    }
+
+    public Double getValue()
+    {
+        return value;
+    }
+
+    public CreditCardBill setValue(Double value)
+    {
+        this.value = value;
+        return this;
+    }
+
+    public String getStatus() 
+    {
+        return status.name();
+    }
+
+    public CreditCardBill setStatus(StatusEnum status) 
+    {
+        this.status = status;
+        return this;
+    }
+
+    public Integer getMonth()
+    {
+        return month;
+    }
+
+    public CreditCardBill setMonth(Integer month)
+    {
+        this.month = month;
+        return this;
+    }
+
+    public Integer getYear()
+    {
+        return year;
+    }
+
+    public CreditCardBill setYear(Integer year)
+    {
+        this.year = year;
+        return this;
+    }
+
+    public CreditCardBill setCreditCard(CreditCard creditCard)
+    {
+        this.creditCard = creditCard;
+        return this;
+    }
+
+    public CreditCard getCreditCard()
+    {
+        return creditCard;
+    }
+
+    public CreditCardBill setUser(User user)
+    {
+        this.user = user;
+        return this;
+    }
+
+    public User getUser()
+    {
+        return user;
+    }
 }

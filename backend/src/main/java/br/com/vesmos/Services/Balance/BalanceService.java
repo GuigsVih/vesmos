@@ -62,9 +62,8 @@ public class BalanceService {
      * 
      * @return FutureBalanceDTO
      */
-    public FutureBalanceDTO getFutureBalance(Long userId, String initialDate, String finalDate, double accountBalance) {
+    public FutureBalanceDTO getFutureBalance(Long userId, String initialDate, String finalDate, double accountBalance, double presentReleaseBalance) {
         List<String> status = new ArrayList<>();
-        status.add("PAID");
         status.add("UNPAID");
 
         BalanceFromReleasesDTO releaseBalance = releaseRepository.getBalanceFromReleases(userId, initialDate, finalDate,
@@ -72,7 +71,7 @@ public class BalanceService {
 
         return new FutureBalanceDTO(
                 accountBalance + releaseBalance.getReleaseBalance(),
-                releaseBalance.getReleaseBalance());
+                releaseBalance.getReleaseBalance() + presentReleaseBalance);
     }
 
     /**

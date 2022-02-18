@@ -42,7 +42,7 @@ public class BalanceController
         try {
             User user = authService.getAuthenticatedUser();
             PresentBalanceDTO presentBalance = balanceService.getPresentBalance(user.getId(), initialDate, finalDate);
-            FutureBalanceDTO futureBalance = balanceService.getFutureBalance(user.getId(), initialDate, finalDate, presentBalance.getPresentAccountBalance());
+            FutureBalanceDTO futureBalance = balanceService.getFutureBalance(user.getId(), initialDate, finalDate, presentBalance.getPresentAccountBalance(), presentBalance.getPresentReleaseBalance());
             
             return ResponseEntity.ok().body(new BalanceDTO(
                 presentBalance.getPresentAccountBalance(),

@@ -116,12 +116,15 @@ public class ReleaseService {
                 .setStatus(StatusEnum.valueOf(data.getStatus()))
                 .setType(TypeEnum.valueOf(data.getType()))
                 .setValue(data.getValue())
+                .setPaymentDate(data.getPaymentDate())
                 .setCreditCard(data.getCreditCard())
                 .setAccount(data.getAccount())
                 .setCategory(data.getCategory());
 
         releaseRepository.save(release);
+
         balanceService.updateReleaseBalanceCalculation(release, oldRelease, user.getId());
+        creditCardBillService.updateBill(release, oldRelease, user);
     }
 
     public void delete(Long id) 

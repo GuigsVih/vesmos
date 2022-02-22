@@ -11,6 +11,10 @@ import { Feather, Ionicons } from '@expo/vector-icons';
 import { Caption } from 'react-native-paper';
 import { currencyFormat } from '../../core/helpers/format';
 
+const STATUS = {
+	"PAID": "pago",
+	"UNPAID": "não pago"
+}
 export default function SwipeItem({ handleEdit, handleDelete, data }) {
 	const leftSwipe = (progress, dragX) => {
 		const scale = dragX.interpolate({
@@ -68,7 +72,8 @@ export default function SwipeItem({ handleEdit, handleDelete, data }) {
 								]
 							}>
 								{currencyFormat(data.value)}
-							</Caption>
+							</Caption>							
+							<Caption>{STATUS[data.status]}</Caption>
 						</View>
 					</View>
 				</View>

@@ -44,7 +44,7 @@ public class CreditCardBillService {
             calendarService.setCalendar(data.getPaymentDate(), creditCard.getClosure());
             try {
                 CreditCardBill creditCardBill = verifyIfBillExists(calendarService, creditCard.getId(), user.getId());
-                creditCardBillRepository.updateBillValue(creditCardBill.getId(), data.getValue() + data.getValue(),
+                creditCardBillRepository.updateBillValue(creditCardBill.getId(), data.getValue(),
                         user.getId());
                 creditCardRepository.updateLimitUsed(data.getValue() * -1, creditCard.getId(), user.getId());
             } catch (RegisterDoesNotExistsException e) {
@@ -66,6 +66,18 @@ public class CreditCardBillService {
                 calendarService.setCalendar(release.getPaymentDate(), release.getCreditCard().getClosure());
 
                 createBill(calendarService, release.getValue(), release.getCreditCard(), user);
+            }
+        }
+
+        if (release.getCreditCard() == null && oldRelease.getCreditCard() != null) {            
+            CalendarService calendarService = new CalendarService();
+            calendarService.setCalendar(oldRelease.getPaymentDate(), oldRelease.getCreditCard().getClosure());
+            try {
+                CreditCardBill creditCardBill = verifyIfBillExists(calendarService, oldRelease.getCreditCard().getId(), user.getId());
+                creditCardBillRepository.updateBillValue(creditCardBill.getId(), oldRelease.getValue() * -1, user.getId());
+                creditCardRepository.updateLimitUsed(oldRelease.getValue(), oldRelease.getCreditCard().getId(), user.getId());
+            } catch (RegisterDoesNotExistsException e) {
+                //do nothing
             }
         }
     }
@@ -114,7 +126,7 @@ public class CreditCardBillService {
 
             if ((calendarService.getMonth() != oldCalendarService.getMonth()) || (calendarService.getYear() != oldCalendarService.getMonth())) {
                 CreditCardBill oldCreditCardBill = verifyIfBillExists(oldCalendarService, oldRelease.getCreditCard().getId(), user.getId());
-                creditCardBillRepository.updateBillValue(oldCreditCardBill.getId(), oldRelease.getValue(), user.getId());
+                creditCardBillRepository.updateBillValue(oldCreditCardBill.getId(), oldRelease.getValue() * -1, user.getId());
 
                 CreditCardBill creditCardBill = verifyIfBillExists(calendarService, release.getCreditCard().getId(), user.getId());
                 creditCardBillRepository.updateBillValue(creditCardBill.getId(), release.getValue(), user.getId());
@@ -154,8 +166,8 @@ public class CreditCardBillService {
             oldCalendarService.setCalendar(oldRelease.getPaymentDate(), oldRelease.getCreditCard().getClosure());
 
             CreditCardBill oldCreditCardBill = verifyIfBillExists(oldCalendarService, oldRelease.getCreditCard().getId(), user.getId());
-            creditCardBillRepository.updateBillValue(oldCreditCardBill.getId(), oldRelease.getValue(), user.getId());
-            creditCardRepository.updateLimitUsed(oldRelease.getValue() * -1, oldRelease.getCreditCard().getId(), user.getId());
+            creditCardBillRepository.updateBillValue(oldCreditCardBill.getId(), oldRelease.getValue() * -1, user.getId());
+            creditCardRepository.updateLimitUsed(oldRelease.getValue(), oldRelease.getCreditCard().getId(), user.getId());
             
             CreditCardBill creditCardBill = verifyIfBillExists(calendarService, release.getCreditCard().getId(), user.getId());
             creditCardBillRepository.updateBillValue(creditCardBill.getId(), release.getValue(), user.getId());            

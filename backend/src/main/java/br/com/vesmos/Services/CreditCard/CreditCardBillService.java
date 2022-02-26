@@ -19,8 +19,7 @@ import br.com.vesmos.Exceptions.RegisterDoesNotExistsException;
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
 @Service
-public class CreditCardBillService 
-{
+public class CreditCardBillService {
     @Autowired
     CreditCardRepository creditCardRepository;
 
@@ -35,8 +34,7 @@ public class CreditCardBillService
      * 
      * @return void
      */
-    public void calculateBill(ReleaseValidator data, User user) throws Exception
-    {
+    public void calculateBill(ReleaseValidator data, User user) throws Exception {
         String type = data.getPayment().getType();
         Long creditCardId = data.getPayment().getId().get();
 
@@ -46,18 +44,29 @@ public class CreditCardBillService
             calendarService.setCalendar(data.getPaymentDate(), creditCard.getClosure());
             try {
                 CreditCardBill creditCardBill = verifyIfBillExists(calendarService, creditCard.getId(), user.getId());
-                creditCardBillRepository.updateBillValue(creditCardBill.getId(), data.getValue() + data.getValue(), user.getId());
+                creditCardBillRepository.updateBillValue(creditCardBill.getId(), data.getValue() + data.getValue(),
+                        user.getId());
+                creditCardRepository.updateLimitUsed(data.getValue() * -1, creditCard.getId(), user.getId());
             } catch (RegisterDoesNotExistsException e) {
                 createBill(calendarService, data.getValue(), creditCard, user);
             }
         }
     }
 
-    public void updateBill(Release release, Release oldRelease, User user)
-    {
+    public void updateBill(Release release, Release oldRelease, User user) {
         if (release.getCreditCard() != null) {
-            Boolean saved = updateBillIfChangedPaymentDate(release, oldRelease, user);
-            saved = !saved ? updateBillIfChangedValue(release, oldRelease, user) : saved;
+            try {
+                Boolean saved = updateBillIfChangedCreditCard(release, oldRelease, user);
+                saved = !saved ? updateBillIfChangedPaymentDate(release, oldRelease, user) : saved;
+                saved = !saved ? updateBillIfChangedValue(release, oldRelease, user) : saved;
+                saved = !saved ? updateBillIfChangedPaymentMethod(release, oldRelease, user): saved;
+
+            } catch (RegisterDoesNotExistsException e) {
+                CalendarService calendarService = new CalendarService();
+                calendarService.setCalendar(release.getPaymentDate(), release.getCreditCard().getClosure());
+
+                createBill(calendarService, release.getValue(), release.getCreditCard(), user);
+            }
         }
     }
 
@@ -70,22 +79,23 @@ public class CreditCardBillService
      * 
      * @return void
      */
-    public void createBill(CalendarService calendarService, Double value, CreditCard creditCard, User user) 
-    {
+    public void createBill(CalendarService calendarService, Double value, CreditCard creditCard, User user) {
         CreditCardBill creditCardBill = new CreditCardBill();
 
         creditCardBill.setMonth(calendarService.getMonth())
-            .setYear(calendarService.getYear())
-            .setStatus(StatusEnum.UNPAID)
-            .setValue(value)
-            .setCreditCard(creditCard)
-            .setUser(user);
+                .setYear(calendarService.getYear())
+                .setStatus(StatusEnum.UNPAID)
+                .setValue(value)
+                .setCreditCard(creditCard)
+                .setUser(user);
 
         creditCardBillRepository.save(creditCardBill);
+        creditCardRepository.updateLimitUsed(value * -1, creditCard.getId(), user.getId());
     }
 
     /**
-     * Update credit card bill by payment data, if doesnt changed, return normal bill, if changed
+     * Update credit card bill by payment data, if doesnt changed, return normal
+     * bill, if changed
      * calculate new bill and remove charge from the old bill
      * 
      * @param release
@@ -94,9 +104,8 @@ public class CreditCardBillService
      * 
      * @return Boolean
      */
-    public Boolean updateBillIfChangedPaymentDate(Release release, Release oldRelease, User user)
-    {
-        if (release.getPaymentDate() != oldRelease.getPaymentDate() && oldRelease.getCreditCard() != null) {
+    public Boolean updateBillIfChangedPaymentDate(Release release, Release oldRelease, User user) throws RegisterDoesNotExistsException {
+        if (!release.getPaymentDate().equals(oldRelease.getPaymentDate()) && oldRelease.getCreditCard() != null) {
             CalendarService calendarService = new CalendarService();
             calendarService.setCalendar(release.getPaymentDate(), release.getCreditCard().getClosure());
 
@@ -104,44 +113,91 @@ public class CreditCardBillService
             oldCalendarService.setCalendar(oldRelease.getPaymentDate(), oldRelease.getCreditCard().getClosure());
 
             if ((calendarService.getMonth() != oldCalendarService.getMonth()) || (calendarService.getYear() != oldCalendarService.getMonth())) {
-                try {
-                    CreditCardBill oldCreditCardBill = verifyIfBillExists(oldCalendarService, oldRelease.getCreditCard().getId(), user.getId());
-                    creditCardBillRepository.updateBillValue(oldCreditCardBill.getId(), oldCreditCardBill.getValue() - oldRelease.getValue(), user.getId());
+                CreditCardBill oldCreditCardBill = verifyIfBillExists(oldCalendarService, oldRelease.getCreditCard().getId(), user.getId());
+                creditCardBillRepository.updateBillValue(oldCreditCardBill.getId(), oldRelease.getValue(), user.getId());
 
-                    CreditCardBill creditCardBill = verifyIfBillExists(calendarService, release.getCreditCard().getId(), user.getId());
-                    creditCardBillRepository.updateBillValue(creditCardBill.getId(), release.getValue(), user.getId());
+                CreditCardBill creditCardBill = verifyIfBillExists(calendarService, release.getCreditCard().getId(), user.getId());
+                creditCardBillRepository.updateBillValue(creditCardBill.getId(), release.getValue(), user.getId());
 
-                    return true;                    
-                } catch (RegisterDoesNotExistsException e) {
-                    createBill(calendarService, release.getValue(), release.getCreditCard(), user);
-                    return true;
+                if (release.getValue() != oldRelease.getValue()) {
+                    creditCardRepository.updateLimitUsed((release.getValue() - oldRelease.getValue()) * -1, release.getCreditCard().getId(), user.getId());
                 }
+
+                return true;
             }
             return false;
         }
         return false;
     }
 
-    public Boolean updateBillIfChangedValue(Release release, Release oldRelease, User user)
-    {
-        return true;
+    public Boolean updateBillIfChangedValue(Release release, Release oldRelease, User user) throws RegisterDoesNotExistsException {
+        if (release.getValue() != oldRelease.getValue()) {
+            Double value = oldRelease.getCreditCard() != null ? release.getValue() - oldRelease.getValue()  : release.getValue();
+            CalendarService calendarService = new CalendarService();
+            calendarService.setCalendar(release.getPaymentDate(), release.getCreditCard().getClosure());
+
+            CreditCardBill creditCardBill = verifyIfBillExists(calendarService, release.getCreditCard().getId(), user.getId());
+            creditCardBillRepository.updateBillValue(creditCardBill.getId(), value, user.getId());
+            creditCardRepository.updateLimitUsed(value * -1, release.getCreditCard().getId(), user.getId());
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public Boolean updateBillIfChangedCreditCard(Release release, Release oldRelease, User user) throws RegisterDoesNotExistsException {
+        if (oldRelease.getCreditCard() != null && release.getCreditCard().getId() != oldRelease.getCreditCard().getId()) {
+            CalendarService calendarService = new CalendarService();
+            calendarService.setCalendar(release.getPaymentDate(), release.getCreditCard().getClosure());
+            CalendarService oldCalendarService = new CalendarService();
+            oldCalendarService.setCalendar(oldRelease.getPaymentDate(), oldRelease.getCreditCard().getClosure());
+
+            CreditCardBill oldCreditCardBill = verifyIfBillExists(oldCalendarService, oldRelease.getCreditCard().getId(), user.getId());
+            creditCardBillRepository.updateBillValue(oldCreditCardBill.getId(), oldRelease.getValue(), user.getId());
+            creditCardRepository.updateLimitUsed(oldRelease.getValue() * -1, oldRelease.getCreditCard().getId(), user.getId());
+            
+            CreditCardBill creditCardBill = verifyIfBillExists(calendarService, release.getCreditCard().getId(), user.getId());
+            creditCardBillRepository.updateBillValue(creditCardBill.getId(), release.getValue(), user.getId());            
+            creditCardRepository.updateLimitUsed(release.getValue() * -1, release.getCreditCard().getId(), user.getId());
+
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean updateBillIfChangedPaymentMethod(Release release, Release oldRelease, User user) throws RegisterDoesNotExistsException {
+        if (oldRelease.getCreditCard() == null) {
+            CalendarService calendarService = new CalendarService();
+            calendarService.setCalendar(release.getPaymentDate(), release.getCreditCard().getClosure());
+
+            CreditCardBill creditCardBill = verifyIfBillExists(calendarService, release.getCreditCard().getId(), user.getId());
+            creditCardBillRepository.updateBillValue(creditCardBill.getId(), release.getValue(), user.getId());
+            creditCardRepository.updateLimitUsed(release.getValue() * -1, release.getCreditCard().getId(), user.getId());
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
-     * Verify if a credit card bill exists by month, year, id and userId, if dont, throw a exception
+     * Verify if a credit card bill exists by month, year, id and userId, if dont,
+     * throw a exception
      * 
      * @param Calendar calendar
-     * @param Long creditCardId
-     * @param Long userId
+     * @param Long     creditCardId
+     * @param Long     userId
      * 
      * @throws RegisterDoesNotExistsException
      * 
      * @return CreditCardBill
      */
-    public CreditCardBill verifyIfBillExists(CalendarService calendarService, Long creditCardId, Long userId) throws RegisterDoesNotExistsException 
-    {
-        return creditCardBillRepository.findBill(calendarService.getMonth(), calendarService.getYear(), creditCardId, userId)
-            .orElseThrow(() -> new RegisterDoesNotExistsException("Fatura não encontrada"));
+    public CreditCardBill verifyIfBillExists(CalendarService calendarService, Long creditCardId, Long userId)
+            throws RegisterDoesNotExistsException {
+        return creditCardBillRepository
+                .findBill(calendarService.getMonth(), calendarService.getYear(), creditCardId, userId)
+                .orElseThrow(() -> new RegisterDoesNotExistsException("Fatura não encontrada"));
     }
 
 }

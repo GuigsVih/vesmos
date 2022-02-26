@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.vesmos.Models.CreditCard;
 import br.com.vesmos.TransferObjects.Interfaces.Payment.PaymentDTO;
@@ -15,6 +17,7 @@ import br.com.vesmos.TransferObjects.Interfaces.Payment.CreditCardUsageDTO;
  * 
  * @author Guilherme Vilela Oliveira <guivo11@gmail.com>
  */
+@Transactional
 public interface CreditCardRepository extends JpaRepository<CreditCard, Long>
 {
     final String FIND_BY_USER_ID = "SELECT " +
@@ -47,6 +50,14 @@ public interface CreditCardRepository extends JpaRepository<CreditCard, Long>
     final String FIND_ONE_CREDIT_CARD = FIND_BY_USER_ID + 
     " AND c.id = :id";
 
+    final String UPDATE_LIMIT_USED = "UPDATE " +
+    "credit_cards c " +
+    "SET " +
+    "c.limit_used = c.limit_used + :value " +
+    "WHERE " +
+    "c.id = :creditCardId " +
+    "AND c.user_id = :userId"; 
+
     Optional<CreditCard> findByIdAndUserId(Long id, Long userId);
 
     @Query(value=FIND_BY_USER_ID, nativeQuery=true)
@@ -57,4 +68,8 @@ public interface CreditCardRepository extends JpaRepository<CreditCard, Long>
 
     @Query(value=FIND_ONE_CREDIT_CARD, nativeQuery=true)
     PaymentDTO findOneCreditCard(Long userId, Long id);
+
+    @Modifying
+    @Query(value=UPDATE_LIMIT_USED, nativeQuery=true)
+    void updateLimitUsed(Double value, Long creditCardId, Long userId);
 }

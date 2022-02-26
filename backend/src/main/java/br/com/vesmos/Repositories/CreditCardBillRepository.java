@@ -28,7 +28,7 @@ public interface CreditCardBillRepository extends JpaRepository<CreditCardBill, 
     final String UPDATE_BILL_VALUE = "UPDATE " +
     "credit_card_bills ccb " +
     "SET " +
-    "ccb.value = :value " +
+    "ccb.value = :value - ccb.value * -1 " +
     "WHERE " +
     "ccb.id = :id " +
     "AND ccb.user_id = :userId";

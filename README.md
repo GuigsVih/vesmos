@@ -12,7 +12,6 @@
 
 O backend do sistema foi desenvolvido utilizando Spring Boot e MySQL.
 
-- Necessário Java SE 7
 - Crie um banco de dados chamado `vesmos`(`CREATE DATABASE vesmos`)
 - Após a clonagem do projeto, abra o projeto, e entre na pasta `backend` (`cd backend`)
 - Execute o comando `./mvnw spring-boot:run`
